@@ -324,7 +324,7 @@ function mkDesktopRow(r, idx, comms) {
   });
 
   // Blinking CTA spanning all columns — bottom-left
-  html += `<div class="r-vacant-hint" title="Click to see seat details">&#8964; Show vacant seats</div>`;
+  html += `<div class="r-vacant-hint" title="Click to see seat details"><i class="fa-solid fa-angle-down" style="font-size: 20px;></i> Show vacant seats</div>`;
 
   row.innerHTML = html;
   row.addEventListener('click', () => toggleDesktopDrawer(row, r, idx));

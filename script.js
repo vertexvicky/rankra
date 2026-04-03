@@ -52,9 +52,32 @@ const S = {
 const $ = id => document.getElementById(id);
 const $$ = sel => document.querySelectorAll(sel);
 
+/* ── Revision check (silent cache-bust) ── */
+async function checkRevision() {
+  try {
+    const res = await fetch('./api/update.json', { cache: 'no-store' });
+    if (!res.ok) return;
+    const { app_revision } = await res.json();
+    const stored = parseInt(localStorage.getItem('tnea-app-revision') || '0', 10);
+    if (app_revision !== stored) {
+      // New revision — wipe all SW caches so fresh assets are fetched
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      }
+      localStorage.setItem('tnea-app-revision', String(app_revision));
+    }
+  } catch (e) {
+    // Network offline or api missing — silently continue
+  }
+}
+
 /* ── Init ── */
 async function init() {
   S.isMobile = window.innerWidth < 768;
+
+  // Silent revision/cache check — must run first
+  await checkRevision();
 
   // Service Worker (non-blocking)
   if ('serviceWorker' in navigator) {

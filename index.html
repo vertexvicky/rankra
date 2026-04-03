@@ -61,10 +61,10 @@
         </svg>
       </div>
       <div class="loading-title">TNEA Cutoff Explorer</div>
-      <div class="loading-subtitle" id="loading-status">Initializing…</div>
-      <div class="loading-bar-track">
-        <div class="loading-bar-fill" id="loading-bar"></div>
-      </div>
+      <div class="loading-spinner" id="loading-spinner" aria-hidden="true"></div>
+      <div class="loading-subtitle" id="loading-status">Loading…</div>
+      <!-- hidden bar kept for SW progress compatibility -->
+      <div id="loading-bar" style="display:none"></div>
     </div>
   </div>
 

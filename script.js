@@ -320,7 +320,7 @@ function mkDesktopRow(r, idx, comms) {
   if (tl > 0) {
     if (pct === 100) { seatCls = 'seats-full';    seatTxt = `${al}/${tl} filled`; }
     else if (vac <= 3) { seatCls = 'seats-partial'; seatTxt = `${vac} left / ${tl}`; }
-    else               { seatCls = 'seats-low';     seatTxt = `${vac} available`; }
+    else               { seatCls = 'seats-low';     seatTxt = `${vac} unfilled`; }
   }
 
   let html = `
@@ -393,7 +393,7 @@ function buildDrawerHTML(r) {
           <div class="drawer-fraction">${al}/${tl}</div>
           <div class="drawer-bar"><div class="drawer-bar-fill ${bc}" style="width:${pct}%"></div></div>
           <div class="drawer-pct">${pct}%${vac>0?' · '+vac+' vacant':''}</div>
-        `:`<div class="drawer-fraction" style="color:var(--text-muted)">—</div>`}
+        `:`<div class="drawer-fraction" style="color:var(--text-muted)">0/0</div>`}
       </div>`;
   });
   const addr = r.address || '';
@@ -429,9 +429,9 @@ function mkMobileCard(r, idx, multiComms) {
   const vac = tl - al;
   let badgeHTML = '';
   if (tl > 0) {
-    if (vac === 0) badgeHTML = `<div class="seat-badge badge-full">✓ Fully subscribed</div>`;
-    else if (vac <= 3) badgeHTML = `<div class="seat-badge badge-partial">${vac} seat${vac>1?'s':''} available</div>`;
-    else               badgeHTML = `<div class="seat-badge badge-empty">${vac} seats available</div>`;
+    if (vac === 0) badgeHTML = `<div class="seat-badge badge-full">✓ All seats filled</div>`;
+    else if (vac <= 3) badgeHTML = `<div class="seat-badge badge-partial">${vac} seat${vac>1?'s':''} unfilled</div>`;
+    else               badgeHTML = `<div class="seat-badge badge-empty">${vac} seats unfilled</div>`;
   }
 
   // Multi-community inline display
@@ -466,12 +466,12 @@ function mkMobileCard(r, idx, multiComms) {
       ${!multiComms ? `<div class="m-right">
         <div class="m-comm-label">${pc}</div>
         <div class="m-cutoff${has?'':' nd'}">${has?(n%1===0?n:n.toFixed(1)):'—'}</div>
-        ${tl>0?`<div class="m-seats-line">${al}/${tl} seats</div>`:''}
+        ${tl>0?`<div class="m-seats-line">${al}/${tl}</div>`:''}
       </div>` : ''}
     </div>
     ${multiComms ? mcHTML : ''}
     ${badgeHTML}
-    <div class="m-vacant-hint" title="Tap to see all community seat details">⥤ Show vacant seats</div>`;
+    <div class="m-vacant-hint" title="Tap to see all community seat details"><i class="fa-solid fa-caret-down"></i> Show vacant seats</div>`;
 
   card.addEventListener('click', () => toggleMobileDrawer(wrap, r, idx, card));
   wrap.appendChild(card);
@@ -511,7 +511,7 @@ function toggleMobileDrawer(wrap, r, idx, card) {
           ${tl>0?`
             <div class="md-bar-wrap"><div class="md-bar"><div class="md-bar-fill ${bc}" style="width:${pct}%"></div></div></div>
             <div class="md-fraction">${al}/${tl}</div>
-          `:`<div style="font-size:.7rem;color:var(--text-muted)">—</div>`}
+          `:`<div style="font-size:.7rem;color:var(--text-muted)">0/0</div>`}
         </div>
       </div>`;
   });

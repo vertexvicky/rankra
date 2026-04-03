@@ -110,7 +110,7 @@
       </div>
     </div>
 
-    <!-- Row 3: District (own non-scroll row so dropdown isn't clipped) -->
+    <!-- Row 3: District + Sort (same row, dropdown-safe) -->
     <div class="frow frow-district">
       <div class="district-wrap" id="district-wrap">
         <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
@@ -124,6 +124,17 @@
           <div class="dd-list" id="dd-list"></div>
           <div class="dd-footer"><button class="btn-ghost-sm" id="dd-clear">Clear all</button></div>
         </div>
+      </div>
+      <div class="sort-group">
+        <span class="sort-label">Sort by</span>
+        <select id="sort-select" class="custom-select" aria-label="Sort results">
+          <option value="cutoff-desc">Cutoff: High → Low</option>
+          <option value="cutoff-asc">Cutoff: Low → High</option>
+          <option value="name-asc">College: A → Z</option>
+          <option value="code-asc">Code: Ascending</option>
+          <option value="vacant-desc">Most Seats Available</option>
+        </select>
+        <span class="result-count" id="result-count" aria-live="polite">—</span>
       </div>
     </div>
 
@@ -141,7 +152,7 @@
       </div>
     </div>
 
-    <!-- Row 5: Cutoff range + Sort by + result count -->
+    <!-- Row 5: Cutoff range only -->
     <div class="frow frow-bottom">
       <div class="cutoff-group">
         <span class="cutoff-label">Cutoff</span>
@@ -159,17 +170,6 @@
           <option value="SCA">SCA</option>
           <option value="ST">ST</option>
         </select>
-      </div>
-      <div class="sort-group">
-        <span class="sort-label">Sort by</span>
-        <select id="sort-select" class="custom-select" aria-label="Sort results">
-          <option value="cutoff-desc">Cutoff: High → Low</option>
-          <option value="cutoff-asc">Cutoff: Low → High</option>
-          <option value="name-asc">College: A → Z</option>
-          <option value="code-asc">Code: Ascending</option>
-          <option value="vacant-desc">Most Seats Available</option>
-        </select>
-        <span class="result-count" id="result-count" aria-live="polite">—</span>
       </div>
     </div>
   </div>

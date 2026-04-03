@@ -1,3 +1,6 @@
+/* ── Master toggle — set false to disable SW during local dev/testing ── */
+const SW_ENABLED = true;
+
 const CACHE_NAME = 'tnea-cutoff-v1';
 const DATA_FILES = [
   './assets/2020.json',
@@ -15,6 +18,7 @@ const STATIC_FILES = [
 ];
 
 self.addEventListener('install', (event) => {
+  if (!SW_ENABLED) { self.skipWaiting(); return; }
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
       // Cache static files first (must succeed)
@@ -36,6 +40,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
+  if (!SW_ENABLED) { self.clients.claim(); return; }
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
@@ -47,6 +52,8 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  if (!SW_ENABLED) return; // bypass all caching in dev mode
+
   // Never cache update.json — it must always come from the network
   if (event.request.url.includes('/api/update.json')) {
     event.respondWith(fetch(event.request));

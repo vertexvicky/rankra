@@ -109,48 +109,47 @@
       </div>
     </div>
 
-    <!-- Row 3: District + Community Chips -->
-    <div class="frow frow-scroll">
-      <div class="filter-group">
-        <!-- Single district button -->
-        <div class="district-wrap" id="district-wrap">
-          <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <span id="district-label">District</span>
-            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <!-- Desktop dropdown -->
-          <div class="district-dropdown" id="district-dropdown" hidden>
-            <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search…" autocomplete="off" /></div>
-            <div class="dd-list" id="dd-list"></div>
-            <div class="dd-footer"><button class="btn-ghost-sm" id="dd-clear">Clear</button></div>
-          </div>
-        </div>
-
-        <!-- Community chips -->
-        <div class="comm-bar" id="comm-bar" role="group" aria-label="Communities">
-          <button class="comm-chip" data-community="ALL">ALL</button>
-          <button class="comm-chip active" data-community="OC">OC</button>
-          <button class="comm-chip active" data-community="BC">BC</button>
-          <button class="comm-chip active" data-community="BCM">BCM</button>
-          <button class="comm-chip active" data-community="MBC">MBC</button>
-          <button class="comm-chip active" data-community="SC">SC</button>
-          <button class="comm-chip active" data-community="SCA">SCA</button>
-          <button class="comm-chip active" data-community="ST">ST</button>
+    <!-- Row 3: District (own non-scroll row so dropdown isn't clipped) -->
+    <div class="frow frow-district">
+      <div class="district-wrap" id="district-wrap">
+        <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span id="district-label">Filter by District</span>
+          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <!-- Desktop dropdown (absolutely positioned below button) -->
+        <div class="district-dropdown" id="district-dropdown" hidden>
+          <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search district…" autocomplete="off" /></div>
+          <div class="dd-list" id="dd-list"></div>
+          <div class="dd-footer"><button class="btn-ghost-sm" id="dd-clear">Clear all</button></div>
         </div>
       </div>
     </div>
 
-    <!-- Row 4: Cutoff Range + Sort + Count -->
+    <!-- Row 4: Community chips (flex-wrap so they fold on small screens) -->
+    <div class="frow frow-comms">
+      <div class="comm-bar" id="comm-bar" role="group" aria-label="Community filter">
+        <button class="comm-chip" data-community="ALL">ALL</button>
+        <button class="comm-chip active" data-community="OC">OC</button>
+        <button class="comm-chip active" data-community="BC">BC</button>
+        <button class="comm-chip active" data-community="BCM">BCM</button>
+        <button class="comm-chip active" data-community="MBC">MBC</button>
+        <button class="comm-chip active" data-community="SC">SC</button>
+        <button class="comm-chip active" data-community="SCA">SCA</button>
+        <button class="comm-chip active" data-community="ST">ST</button>
+      </div>
+    </div>
+
+    <!-- Row 5: Cutoff range + Sort by + result count -->
     <div class="frow frow-bottom">
       <div class="cutoff-group">
         <span class="cutoff-label">Cutoff</span>
         <input type="number" class="cutoff-input" id="cutoff-min" value="0" min="0" max="200" step="0.5" aria-label="Min cutoff" />
         <span class="cutoff-to">to</span>
         <input type="number" class="cutoff-input" id="cutoff-max" value="200" min="0" max="200" step="0.5" aria-label="Max cutoff" />
-        <span class="cutoff-for">for</span>
-        <select id="cutoff-comm" class="small-select" aria-label="Community for cutoff filter">
-          <option value="">—</option>
+        <span class="cutoff-by">for</span>
+        <select id="cutoff-comm" class="custom-select" aria-label="Community for cutoff filter">
+          <option value="">— any —</option>
           <option value="OC">OC</option>
           <option value="BC">BC</option>
           <option value="BCM">BCM</option>
@@ -161,12 +160,13 @@
         </select>
       </div>
       <div class="sort-group">
-        <select id="sort-select" class="small-select" aria-label="Sort">
-          <option value="cutoff-desc">Cutoff ↓</option>
-          <option value="cutoff-asc">Cutoff ↑</option>
-          <option value="name-asc">Name A→Z</option>
-          <option value="code-asc">Code ↑</option>
-          <option value="vacant-desc">Most Vacant</option>
+        <span class="sort-label">Sort by</span>
+        <select id="sort-select" class="custom-select" aria-label="Sort results">
+          <option value="cutoff-desc">Cutoff: High → Low</option>
+          <option value="cutoff-asc">Cutoff: Low → High</option>
+          <option value="name-asc">College: A → Z</option>
+          <option value="code-asc">Code: Ascending</option>
+          <option value="vacant-desc">Most Seats Available</option>
         </select>
         <span class="result-count" id="result-count" aria-live="polite">—</span>
       </div>

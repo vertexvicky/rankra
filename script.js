@@ -283,16 +283,31 @@ function mkDesktopRow(r, idx, comms) {
   row.className = 'result-row';
   row.dataset.idx = idx;
   const code = String(r.coc).padStart(4,'0');
-  const con = r._conClean || '';
+  const con  = r._conClean || '';
   const dist = r.district || '';
+  const pc   = S.primaryComm || 'OC';
+  const sk   = SEAT_KEYS[pc];
+  const tl   = r[sk.tl] || 0;
+  const al   = r[sk.al] || 0;
+  const vac  = tl - al;
+  const pct  = tl > 0 ? Math.round(al / tl * 100) : -1;
+  let seatCls = '', seatTxt = '';
+  if (tl > 0) {
+    if (pct === 100) { seatCls = 'seats-full';    seatTxt = `${al}/${tl} filled`; }
+    else if (vac <= 3) { seatCls = 'seats-partial'; seatTxt = `${vac} left / ${tl}`; }
+    else               { seatCls = 'seats-low';     seatTxt = `${vac} available`; }
+  }
 
   let html = `
     <div class="r-code">${esc(code)}</div>
     <div class="r-inst">
       <div class="r-inst-name">${esc(con)}</div>
-      <div class="r-inst-district">
-        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        ${esc(dist)}
+      <div class="r-inst-meta">
+        <span class="r-inst-district">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${esc(dist)}
+        </span>
+        ${tl > 0 ? `<span class="r-inst-seats ${seatCls}">${seatTxt}</span>` : ''}
       </div>
     </div>
     <div class="r-branch">
@@ -307,6 +322,9 @@ function mkDesktopRow(r, idx, comms) {
     else
       html += `<div class="r-cutoff">${n%1===0?n:n.toFixed(1)}</div>`;
   });
+
+  // Blinking CTA spanning all columns — bottom-left
+  html += `<div class="r-vacant-hint" title="Click to see seat details">&#8964; Show vacant seats</div>`;
 
   row.innerHTML = html;
   row.addEventListener('click', () => toggleDesktopDrawer(row, r, idx));
@@ -377,19 +395,18 @@ function mkMobileCard(r, idx, multiComms) {
   const wrap = document.createElement('div');
   const pc = S.primaryComm||'OC';
   const code = String(r.coc).padStart(4,'0');
-  const con = r._conClean||'';
-  const conShort = con.length > 45 ? con.slice(0,43)+'…' : con;
+  const con  = r._conClean||'';
   const dist = r.district || '';
-  const v = r[pc]; const n = parseFloat(v); const has = v!==''&&v!==null&&!isNaN(n);
+  const v  = r[pc]; const n = parseFloat(v); const has = v!==''&&v!==null&&!isNaN(n);
   const sk = SEAT_KEYS[pc]; const tl = r[sk.tl]||0; const al = r[sk.al]||0;
 
-  // Seat badge for primary community
+  // Seat badge
   const vac = tl - al;
   let badgeHTML = '';
   if (tl > 0) {
-    if (vac === 0) badgeHTML = `<div class="seat-badge badge-full">✓ All seats filled</div>`;
+    if (vac === 0) badgeHTML = `<div class="seat-badge badge-full">✓ Fully subscribed</div>`;
     else if (vac <= 3) badgeHTML = `<div class="seat-badge badge-partial">${vac} seat${vac>1?'s':''} available</div>`;
-    else badgeHTML = `<div class="seat-badge badge-empty">${vac} seats available</div>`;
+    else               badgeHTML = `<div class="seat-badge badge-empty">${vac} seats available</div>`;
   }
 
   // Multi-community inline display
@@ -418,7 +435,7 @@ function mkMobileCard(r, idx, multiComms) {
           <span class="m-code">${code}</span>
           <span class="m-district">${esc(dist)}</span>
         </div>
-        <div class="m-college">${esc(conShort)}</div>
+        <div class="m-college">${esc(con)}</div>
         <div class="m-branch">${esc(r.brc||'')} — ${esc(r.brn||'')}</div>
       </div>
       ${!multiComms ? `<div class="m-right">
@@ -428,7 +445,8 @@ function mkMobileCard(r, idx, multiComms) {
       </div>` : ''}
     </div>
     ${multiComms ? mcHTML : ''}
-    ${badgeHTML}`;
+    ${badgeHTML}
+    <div class="m-vacant-hint" title="Tap to see all community seat details">⥤ Show vacant seats</div>`;
 
   card.addEventListener('click', () => toggleMobileDrawer(wrap, r, idx, card));
   wrap.appendChild(card);

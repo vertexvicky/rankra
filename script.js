@@ -57,7 +57,7 @@ async function checkRevision() {
   try {
     const res = await fetch('./api/update.json', { cache: 'no-store' });
     if (!res.ok) return;
-    const { app_revision } = await res.json();
+    const { app_revision, data_revision } = await res.json();
     const stored = parseInt(localStorage.getItem('tnea-app-revision') || '0', 10);
     if (app_revision !== stored) {
       // New revision — wipe all SW caches so fresh assets are fetched
@@ -67,6 +67,8 @@ async function checkRevision() {
       }
       localStorage.setItem('tnea-app-revision', String(app_revision));
     }
+    // Always keep data_revision in sync
+    localStorage.setItem('tnea-data-revision', String(data_revision));
   } catch (e) {
     // Network offline or api missing — silently continue
   }
@@ -347,7 +349,7 @@ function mkDesktopRow(r, idx, comms) {
   });
 
   // Blinking CTA spanning all columns — bottom-left
-  html += `<div class="r-vacant-hint" title="Click to see seat details"><i class="fa-solid fa-angle-down" style="font-size: 20px;></i> Show vacant seats</div>`;
+  html += `<div class="r-vacant-hint" title="Click to see seat details"> Show vacant seats</div>`;
 
   row.innerHTML = html;
   row.addEventListener('click', () => toggleDesktopDrawer(row, r, idx));

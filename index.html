@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TNEA Cutoff Explorer — 2020–2025</title>
+  <meta name="description" content="Explore TNEA cutoff scores for all Tamil Nadu engineering colleges from 2020 to 2025. Filter by district, community, branch, and cutoff range." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="light">
+
+  <!-- ===== COMMUNITY GATE (First visit — all devices) ===== -->
+  <div id="community-gate" class="overlay-full hidden" role="dialog" aria-modal="true" aria-label="Select your community">
+    <div class="overlay-backdrop"></div>
+    <div class="gate-sheet">
+      <h2 class="gate-title">Welcome to TNEA Cutoff Explorer</h2>
+      <p class="gate-subtitle">Select your community to get started.<br>This will be used for sorting and display priority.</p>
+      <div class="gate-chips" id="gate-chips">
+        <button class="gate-chip" data-community="OC">OC</button>
+        <button class="gate-chip" data-community="BC">BC</button>
+        <button class="gate-chip" data-community="BCM">BCM</button>
+        <button class="gate-chip" data-community="MBC">MBC</button>
+        <button class="gate-chip" data-community="SC">SC</button>
+        <button class="gate-chip" data-community="SCA">SCA</button>
+        <button class="gate-chip" data-community="ST">ST</button>
+      </div>
+      <button class="gate-continue" id="gate-continue" disabled>Continue →</button>
+    </div>
+  </div>
+
+  <!-- ===== DISTRICT BOTTOM SHEET (Mobile) ===== -->
+  <div id="district-sheet" class="overlay-full hidden" role="dialog" aria-modal="true" aria-label="Select districts">
+    <div class="overlay-backdrop" id="district-sheet-backdrop"></div>
+    <div class="sheet-content">
+      <div class="sheet-header">
+        <span class="sheet-title">Select Districts</span>
+        <button class="sheet-close" id="district-sheet-close" aria-label="Close">✕</button>
+      </div>
+      <div class="sheet-search-wrap">
+        <input type="text" id="district-sheet-search" placeholder="Search district…" autocomplete="off" />
+      </div>
+      <div class="sheet-list" id="district-sheet-list"></div>
+      <div class="sheet-footer">
+        <button class="btn-ghost" id="district-sheet-clear">Clear all</button>
+        <button class="btn-primary" id="district-sheet-apply">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LOADING OVERLAY ===== -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-box">
+      <div class="loading-logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <rect width="36" height="36" rx="8" fill="var(--accent)"/>
+          <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="14" font-weight="700" font-family="Inter,sans-serif">TN</text>
+        </svg>
+      </div>
+      <div class="loading-title">TNEA Cutoff Explorer</div>
+      <div class="loading-subtitle" id="loading-status">Initializing…</div>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loading-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" role="banner">
+    <div class="header-left">
+      <svg class="header-logo" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+        <rect width="28" height="28" rx="6" fill="var(--accent)"/>
+        <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="11" font-weight="700" font-family="Inter,sans-serif">TN</text>
+      </svg>
+      <div>
+        <div class="header-title">TNEA Cutoff Explorer</div>
+        <div class="header-sub">Tamil Nadu Engineering Admissions</div>
+      </div>
+    </div>
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
+      <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </header>
+
+  <!-- ===== FILTER BAR ===== -->
+  <div class="filter-bar" id="filter-bar" role="search" aria-label="Filters">
+
+    <!-- Row 1: Search -->
+    <div class="frow">
+      <div class="search-box">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="search-input" class="search-input" placeholder="Search college, branch, code…" autocomplete="off" aria-label="Search" />
+        <button class="search-clear hidden" id="search-clear" aria-label="Clear">✕</button>
+      </div>
+    </div>
+
+    <!-- Row 2: Year Tabs -->
+    <div class="frow frow-scroll">
+      <div class="year-tabs" id="year-tabs" role="tablist">
+        <button class="year-tab" data-year="2020" role="tab">2020</button>
+        <button class="year-tab" data-year="2021" role="tab">2021</button>
+        <button class="year-tab" data-year="2022" role="tab">2022</button>
+        <button class="year-tab" data-year="2023" role="tab">2023</button>
+        <button class="year-tab" data-year="2024" role="tab">2024</button>
+        <button class="year-tab active" data-year="2025" role="tab" aria-selected="true">2025</button>
+      </div>
+    </div>
+
+    <!-- Row 3: District + Community Chips -->
+    <div class="frow frow-scroll">
+      <div class="filter-group">
+        <!-- Single district button -->
+        <div class="district-wrap" id="district-wrap">
+          <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span id="district-label">District</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <!-- Desktop dropdown -->
+          <div class="district-dropdown" id="district-dropdown" hidden>
+            <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search…" autocomplete="off" /></div>
+            <div class="dd-list" id="dd-list"></div>
+            <div class="dd-footer"><button class="btn-ghost-sm" id="dd-clear">Clear</button></div>
+          </div>
+        </div>
+
+        <!-- Community chips -->
+        <div class="comm-bar" id="comm-bar" role="group" aria-label="Communities">
+          <button class="comm-chip" data-community="ALL">ALL</button>
+          <button class="comm-chip active" data-community="OC">OC</button>
+          <button class="comm-chip active" data-community="BC">BC</button>
+          <button class="comm-chip active" data-community="BCM">BCM</button>
+          <button class="comm-chip active" data-community="MBC">MBC</button>
+          <button class="comm-chip active" data-community="SC">SC</button>
+          <button class="comm-chip active" data-community="SCA">SCA</button>
+          <button class="comm-chip active" data-community="ST">ST</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 4: Cutoff Range + Sort + Count -->
+    <div class="frow frow-bottom">
+      <div class="cutoff-group">
+        <span class="cutoff-label">Cutoff</span>
+        <input type="number" class="cutoff-input" id="cutoff-min" value="0" min="0" max="200" step="0.5" aria-label="Min cutoff" />
+        <span class="cutoff-to">to</span>
+        <input type="number" class="cutoff-input" id="cutoff-max" value="200" min="0" max="200" step="0.5" aria-label="Max cutoff" />
+        <span class="cutoff-for">for</span>
+        <select id="cutoff-comm" class="small-select" aria-label="Community for cutoff filter">
+          <option value="">—</option>
+          <option value="OC">OC</option>
+          <option value="BC">BC</option>
+          <option value="BCM">BCM</option>
+          <option value="MBC">MBC</option>
+          <option value="SC">SC</option>
+          <option value="SCA">SCA</option>
+          <option value="ST">ST</option>
+        </select>
+      </div>
+      <div class="sort-group">
+        <select id="sort-select" class="small-select" aria-label="Sort">
+          <option value="cutoff-desc">Cutoff ↓</option>
+          <option value="cutoff-asc">Cutoff ↑</option>
+          <option value="name-asc">Name A→Z</option>
+          <option value="code-asc">Code ↑</option>
+          <option value="vacant-desc">Most Vacant</option>
+        </select>
+        <span class="result-count" id="result-count" aria-live="polite">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DYNAMIC GRID STYLE (set by JS) ===== -->
+  <style id="grid-style"></style>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content" id="main-content">
+
+    <!-- Desktop Grid -->
+    <div class="results-wrap desktop-view" id="results-wrap">
+      <div class="results-header" id="results-header"></div>
+      <div class="results-body" id="results-body"></div>
+    </div>
+
+    <!-- Mobile List -->
+    <div class="mobile-list mobile-view" id="mobile-list"></div>
+
+    <!-- Sentinel for infinite scroll -->
+    <div class="sentinel" id="sentinel" aria-hidden="true"></div>
+
+    <!-- Empty state -->
+    <div class="empty-state hidden" id="empty-state">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      <p class="empty-title">No results found</p>
+      <p class="empty-sub">Try adjusting your search or filters</p>
+      <button class="btn-ghost" id="empty-reset">Reset all filters</button>
+    </div>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

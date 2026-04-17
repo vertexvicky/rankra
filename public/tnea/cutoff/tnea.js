@@ -204,8 +204,8 @@ function showGate() {
   $('gate-continue').addEventListener('click', () => {
     if (!selected) return;
     S.primaryComm = selected;
-    S.cutoffComm = selected;
-    setCommUI(selected);
+    if (!S.cutoffComm) S.cutoffComm = selected;
+    setCommUI(S.cutoffComm);
     localStorage.setItem('tnea-primary', selected);
     gate.classList.add('hidden');
     boot();

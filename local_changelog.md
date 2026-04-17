@@ -2,6 +2,8 @@
 
 ---
 
+- **Community Gate Logic Fix**: Resolved an issue where selecting a primary community as a new user would override the community parameter (`c=`) in a shared link. The URL parameter now correctly takes precedence, ensuring users see the specific community view intended by the share link.
+- **Cache Busted**: `app_revision` incremented to 94 in `api/update.json`.
 - **Frontend Assets Relocation**: Moved `assets`, `shared`, `tnea`, and `index.html` to the `public/` directory. Moved brand images (`rankra_favicon30.png`, `rankra_logo.png`, `rankra_logo50.png`) from `public/` to `public/assets/`. Updated all corresponding HTML file references and fully revised the directory tree and file paths inside `structure.md`.
 - **Cache Busted**: `app_revision` incremented to 93 in `api/update.json`.
 - **Git Maintenance**: Updated `.gitignore` to include project-specific files (`local_changelog.md`, `structure.md`, `.agents/`) and system artifacts (`desktop.ini`). Cleaned up duplicates for a more organized structure.

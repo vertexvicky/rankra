@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>
+    window.location.href = './tnea/cutoff/';
+  </script>
+  <meta http-equiv="refresh" content="0; url=./tnea/cutoff/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rankra Enterprise Ecosystem</title>
+  <link rel="icon" type="image/png" href="./assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="./shared/css/tokens.css">
+  <link rel="stylesheet" href="./shared/css/reset.css">
+  <link rel="stylesheet" href="./shared/css/animations.css">
+  <link rel="stylesheet" href="./shared/css/components.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+    .hero {
+      margin-bottom: 40px;
+      animation: fadeDown 0.5s ease;
+    }
+    .hero img {
+      width: 120px;
+      margin-bottom: 20px;
+      border-radius: 20px;
+    }
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+    
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+      animation: slideUp 0.5s ease;
+    }
+    
+    .app-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 20px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--t);
+    }
+    
+    .app-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      background: var(--bg-hover);
+    }
+    
+    .app-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      margin-bottom: 15px;
+      object-fit: cover;
+    }
+    
+    .app-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    
+    .app-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .theme-toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+  </style>
+  <script type="module" src="./shared/js/theme.js"></script>
+</head>
+<body class="light">
+
+  <button class="icon-btn theme-toggle-btn" id="theme-toggle" aria-label="Toggle dark mode">
+      <svg id="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+      <svg id="icon-moon" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+  </button>
+
+  <div class="hero">
+    <img src="./assets/rankra_logo.png" alt="Rankra Logo" />
+    <h1>Rankra Ecosystem</h1>
+    <p>Select an application to explore</p>
+  </div>
+
+  <div class="apps-grid">
+    <a href="./tnea/cutoff/" class="app-card">
+      <img src="./assets/engineering/tnea/cutoff/tnea100.png" alt="TNEA Cutoff" class="app-icon" />
+      <div class="app-name">TNEA Cutoff</div>
+      <div class="app-desc">Explore TNEA cutoff scores for Tamil Nadu engineering colleges from 2020 to 2024. Filter by district, community, and more.</div>
+      <div class="pill-btn">Open App</div>
+    </a>
+  </div>
+
+  <script type="module">
+    import { applyTheme } from './shared/js/theme.js';
+    const init = () => {
+      const saved = localStorage.getItem('rankra-theme');
+      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
+        applyTheme('dark');
+      }
+      document.getElementById('theme-toggle').addEventListener('click', () => {
+        applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
+      });
+    };
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

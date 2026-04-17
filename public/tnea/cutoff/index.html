@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (let registration of registrations) { registration.unregister(); }
+      });
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TNEA cutoff - Rankra</title>
+  <meta name="description"
+    content="Explore TNEA cutoff scores for all Tamil Nadu engineering colleges from 2020 to 2025. Filter by district, community, branch, and cutoff range." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/png" href="../../assets/rankra_favicon30.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../shared/css/tokens.css" />
+  <link rel="stylesheet" href="../../shared/css/reset.css" />
+  <link rel="stylesheet" href="../../shared/css/animations.css" />
+  <link rel="stylesheet" href="../../shared/css/components.css" />
+  <link rel="stylesheet" href="../../shared/css/layout.css" />
+  <link rel="stylesheet" href="../../shared/components/dummy-ad/dummy-ad.css" />
+  <link rel="stylesheet" href="tnea.css" />
+</head>
+
+<body class="light">
+
+  <!-- ===== COMMUNITY GATE (First visit — all devices) ===== -->
+  <div id="community-gate" class="overlay-full hidden" role="dialog" aria-modal="true"
+    aria-label="Select your community">
+    <div class="overlay-backdrop"></div>
+    <div class="gate-sheet">
+      <h2 class="gate-title">Rankra - TNEA cutoff</h2>
+      <p class="gate-subtitle">Select your community to get started.</p>
+      <div class="gate-chips" id="gate-chips">
+        <button class="gate-chip" data-community="OC">OC</button>
+        <button class="gate-chip" data-community="BC">BC</button>
+        <button class="gate-chip" data-community="BCM">BCM</button>
+        <button class="gate-chip" data-community="MBC">MBC</button>
+        <button class="gate-chip" data-community="SC">SC</button>
+        <button class="gate-chip" data-community="SCA">SCA</button>
+        <button class="gate-chip" data-community="ST">ST</button>
+      </div>
+      <button class="gate-continue" id="gate-continue" disabled>Continue →</button>
+
+    </div>
+  </div>
+
+  <!-- ===== DISTRICT BOTTOM SHEET (Mobile) ===== -->
+  <div id="district-sheet" class="overlay-full hidden" role="dialog" aria-modal="true" aria-label="Select districts">
+    <div class="overlay-backdrop" id="district-sheet-backdrop"></div>
+    <div class="sheet-content">
+      <div class="sheet-header">
+        <span class="sheet-title">Select Districts</span>
+        <button class="sheet-close" id="district-sheet-close" aria-label="Close">✕</button>
+      </div>
+      <div class="sheet-search-wrap">
+        <input type="text" id="district-sheet-search" placeholder="Search district…" autocomplete="off" />
+      </div>
+      <div class="sheet-list" id="district-sheet-list"></div>
+      <div class="sheet-footer">
+        <button class="btn-ghost" id="district-sheet-clear">Clear all</button>
+        <button class="btn-primary" id="district-sheet-apply">Apply</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" role="banner">
+    <div class="header-left">
+      <img src="../../assets/rankra_logo50.png" height="30" alt="Rankra Logo" class="header-logo" />
+      <span class="header-title">TNEA cutoff</span>
+    </div>
+
+    <button id="export-btn" class="header-export-btn" aria-label="Share App">
+      <i class="fa-solid fa-link"></i>
+      <span>Share</span>
+    </button>
+    <button class="icon-btn hamburger-btn" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+
+    <div class="hamburger-menu" id="hamburger-menu" aria-hidden="true">
+      <div class="hmenu-header">
+        <img src="../../assets/rankra_logo50.png" height="26" alt="Rankra" class="hmenu-logo" />
+        <div class="hmenu-header-right">
+          <button class="theme-pill-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+            <span class="tpt-knob">
+              <svg id="icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
+              <svg id="icon-moon" class="hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </span>
+            <span class="tpt-label" id="tpt-label">DAY</span>
+          </button>
+          <button class="hmenu-close" id="hmenu-close" aria-label="Close menu">✕</button>
+        </div>
+      </div>
+      <div class="hmenu-body">
+      </div>
+    </div>
+    <div class="hamburger-backdrop hidden" id="hamburger-backdrop"></div>
+  </header>
+
+  <!-- ===== FILTER BAR ===== -->
+  <div class="filter-bar" id="filter-bar" role="search" aria-label="Filters">
+
+    <!-- Row 1: Search -->
+    <div class="frow">
+      <div class="search-box">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="search" id="search-input" class="search-input" placeholder="Search college, branch, code…"
+          autocomplete="off" aria-label="Search" />
+        <button class="search-clear hidden" id="search-clear" aria-label="Clear">✕</button>
+      </div>
+    </div>
+
+    <!-- Row 2: Year Tabs -->
+    <div class="frow frow-scroll">
+      <div class="year-tabs" id="year-tabs" role="tablist"></div>
+    </div>
+
+    <!-- Row 3: District + Sort (same row, dropdown-safe) -->
+    <div class="frow frow-district">
+      <div class="district-wrap" id="district-wrap">
+        <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span id="district-label">Filter by District</span>
+          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        <!-- Desktop dropdown (absolutely positioned below button) -->
+        <div class="district-dropdown" id="district-dropdown" hidden>
+          <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search district…"
+              autocomplete="off" /></div>
+          <div class="dd-list" id="dd-list"></div>
+          <div class="dd-footer"><button class="btn-ghost-sm" id="dd-clear">Clear all</button></div>
+        </div>
+      </div>
+      <div class="sort-group">
+        <span class="sort-label">Sort by</span>
+        <div class="district-wrap" id="sort-wrap">
+          <button class="pill-btn" id="sort-btn" aria-haspopup="true" aria-expanded="false">
+            <span id="sort-btn-text">Cutoff: High → Low</span>
+            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M1 1l4 4 4-4" />
+            </svg>
+          </button>
+          <!-- Custom sort dropdown -->
+          <div class="sort-dropdown" id="sort-dropdown" hidden>
+            <div class="sort-option active" data-value="cutoff-desc">Cutoff: High → Low <i
+                class="fa-solid fa-arrow-trend-down"></i></div>
+            <div class="sort-option" data-value="cutoff-asc">Cutoff: Low → High <i
+                class="fa-solid fa-arrow-trend-up"></i></div>
+            <div class="sort-option" data-value="name-asc">College: A → Z <i class="fa-solid fa-arrow-down-a-z"></i></i>
+            </div>
+            <div class="sort-option" data-value="code-asc">Code: Ascending <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div class="sort-option" data-value="vacant-desc">Most Seats Available <i
+                class="fa-regular fa-circle-check"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Row 5: Cutoff range only -->
+    <div class="frow frow-bottom">
+      <div class="cutoff-group">
+        <span class="cutoff-label">Cutoff</span>
+        <input type="number" class="cutoff-input" id="cutoff-min" value="0" min="0" max="200" step="0.5"
+          aria-label="Min cutoff" />
+        <span class="cutoff-to">-</span>
+        <input type="number" class="cutoff-input" id="cutoff-max" value="200" min="0" max="200" step="0.5"
+          aria-label="Max cutoff" />
+        <div class="district-wrap" id="comm-wrap">
+          <button class="pill-btn" id="comm-btn" aria-haspopup="true" aria-expanded="false"
+            style="min-width: 72px; padding: 4px 10px;">
+            <span id="comm-btn-text">OC</span>
+            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M1 1l4 4 4-4" />
+            </svg>
+          </button>
+          <div class="sort-dropdown" id="comm-dropdown" hidden style="min-width: 100px;">
+            <div class="sort-option comm-option active" data-value="OC">OC</div>
+            <div class="sort-option comm-option" data-value="BC">BC</div>
+            <div class="sort-option comm-option" data-value="BCM">BCM</div>
+            <div class="sort-option comm-option" data-value="MBC">MBC</div>
+            <div class="sort-option comm-option" data-value="SC">SC</div>
+            <div class="sort-option comm-option" data-value="SCA">SCA</div>
+            <div class="sort-option comm-option" data-value="ST">ST</div>
+          </div>
+        </div>
+      </div>
+      <div class="results-count" id="results-count"
+        style="margin-left: auto; font-size: .8125rem; font-weight: 500; color: var(--text-secondary);"></div>
+    </div>
+  </div>
+
+  <!-- ===== DYNAMIC GRID STYLE (set by JS) ===== -->
+  <style id="grid-style"></style>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-content" id="main-content">
+    <!-- Unified results list -->
+    <div class="results-list" id="results-body"></div>
+
+
+
+    <!-- Empty state -->
+    <div class="empty-state hidden" id="empty-state">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        <line x1="8" y1="11" x2="14" y2="11" />
+      </svg>
+      <p class="empty-title">No results found</p>
+      <p class="empty-sub">Try adjusting your search or filters</p>
+      <button class="btn-ghost" id="empty-reset">Reset all filters</button>
+    </div>
+  </main>
+
+  <div class="ad-container" id="bottom-ad"></div>
+
+  <!-- ===== VIGNETTE AD OVERLAY ===== -->
+  <div class="overlay-full vignette-overlay hidden" id="vignette-ad">
+    <div class="vignette-box">
+      <button class="vignette-close" id="vignette-close">Skip Ad ✕</button>
+      <div class="ad-container ad-vignette" style="width: 100%; height: 100%;"></div>
+    </div>
+  </div>
+
+  <!-- ===== SHARE MODAL ===== -->
+  <div id="share-modal" class="overlay-full hidden" role="dialog" aria-modal="true" aria-label="Share this app">
+    <div class="overlay-backdrop" id="share-modal-backdrop"></div>
+    <div class="share-modal-sheet">
+      <button class="sheet-close" id="share-modal-close" aria-label="Close">✕</button>
+      <div class="share-header">
+        <h2 class="share-title">Share link</h2>
+      </div>
+      <p class="share-desc">Help your friends find the right college! Share this page with your current filters and search results instantly.</p>
+      <div class="share-body">
+        <div class="copy-link-wrap">
+          <i class="fa-solid fa-link copy-link-icon"></i>
+          <input type="text" id="share-link-input" class="copy-link-input" readonly value="https://rankra.in/tnea/cutoff/" />
+          <button id="share-copy-btn" class="copy-btn">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INFO BOX CONTAINER ===== -->
+  <div id="info-box-container" class="info-box-container"></div>
+
+  <script type="module" src="tnea.js"></script>
+</body>
+
+</html>

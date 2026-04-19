@@ -3,30 +3,36 @@ import { applyTheme } from '../../shared/js/theme.js';
 import { Trie } from '../../shared/js/trie.js';
 import { TNEA_CONFIG } from './tnea-config.js';
 import { buildInfeedAd, initVignetteAd } from '../../shared/js/ad-engine.js';
+import { FilterSheet } from '../../shared/js/FilterSheet.js';
 
 const _v1 = "rank";
 
+/**
+ * TNEA Cutoff Search - Global State
+ */
 const S = {
-  year: '2025',
   data: [],
-  filtered: [],
-  rendered: 0,
-  expandedIdx: -1,
-
-  search: '',
+  districtIndex: new Map(),
+  primaryComm: '',
+  cutoffComm: '',
   districts: new Set(),
-  primaryComm: null,
-
+  districtMode: 'include',
+  colleges: new Set(),
+  collegeMode: 'include',
+  courses: new Set(),
+  courseMode: 'include',
+  year: '2025',
+  search: '',
   cutoffMin: 0,
   cutoffMax: 200,
-  cutoffComm: '',
-
   sortBy: 'cutoff-desc',
-  isMobile: false,
-
-  trie: null,
-  districtIndex: null,
+  currentPage: 1,
+  pageSize: 20,
+  isMobile: window.innerWidth < 1024
 };
+
+// Component instances
+let shDistrict, shCollege, shCourse;
 
 // Variables removed
 
@@ -41,13 +47,18 @@ function setCommUI(val) {
 function syncURL() {
   const params = new URLSearchParams();
   if (S.year !== '2025') params.set('year', S.year);
-  if (S.search) params.set('q', S.search);
-  if (S.districts.size > 0) params.set('d', [...S.districts].join(','));
-  if (S.cutoffComm) params.set('c', S.cutoffComm);
-  if (S.cutoffMin > 0) params.set('min', S.cutoffMin);
-  if (S.cutoffMax < 200) params.set('max', S.cutoffMax);
-  if (S.sortBy !== 'cutoff-desc') params.set('sort', S.sortBy);
-
+  if (S.districts.size > 0) {
+    params.set('d', [...S.districts].join(','));
+    if (S.districtMode === 'exclude') params.set('dm', 'ex');
+  }
+  if (S.colleges.size > 0) {
+    params.set('col', [...S.colleges].join('||'));
+    if (S.collegeMode === 'exclude') params.set('cm', 'ex');
+  }
+  if (S.courses.size > 0) {
+    params.set('crs', [...S.courses].join('||'));
+    if (S.courseMode === 'exclude') params.set('rm', 'ex');
+  }
 
   const qs = params.toString();
   const url = window.location.pathname + (qs ? '?' + qs : '');
@@ -108,14 +119,20 @@ const _v2 = "vicky";
 function initFromURL() {
   const params = new URLSearchParams(window.location.search);
   if (params.has('year')) S.year = params.get('year');
-  if (params.has('q')) {
-    S.search = params.get('q');
-    $('search-input').value = S.search;
-    $('search-clear').classList.remove('hidden');
-  }
   if (params.has('d')) {
     params.get('d').split(',').forEach(d => S.districts.add(d));
+    if (params.get('dm') === 'ex') S.districtMode = 'exclude';
     syncDistrictLabel();
+  }
+  if (params.has('col')) {
+    params.get('col').split('||').forEach(c => S.colleges.add(c));
+    if (params.get('cm') === 'ex') S.collegeMode = 'exclude';
+    syncCollegeLabel();
+  }
+  if (params.has('crs')) {
+    params.get('crs').split('||').forEach(c => S.courses.add(c));
+    if (params.get('rm') === 'ex') S.courseMode = 'exclude';
+    syncCourseLabel();
   }
   if (params.has('c')) {
     S.cutoffComm = params.get('c');
@@ -131,40 +148,78 @@ function initFromURL() {
   }
   if (params.has('sort')) {
     S.sortBy = params.get('sort');
-    // Update sort UI
     $$('#sort-dropdown .sort-option').forEach(opt => {
       if (opt.dataset.value === S.sortBy) {
         opt.classList.add('active');
-        const textNodes = opt.textContent.split('\n')[0].trim();
-        $('sort-btn-text').textContent = opt.textContent.replace(/<i.*<\/i>/, '').trim();
+        $('sort-btn-text').textContent = 'Sort: ' + opt.textContent.replace(/<i.*<\/i>/, '').trim();
       } else {
         opt.classList.remove('active');
       }
     });
   }
+
+  // Update year button text from URL
+  if ($('year-btn-text')) $('year-btn-text').textContent = 'Year: ' + S.year;
 }
 
 /* ── Init ── */
 async function init() {
-  S.isMobile = window.innerWidth < 768;
+  S.isMobile = window.innerWidth < 1024;
+
+  // Initialize sheets
+  shDistrict = new FilterSheet('district-sheet', {
+    title: 'Select District',
+    placeholder: 'Search district...',
+    showModeToggle: true,
+    onApply: (sel, mode) => { S.districts = sel; S.districtMode = mode; syncDistrictLabel(); render(); },
+    onClear: () => { S.districts.clear(); syncDistrictLabel(); render(); }
+  });
+  shCollege = new FilterSheet('college-sheet', {
+    title: 'Select College',
+    placeholder: 'Search college...',
+    showModeToggle: true,
+    onApply: (sel, mode) => { S.colleges = sel; S.collegeMode = mode; syncCollegeLabel(); render(); },
+    onClear: () => { S.colleges.clear(); syncCollegeLabel(); render(); }
+  });
+  shCourse = new FilterSheet('course-sheet', {
+    title: 'Select Course',
+    placeholder: 'Search course...',
+    showModeToggle: true,
+    onApply: (sel, mode) => { S.courses = sel; S.courseMode = mode; syncCourseLabel(); render(); },
+    onClear: () => { S.courses.clear(); syncCourseLabel(); render(); }
+  });
 
   initFromURL();
 
   // Vignette Ad via centralized ad-engine
   initVignetteAd('vignette-ad', 'vignette-close');
 
-  // Generate year tabs from config
-  const yt = $('year-tabs');
-  if (yt) {
-    yt.innerHTML = '';
-    TNEA_CONFIG.years.forEach(yr => {
-      const btn = document.createElement('button');
-      btn.className = 'year-tab' + (yr === S.year ? ' active' : '');
-      btn.dataset.year = yr;
-      btn.setAttribute('role', 'tab');
-      if (yr === S.year) btn.setAttribute('aria-selected', 'true');
-      btn.textContent = yr;
-      yt.appendChild(btn);
+  // Generate year dropdown options from config
+  const yd = $('year-dropdown');
+  if (yd) {
+    yd.innerHTML = [...TNEA_CONFIG.years].reverse().map(yr => `
+      <div class="sort-option ${yr === S.year ? 'active' : ''}" data-value="${yr}">${yr}</div>
+    `).join('');
+
+    yd.querySelectorAll('.sort-option').forEach(opt => {
+      opt.addEventListener('click', async () => {
+        const yr = opt.dataset.value;
+        if (yr === S.year) return;
+
+        S.year = yr;
+        S.currentPage = 1;
+
+        // Update UI
+        $('year-btn-text').textContent = 'Year: ' + yr;
+        yd.querySelectorAll('.sort-option').forEach(o => o.classList.toggle('active', o === opt));
+        yd.hidden = true;
+        $('year-btn').setAttribute('aria-expanded', 'false');
+
+        renderSkeletons();
+        await loadYear(S.year);
+        buildDistrictList();
+        render();
+      });
     });
   }
 
@@ -247,13 +302,13 @@ function markYearCached(year) {
 async function preCacheAllYears() {
   // Wait 4s to ensure main entry render and initial ads are settled
   await new Promise(r => setTimeout(r, 4000));
-  
+
   const cachedStr = localStorage.getItem(BR_CACHE_KEY) || '';
   const cachedSet = new Set(cachedStr.split(',').filter(Boolean));
 
   for (const year of TNEA_CONFIG.years) {
     if (cachedSet.has(year)) continue;
-    
+
     const rev = year.split('').reverse().join('');
     try {
       // Fetching actually populates the browser's HTTP cache
@@ -311,22 +366,23 @@ function buildSearchIndex() {
 
 /* ── Filter & Sort ── */
 function applyFilters() {
-  if (!S.trie) { S.filtered = []; return; } // guard: data not loaded yet
-  let res;
-  if (S.search.trim()) {
-    const terms = tok(S.search);
-    let master = new Set();
-    terms.forEach(t => {
-      const s = S.trie.find(t);
-      s.forEach(idx => master.add(idx));
-    });
-    res = [...master].map(i => S.data[i]);
-  } else {
-    res = S.data;
+  if (!S.trie) { S.filtered = []; return; }
+  let res = S.data;
+
+  if (S.districts.size > 0) {
+    const isEx = S.districtMode === 'exclude';
+    res = res.filter(r => isEx ? !S.districts.has(r.district) : S.districts.has(r.district));
   }
 
-  if (S.districts.size > 0)
-    res = res.filter(r => S.districts.has(r.district));
+  if (S.colleges.size > 0) {
+    const isEx = S.collegeMode === 'exclude';
+    res = res.filter(r => isEx ? !S.colleges.has(String(r.coc)) : S.colleges.has(String(r.coc)));
+  }
+
+  if (S.courses.size > 0) {
+    const isEx = S.courseMode === 'exclude';
+    res = res.filter(r => isEx ? !S.courses.has(r.brc) : S.courses.has(r.brc));
+  }
 
   if (S.cutoffComm && (S.cutoffMin > 0 || S.cutoffMax < 200)) {
     res = res.filter(r => {
@@ -391,7 +447,7 @@ const BATCH = 7;
 function renderResults() {
   const body = $('results-body');
   const from = S.rendered;
-  const to   = Math.min(from + BATCH, S.filtered.length);
+  const to = Math.min(from + BATCH, S.filtered.length);
   if (from >= to) return;
 
   const frag = document.createDocumentFragment();
@@ -515,16 +571,19 @@ function mkResultCard(r, idx) {
   return card;
 }
 
-/* ── District List ── */
+/* ── Filter List Builders ── */
 function buildDistrictList() {
-  const districts = [...S.districtIndex.keys()].sort();
-
-  // Desktop dropdown
+  const districts = [...S.districtIndex.keys()].sort((a, b) => {
+    const sA = S.districts.has(a), sB = S.districts.has(b);
+    if (sA !== sB) return sA ? -1 : 1;
+    return a.localeCompare(b);
+  });
   const ddList = $('dd-list');
   ddList.innerHTML = '';
   districts.forEach(d => {
     const lbl = document.createElement('label');
     lbl.innerHTML = `<input type="checkbox" value="${esc(d)}"/>${esc(d)}`;
+    lbl.querySelector('input').checked = S.districts.has(d);
     lbl.querySelector('input').addEventListener('change', e => {
       if (e.target.checked) S.districts.add(d); else S.districts.delete(d);
       syncDistrictLabel(); render();
@@ -532,32 +591,124 @@ function buildDistrictList() {
     ddList.appendChild(lbl);
   });
 
-  // Mobile sheet
-  const sheetList = $('district-sheet-list');
-  sheetList.innerHTML = '';
-  districts.forEach(d => {
+  if (shDistrict) shDistrict.updateItems(districts, S.districts, S.districtMode);
+
+  // Sync desktop mode buttons
+  $$('#district-dropdown .sheet-mode-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === S.districtMode);
+  });
+
+  buildCollegeList();
+  buildCourseList();
+}
+
+function buildCollegeList() {
+  const map = new Map();
+  S.data.forEach(r => { if (r.coc && r._conClean) map.set(String(r.coc), r._conClean); });
+  const items = [...map.entries()].map(([v, l]) => ({ label: l, value: v })).sort((a, b) => {
+    const sA = S.colleges.has(a.value), sB = S.colleges.has(b.value);
+    if (sA !== sB) return sA ? -1 : 1;
+    return a.label.localeCompare(b.label);
+  });
+
+  const ddList = $('college-dd-list');
+  ddList.innerHTML = '';
+  items.forEach(item => {
     const lbl = document.createElement('label');
-    lbl.innerHTML = `<input type="checkbox" value="${esc(d)}"/>${esc(d)}`;
-    sheetList.appendChild(lbl);
+    lbl.innerHTML = `<input type="checkbox" value="${esc(item.value)}"/>${esc(item.label)}`;
+    lbl.querySelector('input').checked = S.colleges.has(item.value);
+    lbl.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) S.colleges.add(item.value); else S.colleges.delete(item.value);
+      syncCollegeLabel(); render();
+    });
+    ddList.appendChild(lbl);
+  });
+  if (shCollege) shCollege.updateItems(items, S.colleges, S.collegeMode);
+
+  // Sync desktop mode buttons
+  $$('#college-dropdown .sheet-mode-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === S.collegeMode);
+  });
+}
+
+function buildCourseList() {
+  const map = new Map();
+  S.data.forEach(r => { if (r.brc && r.brn) map.set(r.brc, r.brn); });
+  const items = [...map.entries()].map(([v, l]) => ({ label: l, value: v })).sort((a, b) => {
+    const sA = S.courses.has(a.value), sB = S.courses.has(b.value);
+    if (sA !== sB) return sA ? -1 : 1;
+    return a.label.localeCompare(b.label);
+  });
+
+  const ddList = $('course-dd-list');
+  ddList.innerHTML = '';
+  items.forEach(item => {
+    const lbl = document.createElement('label');
+    lbl.innerHTML = `<input type="checkbox" value="${esc(item.value)}"/>${esc(item.label)}`;
+    lbl.querySelector('input').checked = S.courses.has(item.value);
+    lbl.querySelector('input').addEventListener('change', e => {
+      if (e.target.checked) S.courses.add(item.value); else S.courses.delete(item.value);
+      syncCourseLabel(); render();
+    });
+    ddList.appendChild(lbl);
+  });
+  if (shCourse) shCourse.updateItems(items, S.courses, S.courseMode);
+
+  // Sync desktop mode buttons
+  $$('#course-dropdown .sheet-mode-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === S.courseMode);
   });
 }
 
 function syncDistrictLabel() {
   const n = S.districts.size;
-  $('district-label').textContent = n > 0 ? `District (${n})` : 'District';
+  $('district-label').textContent = n > 0 ? `District (${n})` : 'District (all)';
   $('district-btn').classList.toggle('active', n > 0);
+}
+
+function closeAllDropdowns(exceptId = null) {
+  const dropdownPairs = [
+    { btn: 'district-btn', dd: 'district-dropdown' },
+    { btn: 'college-btn', dd: 'college-dropdown' },
+    { btn: 'course-btn', dd: 'course-dropdown' },
+    { btn: 'sort-btn', dd: 'sort-dropdown' },
+    { btn: 'year-btn', dd: 'year-dropdown' },
+    { btn: 'comm-btn', dd: 'comm-dropdown' }
+  ];
+
+  dropdownPairs.forEach(p => {
+    if (p.dd !== exceptId) {
+      if ($(p.dd)) $(p.dd).hidden = true;
+      if ($(p.btn)) $(p.btn).setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+function syncCollegeLabel() {
+  const n = S.colleges.size;
+  $('college-label').textContent = n > 0 ? `College (${n})` : 'College (all)';
+  $('college-btn').classList.toggle('active', n > 0);
+}
+
+function syncCourseLabel() {
+  const n = S.courses.size;
+  $('course-label').textContent = n > 0 ? `Course (${n})` : 'Course (all)';
+  $('course-btn').classList.toggle('active', n > 0);
 }
 
 /* ── Event Binding ── */
 function bindEvents() {
-  // District search (bound once here, not in buildDistrictList)
   $('dd-search-input').addEventListener('input', e => {
     const q = e.target.value.toLowerCase();
     $('dd-list').querySelectorAll('label').forEach(l => l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none');
   });
-  $('district-sheet-search').addEventListener('input', e => {
+  $('college-dd-search').addEventListener('input', e => {
     const q = e.target.value.toLowerCase();
-    $('district-sheet-list').querySelectorAll('label').forEach(l => l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none');
+    $('college-dd-list').querySelectorAll('label').forEach(l => l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none');
+  });
+  $('course-dd-search').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    $('course-dd-list').querySelectorAll('label').forEach(l => l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none');
   });
 
   const hamburgerBtn = $('hamburger-btn');
@@ -617,59 +768,42 @@ function bindEvents() {
     $('share-copy-btn').addEventListener('click', copyLink);
   }
 
-  // Search
-  let st;
-  $('search-input').addEventListener('input', e => {
-    S.search = e.target.value;
-    $('search-clear').classList.toggle('hidden', !S.search);
-    clearTimeout(st); st = setTimeout(render, 150);
-  });
-  $('search-clear').addEventListener('click', () => {
-    $('search-input').value = ''; S.search = '';
-    $('search-clear').classList.add('hidden');
-    render(); $('search-input').focus();
-  });
 
-  // Year tabs
-  $('year-tabs').addEventListener('click', async e => {
-    const tab = e.target.closest('.year-tab');
-    if (!tab || tab.dataset.year === S.year) return;
-    $$('.year-tab').forEach(t => {
-      t.classList.toggle('active', t === tab);
-      t.setAttribute('aria-selected', String(t === tab));
-    });
-    S.year = tab.dataset.year;
-    S.currentPage = 1;
-
-    renderSkeletons();
-
-    await loadYear(S.year);
-    buildDistrictList();
-    render();
-  });
 
   // District button — desktop dropdown or mobile sheet
   $('district-btn').addEventListener('click', e => {
     e.stopPropagation();
     if (S.isMobile) {
-      $('district-sheet').classList.remove('hidden');
+      if (shDistrict) shDistrict.open();
     } else {
       const dd = $('district-dropdown');
-      const open = !dd.hidden;
-      dd.hidden = open;
-      $('district-btn').setAttribute('aria-expanded', String(!open));
+      const willBeOpen = dd.hidden;
+      closeAllDropdowns(willBeOpen ? 'district-dropdown' : null);
+      dd.hidden = !willBeOpen;
+      $('district-btn').setAttribute('aria-expanded', String(willBeOpen));
     }
   });
 
-  // Close dropdowns on outside click
   document.addEventListener('click', e => {
     if (!$('district-wrap').contains(e.target)) {
       $('district-dropdown').hidden = true;
       $('district-btn').setAttribute('aria-expanded', 'false');
     }
+    if ($('college-wrap') && !$('college-wrap').contains(e.target)) {
+      $('college-dropdown').hidden = true;
+      $('college-btn').setAttribute('aria-expanded', 'false');
+    }
+    if ($('course-wrap') && !$('course-wrap').contains(e.target)) {
+      $('course-dropdown').hidden = true;
+      $('course-btn').setAttribute('aria-expanded', 'false');
+    }
     if ($('sort-wrap') && !$('sort-wrap').contains(e.target)) {
       $('sort-dropdown').hidden = true;
       $('sort-btn').setAttribute('aria-expanded', 'false');
+    }
+    if ($('year-wrap') && !$('year-wrap').contains(e.target)) {
+      $('year-dropdown').hidden = true;
+      $('year-btn').setAttribute('aria-expanded', 'false');
     }
     if ($('comm-wrap') && !$('comm-wrap').contains(e.target)) {
       $('comm-dropdown').hidden = true;
@@ -683,20 +817,40 @@ function bindEvents() {
     syncDistrictLabel(); render();
   });
 
-  // Mobile sheet district
-  $('district-sheet-backdrop').addEventListener('click', () => $('district-sheet').classList.add('hidden'));
-  $('district-sheet-close').addEventListener('click', () => $('district-sheet').classList.add('hidden'));
-  $('district-sheet-clear').addEventListener('click', () => {
-    S.districts.clear();
-    $('district-sheet-list').querySelectorAll('input').forEach(cb => cb.checked = false);
-    syncDistrictLabel();
+  $('college-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    if (S.isMobile) {
+      if (shCollege) shCollege.open();
+    } else {
+      const dd = $('college-dropdown');
+      const willBeOpen = dd.hidden;
+      closeAllDropdowns(willBeOpen ? 'college-dropdown' : null);
+      dd.hidden = !willBeOpen;
+      $('college-btn').setAttribute('aria-expanded', String(willBeOpen));
+    }
   });
-  $('district-sheet-apply').addEventListener('click', () => {
-    S.districts.clear();
-    $('district-sheet-list').querySelectorAll('input:checked').forEach(cb => S.districts.add(cb.value));
-    syncDistrictLabel();
-    $('district-sheet').classList.add('hidden');
-    render();
+  $('college-dd-clear').addEventListener('click', () => {
+    S.colleges.clear();
+    $('college-dd-list').querySelectorAll('input').forEach(cb => cb.checked = false);
+    syncCollegeLabel(); render();
+  });
+
+  $('course-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    if (S.isMobile) {
+      if (shCourse) shCourse.open();
+    } else {
+      const dd = $('course-dropdown');
+      const willBeOpen = dd.hidden;
+      closeAllDropdowns(willBeOpen ? 'course-dropdown' : null);
+      dd.hidden = !willBeOpen;
+      $('course-btn').setAttribute('aria-expanded', String(willBeOpen));
+    }
+  });
+  $('course-dd-clear').addEventListener('click', () => {
+    S.courses.clear();
+    $('course-dd-list').querySelectorAll('input').forEach(cb => cb.checked = false);
+    syncCourseLabel(); render();
   });
 
   // Cutoff inputs
@@ -711,13 +865,28 @@ function bindEvents() {
     render();
   });
 
+  // Desktop Mode toggles
+  $$('.mode-toggle-btns .sheet-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const mode = btn.dataset.mode;
+      const target = btn.dataset.target;
+      if (target === 'college') S.collegeMode = mode;
+      else if (target === 'course') S.courseMode = mode;
+      else if (target === 'district') S.districtMode = mode;
+
+      btn.parentElement.querySelectorAll('.sheet-mode-btn').forEach(b => b.classList.toggle('active', b === btn));
+      render();
+    });
+  });
+
   // Comm custom dropdown
   $('comm-btn').addEventListener('click', e => {
     e.stopPropagation();
     const sd = $('comm-dropdown');
-    const open = !sd.hidden;
-    sd.hidden = open;
-    $('comm-btn').setAttribute('aria-expanded', String(!open));
+    const willBeOpen = sd.hidden;
+    closeAllDropdowns(willBeOpen ? 'comm-dropdown' : null);
+    sd.hidden = !willBeOpen;
+    $('comm-btn').setAttribute('aria-expanded', String(willBeOpen));
   });
 
   $$('.comm-option').forEach(opt => {
@@ -730,13 +899,24 @@ function bindEvents() {
     });
   });
 
+  // Year custom dropdown
+  $('year-btn').addEventListener('click', e => {
+    e.stopPropagation();
+    const yd = $('year-dropdown');
+    const willBeOpen = yd.hidden;
+    closeAllDropdowns(willBeOpen ? 'year-dropdown' : null);
+    yd.hidden = !willBeOpen;
+    $('year-btn').setAttribute('aria-expanded', String(willBeOpen));
+  });
+
   // Sort custom dropdown
   $('sort-btn').addEventListener('click', e => {
     e.stopPropagation();
     const sd = $('sort-dropdown');
-    const open = !sd.hidden;
-    sd.hidden = open;
-    $('sort-btn').setAttribute('aria-expanded', String(!open));
+    const willBeOpen = sd.hidden;
+    closeAllDropdowns(willBeOpen ? 'sort-dropdown' : null);
+    sd.hidden = !willBeOpen;
+    $('sort-btn').setAttribute('aria-expanded', String(willBeOpen));
   });
 
   $$('#sort-dropdown .sort-option').forEach(opt => {
@@ -804,17 +984,30 @@ function bindEvents() {
 }
 
 function resetAll() {
-  $('search-input').value = ''; S.search = '';
-  $('search-clear').classList.add('hidden');
-  S.districts.clear();
+  S.districts.clear(); S.districtMode = 'include';
   $('dd-list').querySelectorAll('input').forEach(cb => cb.checked = false);
   syncDistrictLabel();
+
+  S.colleges.clear(); S.collegeMode = 'include';
+  $('college-dd-list').querySelectorAll('input').forEach(cb => cb.checked = false);
+  syncCollegeLabel();
+
+  S.courses.clear(); S.courseMode = 'include';
+  $('course-dd-list').querySelectorAll('input').forEach(cb => cb.checked = false);
+  syncCourseLabel();
+
+  const districts = [...S.districtIndex.keys()].sort();
+  buildCollegeList();
+  buildCourseList();
+  if (shDistrict) shDistrict.updateItems(districts, S.districts, S.districtMode);
+
   S.cutoffMin = 0; S.cutoffMax = 200; S.cutoffComm = S.primaryComm || '';
   $('cutoff-min').value = 0; $('cutoff-max').value = 200;
   setCommUI(S.cutoffComm);
   S.sortBy = 'cutoff-desc';
   $$('.sort-option').forEach(o => o.classList.toggle('active', o.dataset.value === 'cutoff-desc'));
-  if ($('sort-btn-text')) $('sort-btn-text').textContent = 'Cutoff: High → Low';
+  if ($('sort-btn-text')) $('sort-btn-text').textContent = 'Sort: High → Low';
+  if ($('year-btn-text')) $('year-btn-text').textContent = 'Year: 2025';
   render();
 }
 

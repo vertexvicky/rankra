@@ -27,12 +27,12 @@
   <link rel="stylesheet" href="../../shared/components/dummy-ad/dummy-ad.css" />
   <link rel="stylesheet" href="tnea.css" />
   <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", "wdjpiymnvw");
-</script>
+  </script>
 </head>
 
 <body class="light">
@@ -58,31 +58,17 @@
     </div>
   </div>
 
-  <!-- ===== DISTRICT BOTTOM SHEET (Mobile) ===== -->
-  <div id="district-sheet" class="overlay-full hidden" role="dialog" aria-modal="true" aria-label="Select districts">
-    <div class="overlay-backdrop" id="district-sheet-backdrop"></div>
-    <div class="sheet-content">
-      <div class="sheet-header">
-        <span class="sheet-title">Select Districts</span>
-        <button class="sheet-close" id="district-sheet-close" aria-label="Close">✕</button>
-      </div>
-      <div class="sheet-search-wrap">
-        <input type="text" id="district-sheet-search" placeholder="Search district…" autocomplete="off" />
-      </div>
-      <div class="sheet-list" id="district-sheet-list"></div>
-      <div class="sheet-footer">
-        <button class="btn-ghost" id="district-sheet-clear">Clear all</button>
-        <button class="btn-primary" id="district-sheet-apply">Apply</button>
-      </div>
-    </div>
-  </div>
+
+  <!-- Mobile bottom sheets will be generated dynamically by FilterSheet.js -->
 
 
 
   <!-- ===== HEADER ===== -->
   <header class="site-header" role="banner">
     <div class="header-left">
-      <img src="../../assets/rankra_logo50.png" height="30" alt="Rankra Logo" class="header-logo" />
+      <a href="/" class="header-logo-link" aria-label="Go to home">
+        <img src="../../assets/rankra_logo50.png" height="30" alt="Rankra Logo" class="header-logo" />
+      </a>
       <span class="header-title">TNEA cutoff</span>
     </div>
 
@@ -102,7 +88,8 @@
         <div class="hmenu-header-right">
           <button class="theme-pill-toggle" id="theme-toggle" aria-label="Toggle dark mode">
             <span class="tpt-knob">
-              <svg id="icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg id="icon-sun" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
                 <circle cx="12" cy="12" r="5" />
                 <line x1="12" y1="1" x2="12" y2="3" />
                 <line x1="12" y1="21" x2="12" y2="23" />
@@ -113,7 +100,8 @@
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
               </svg>
-              <svg id="icon-moon" class="hidden" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg id="icon-moon" class="hidden" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
               </svg>
             </span>
@@ -131,60 +119,102 @@
   <!-- ===== FILTER BAR ===== -->
   <div class="filter-bar" id="filter-bar" role="search" aria-label="Filters">
 
-    <!-- Row 1: Search -->
-    <div class="frow">
-      <div class="search-box">
-        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2.2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
-        <input type="search" id="search-input" class="search-input" placeholder="Search college, branch, code…"
-          autocomplete="off" aria-label="Search" />
-        <button class="search-clear hidden" id="search-clear" aria-label="Clear">✕</button>
-      </div>
-    </div>
-
-    <!-- Row 2: Year Tabs -->
-    <div class="frow frow-scroll">
-      <div class="year-tabs" id="year-tabs" role="tablist"></div>
-    </div>
-
-    <!-- Row 3: District + Sort (same row, dropdown-safe) -->
+    <!-- Row 2: College + Course + District -->
     <div class="frow frow-district">
-      <div class="district-wrap" id="district-wrap">
-        <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
-          <span id="district-label">Filter by District</span>
+      <div class="district-wrap" id="college-wrap">
+        <button class="pill-btn" id="college-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span id="college-label">College (all)</span>
           <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2.5">
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </button>
-        <!-- Desktop dropdown (absolutely positioned below button) -->
+        <div class="district-dropdown" id="college-dropdown" hidden>
+          <div class="dd-search"><input type="text" id="college-dd-search" placeholder="Search college…"
+              autocomplete="off" /></div>
+          <div class="dd-list" id="college-dd-list"></div>
+          <div class="dd-footer">
+            <div class="mode-toggle-btns">
+              <button class="sheet-mode-btn active" data-mode="include" data-target="college">Include</button>
+              <button class="sheet-mode-btn" data-mode="exclude" data-target="college">Exclude</button>
+            </div>
+            <button class="btn-ghost-sm" id="college-dd-clear">Clear all</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="district-wrap" id="course-wrap">
+        <button class="pill-btn" id="course-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span id="course-label">Course (all)</span>
+          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+        <div class="district-dropdown" id="course-dropdown" hidden>
+          <div class="dd-search"><input type="text" id="course-dd-search" placeholder="Search course…"
+              autocomplete="off" /></div>
+          <div class="dd-list" id="course-dd-list"></div>
+          <div class="dd-footer">
+            <div class="mode-toggle-btns">
+              <button class="sheet-mode-btn active" data-mode="include" data-target="course">Include</button>
+              <button class="sheet-mode-btn" data-mode="exclude" data-target="course">Exclude</button>
+            </div>
+            <button class="btn-ghost-sm" id="course-dd-clear">Clear all</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="district-wrap" id="district-wrap">
+        <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+          <span id="district-label">District (all)</span>
+          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
         <div class="district-dropdown" id="district-dropdown" hidden>
           <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search district…"
               autocomplete="off" /></div>
           <div class="dd-list" id="dd-list"></div>
-          <div class="dd-footer"><button class="btn-ghost-sm" id="dd-clear">Clear all</button></div>
+          <div class="dd-footer">
+            <div class="mode-toggle-btns">
+              <button class="sheet-mode-btn active" data-mode="include" data-target="district">Include</button>
+              <button class="sheet-mode-btn" data-mode="exclude" data-target="district">Exclude</button>
+            </div>
+            <button class="btn-ghost-sm" id="dd-clear">Clear all</button>
+          </div>
         </div>
       </div>
+
+      <div class="district-wrap" id="year-wrap">
+        <button class="pill-btn" id="year-btn" aria-haspopup="true" aria-expanded="false">
+          <span id="year-btn-text">Year: 2025</span>
+          <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor"
+            stroke-width="1.5">
+            <path d="M1 1l4 4 4-4" />
+          </svg>
+        </button>
+        <div class="sort-dropdown" id="year-dropdown" hidden>
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
       <div class="sort-group">
-        <span class="sort-label">Sort by</span>
         <div class="district-wrap" id="sort-wrap">
           <button class="pill-btn" id="sort-btn" aria-haspopup="true" aria-expanded="false">
-            <span id="sort-btn-text">Cutoff: High → Low</span>
+            <span id="sort-btn-text">Sort: High → Low</span>
             <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor"
               stroke-width="1.5">
               <path d="M1 1l4 4 4-4" />
             </svg>
           </button>
-          <!-- Custom sort dropdown -->
           <div class="sort-dropdown" id="sort-dropdown" hidden>
             <div class="sort-option active" data-value="cutoff-desc">Cutoff: High → Low <i
                 class="fa-solid fa-arrow-trend-down"></i></div>
             <div class="sort-option" data-value="cutoff-asc">Cutoff: Low → High <i
                 class="fa-solid fa-arrow-trend-up"></i></div>
-            <div class="sort-option" data-value="name-asc">College: A → Z <i class="fa-solid fa-arrow-down-a-z"></i></i>
+            <div class="sort-option" data-value="name-asc">College: A → Z <i class="fa-solid fa-arrow-down-a-z"></i>
             </div>
             <div class="sort-option" data-value="code-asc">Code: Ascending <i class="fa-solid fa-building-columns"></i>
             </div>
@@ -192,6 +222,13 @@
                 class="fa-regular fa-circle-check"></i></div>
           </div>
         </div>
+      </div>
+
+      <div class="district-wrap" id="clear-wrap" style="flex: 0 0 auto;">
+        <button class="pill-btn" id="header-reset"
+          style="width: auto; justify-content: center; background: transparent; color: var(--text-secondary); font-weight: 600; border: none; padding-left: 0; padding-right: 0;">
+          Clear filters
+        </button>
       </div>
     </div>
 
@@ -271,11 +308,13 @@
       <div class="share-header">
         <h2 class="share-title">Share link</h2>
       </div>
-      <p class="share-desc">Help your friends find the right college! Share this page with your current filters and search results instantly.</p>
+      <p class="share-desc">Help your friends find the right college! Share this page with your current filters and
+        search results instantly.</p>
       <div class="share-body">
         <div class="copy-link-wrap">
           <i class="fa-solid fa-link copy-link-icon"></i>
-          <input type="text" id="share-link-input" class="copy-link-input" readonly value="https://rankra.in/tnea/cutoff/" />
+          <input type="text" id="share-link-input" class="copy-link-input" readonly
+            value="https://rankra.in/tnea/cutoff/" />
           <button id="share-copy-btn" class="copy-btn">Copy</button>
         </div>
       </div>

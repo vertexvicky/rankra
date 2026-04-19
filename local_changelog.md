@@ -2,8 +2,168 @@
 
 ---
 
+- **UI Optimization: Compact Filter Bar Layout**: Reduced vertical spacing between filter rows and wrapped filter pills. Decreased the base row height and implemented a tighter `row-gap` (2px) to ensure the interface remains information-dense and minimizes layout shifts on smaller screens.
+- **Cache Busted**: `app_revision` incremented to 131 in `api/update.json`.
+
+- **UX Enhancement: Persistent FilterSheet on Clear**: Modified the "Clear all" behavior in mobile `FilterSheets`. Clicking "Clear all" now clears all selections and refreshes the underlying results without automatically closing the sheet. This allows users to start a new filtering session immediately without having to reopen the sheet.
+- **Cache Busted**: `app_revision` incremented to 130 in `api/update.json`.
+
+- **Fix: Mobile Tap Highlight**: Removed the default blue highlight box that appears on mobile devices when tapping or long-pressing buttons and interactive elements. Applied `-webkit-tap-highlight-color: transparent` globally in `reset.css`.
+- **Cache Busted**: `app_revision` incremented to 125 in `api/update.json`.
+
+- **UI Enhancement: Mobile Filter Sheet Header Layout**: Absolutely centered the sheet title within the header and removed legacy margin constraints so the "Clear all" button properly snaps to the far left and the close button stays on the far right.
+- **Cache Busted**: `app_revision` incremented to 123 in `api/update.json`.
+
+- **UI Enhancement: Mobile Filter Sheet Width**: Set the `FilterSheet` content width to `100vw` on mobile devices (≤520px) and removed border-radius to ensure a consistent full-screen bottom sheet experience.
+
+- **UI/Logic Enhancement: Year Order & Filter Sheet Header Reorder**:
+  - Reversed the year dropdown order: Latest year (2025) is now at the top, and 2020 is at the bottom.
+  - Reorganized the mobile `FilterSheet` header: "Clear all" button moved to the far left, titles updated to singular "Select [Filter]", and the close "X" remains on the far right.
+- **Cache Busted**: `app_revision` incremented to 121 in `api/update.json`.
+
+- **UI/Logic Enhancement: Filter Auto-Apply & Desktop Mode Toggle**:
+  - Removed the manual "Apply" button from mobile `FilterSheet`. Changes now automatically sync and apply to search results when the sheet is dismissed or closed.
+  - Ported the "Include/Exclude" toggle functionality to the desktop dropdown footers. Users can now flip between inclusive and exclusive filtering directly in the College, Course, and District dropdowns.
+- **Cache Busted**: `app_revision` incremented to 120 in `api/update.json`.
+
+- **UI Refinement: Filter Dropdown Aesthetics**: Increased the `min-width` of the filter dropdown to 300px and `height` to 350px for better visibility and usability. Implemented a custom slim scrollbar with a rounded thumb to improve the visual experience in choice-heavy lists.
+- **Cache Busted**: `app_revision` incremented to 119 in `api/update.json`.
+
+- **UI Enhancement: Wide-Viewport Single-Row Filter Bar**: Added a `@media (min-width: 951px)` block in `shared/css/layout.css`. Both `frow-district` and `frow-bottom` use `display: contents` to dissolve into the parent `filter-bar` flex row. CSS `order` properties rearrange all children into: college → course → district → year → sort-by → cutoff-group → clear-filters → results-count (pushed far right via `margin-left: auto`). Overrides the default `flex: 1` sizing so items stay auto-sized. Existing layouts for `≤520px` and `521–950px` are completely untouched.
+- **Cache Busted**: `app_revision` incremented to 118 in `api/update.json`.
+
+
+- **Fix: FilterSheet Header Misalignment**: Stripped away all hardcoded absolute positioning overrides on mobile for the `sheet-footer` and `sheet-close` elements. By leveraging the parent container's native Flexbox (`align-items: center`), the title, logic buttons ("Clear all", "Apply"), and the dismiss icon now center themselves perfectly along the exact same vertical axis without any floating visual artifacts.
+- **Cache Busted**: `app_revision` incremented to 117 in `api/update.json`.
+
+
+
+- **UI Refinement: FilterSheet Header Consolidation**: Structurally moved the `.sheet-footer` (containing the 'Clear all' and 'Apply' buttons) entirely inside the `.sheet-header` DOM element. Stripped away outdated desktop CSS targeting the footer, natively integrating the buttons to float smoothly next to the 'X' button uniformly across all form factors.
+- **Cache Busted**: `app_revision` incremented to 116 in `api/update.json`.
+
+
+
+- **UX Enhancement: Swipe-to-Close FilterSheets**: Added native-feeling touch gesture support to mobile `FilterSheets`. Users can now drag down anywhere on the sheet to close it fluidly. This includes a smart scroll-lock mechanism that ensures vertical scrolling through the filter lists is not interrupted by the swipe gesture. A visual "pill" drag handle was also added to the top of the sheets.
+- **Cache Busted**: `app_revision` incremented to 115 in `api/update.json`.
+
+
+
+- **UI Refinement: FilterSheet Header Layout**: 
+    - **Close Button**: Increased size to 36px and font-size to 1rem for improved touch target and visibility.
+    - **Spacing**: Added significantly more horizontal gap between the logic buttons (Clear/Apply) and the Close icon on mobile to prevent mis-clicks.
+    - **Safe Area**: Increased header padding-right to 130px to accommodate the shifted interactive elements.
+- **Cache Busted**: `app_revision` incremented to 114 in `api/update.json`.
+
+
+
+- **UX Enhancement: Dynamic Filter Sorting (Mobile)**: The mobile `FilterSheet` now dynamically sorts its DOM elements *every time* you open it. Any previously applied filters will automatically float to the top of the interface instantly.
+- **Cache Busted**: `app_revision` incremented to 113 in `api/update.json`.
+
+
+
+- **UX Enhancement: One-Click Filter CLEAR**: Accelerated the filter clearing workflow. Clicking `Clear all` inside a mobile `FilterSheet` now immediately forces an aggressive background table re-render and automatically slides the sheet down, eliminating the previous friction of having to hit `Clear all` and *then* `Apply`.
+- **Cache Busted**: `app_revision` incremented to 112 in `api/update.json`.
+
+
+
+- **Fix: FilterSheet State Persistence**: Fixed an issue where if a user modified selections in a mobile `FilterSheet` but closed the sheet via the backdrop or 'X' instead of applying, the UI would incorrectly remember those cancelled inputs upon reopening. The `open()` method now explicitly resynchronizes all visual checkboxes, search inputs, and mode toggles to the confirmed application state immediately.
+- **Cache Busted**: `app_revision` incremented to 111 in `api/update.json`.
+
+
+
+- **UX Enhancement: Dynamic Filter Sorting**: Modified `tnea.js` so that actively selected items in the District, College, and Course lists automatically float to the top of the list arrays. This ensures selected items are immediately visible natively in both the Desktop Dropdowns and Mobile FilterSheets immediately upon opening.
+- **Cache Busted**: `app_revision` incremented to 110 in `api/update.json`.
+
+
+
+- **Hotfix: Infinite Loading Loop**: Fixed a JavaScript crash (`ReferenceError: esc is not defined`) in `FilterSheet.js` introduced during the object-parameter update, which broke the UI render cycle.
+- **Cache Busted**: `app_revision` incremented to 109 in `api/update.json`.
+
+
+
+- **URL Parameter Optimization**:
+    - **College IDs**: Switched the `col=` parameter to use the numeric College Code (`coc`) instead of full strings.
+    - **Course IDs**: Switched the `crs=` parameter to use the Branch Code (`brc`) instead of full strings.
+    - **FilterSheet Upgrade**: Enhanced the `FilterSheet` component to support internal ID tracking with separate display labels, ensuring filters remain legible while keeping URLs compact.
+- **Cache Busted**: `app_revision` incremented to 108 in `api/update.json`.
+
+
+
+- **Fix: UI Layout Refinements**:
+    - **Header Title**: Increased the title's horizontal limit to 50% on mobile to prevent "Select Districts" from truncating prematurely.
+    - **Year Dropdown**: Fixed an alignment issue on mobile where the Year dropdown would overflow the left edge of the viewport. Forced `left: 0` alignment for the Year selection.
+- **Cache Busted**: `app_revision` incremented to 107 in `api/update.json`.
+
+
+
+- **Fix: Button Text Folding**: Fixed an issue where "Clear all" would wrap to a second line in the header on mobile.
+    - Set `white-space: nowrap` to explicitly prevent text folding.
+    - Balanced the `sheet-title` and `sheet-footer` widths to ensure buttons have enough horizontal room.
+    - Optimized button padding for a snug fit in the header area.
+- **Cache Busted**: `app_revision` incremented to 106 in `api/update.json`.
+
+- **FilterSheet UI Polishing**:
+    - **Spacing**: Added a vertical gap between the search bar and the include/exclude mode toggle.
+    - **Footer Buttons**: Equalized the size of "Clear all" and "Apply" buttons for a balanced look.
+    - **Typography**: Increased text size for footer buttons to 0.85rem for better readability.
+    - **Color & Contrast**: Enhanced the visibility of the "Clear all" button by increasing text contrast and using bold typography.
+- **Cache Busted**: `app_revision` incremented to 105 in `api/update.json`.
+
+- **Fix: Mobile Flex Optimization for Row 2**: Adjusted mobile `@media (max-width: 520px)` CSS. Row 1 (College, Course, District) securely maintains `33.333%` bounds. However, Row 2 was liberated: Year and Sort automatically share remaining horizontal flex space equally, while the 'Clear all' button is assigned a hard auto-width bound (`flex: 0 0 auto !important`) and shunted explicitly to the extreme right via `margin-left: auto`. This mirrors exactly standard toolbar/app interfaces where actions sit securely on the trailing edge.
+- **Cache Busted**: `app_revision` incremented to 104 in `api/update.json`.
+
+
+- **Fix: Single-Row Desktop Layout & Reset Button Sizing**: Merged the dual `frow-district` containers into a single overarching container in `index.html`. This ensures that on viewports > 519px, the grid relies on default `nowrap` behavior, perfectly displaying all 6 filters in a majestic single inline row. Furthermore, the "Clear filters" button was explicitly scoped down (`width: auto`) and stripped of internal paddings so its footprint never exceeds its own text length.
+- **Cache Busted**: `app_revision` incremented to 103 in `api/update.json`.
+
+
+- **Fix: Filter Bar Mobile Wrapping**: Fixed a CSS sizing issue caused by `calc(50% - 4px)` under the `max-width: 520px` media query. Adjusted this to `calc(33.333% - 6px)` ensuring that both Row 1 and Row 2 perfectly maintain their 3-item horizontal layout even on very small screens, exactly mirroring their desktop arrangement without unwanted line wrapping.
+- **Cache Busted**: `app_revision` incremented to 102 in `api/update.json`.
+
+- **Filter Bar Reorganization**: Flattened the filter UI into two balanced rows.
+    - **Row 1**: Multi-select filters (College, Course, District).
+    - **Row 2**: Year selection (now a dropdown), Sort preferences, and a universal "Clear filters" action.
+    - **Balanced Grid**: Improved desktop layout with an even 3-column distribution for both filter rows.
+- **Year Dropdown**: Replaced the scrollable tab list with a smart dropdown that follows the "one-open-at-a-time" rule.
+- **Improved FilterSheet Aesthetics**:
+    - **Color-Coded Modes**: Include button is now Green (`#22c55e`), and Exclude button is Red (`#ef4444`) when active.
+    - **Boxy Design**: Switched from pill shapes to elegant boxy rounded corners (6px) to match the card and input aesthetic.
+    - **Seamless UI**: Unified the mode row background with the sheet content for a cohesive look.
+- **Contextual Labels**: Updated filter button text to show "All [Category]" (e.g., "All Districts") when no filters are applied, or "Category (n)" when active.
+- **Cache Busted**: `app_revision` incremented to 101 in `api/update.json`.
+
+- **Universal FilterSheet Component**: Refactored the mobile filter overlays (District, College, Course) into a centralized `FilterSheet.js` component. This eliminates nearly 100 lines of redundant HTML/JS and ensures UI consistency across all filters.
+- **Include/Exclude Filtering Modes**: Added a powerful new filtering capability. Each filter now supports "Include" (default) and "Exclude" modes, allowing users to hide specific districts, colleges, or courses from their results.
+- **Improved Filter UI (Mobile)**: Added a premium segmented toggle for Include/Exclude modes at the top of each filter sheet.
+- **URL Persistence**: District, College, and Course modes are now persisted in the URL (e.g., `&dm=ex` for exclude mode), making filtered views fully shareable.
+- **Cache Busted**: `app_revision` incremented to 100 in `api/update.json`.
+
+- **Fix: Sort Filter Sizing (Mobile)**: Resolved an issue where the Sort button appeared slightly smaller than the other three filters on mobile. Added explicit `flex: 1` and `width: 100%` to the inner sort wrapper to ensure it fills its allocated 50% row container perfectly.
+- **Cache Busted**: `app_revision` incremented to 99 in `api/update.json`.
+
+- **Exclusive Dropdown Behavior (Desktop)**: Improved the UX of the filter bar on desktop. Opening any dropdown (District, College, Course, Sort, or Community) now automatically closes any other currently open dropdown, preventing visual overlap.
+- **Equalized Mobile Filter Sizing**: Refined the 2-row mobile filter layout (< 520px) to ensure all four filter buttons have exactly equal width (50% each).
+    - Added `text-overflow: ellipsis` to button labels to handle long names (like "Cutoff: High → Low") gracefully without breaking the layout.
+    - Standardized padding and flex behavior for perfect alignment.
+- **Cache Busted**: `app_revision` incremented to 98 in `api/update.json`.
+
+- **Responsive Filter Bar Wrap**: Implemented a two-row layout for the main filter row (District, College, Course, Sort) on screens narrower than 520px. 
+    - **Row 1**: College and Course dropdowns.
+    - **Row 2**: District and Sort dropdowns.
+    - For widths ≥ 520px, all four elements remain in a single row.
+- **Filter Element Reordering**: Adjusted the HTML source order of filter elements to College → Course → District → Sort. This improves the visual flow on both desktop (where they appear left-to-right) and mobile (where they wrap logically).
+- **Cache Busted**: `app_revision` incremented to 97 in `api/update.json`.
+
+- **College Filter Dropdown**: Removed the search bar and replaced it with a "College" pill-button dropdown (desktop: absolute dropdown with search + clear; mobile: bottom sheet with search + clear + apply). Filters results to only show the selected college(s). Button label shows count when active (e.g., `College (3)`).
+- **Course Filter Dropdown**: Added a "Course" pill-button dropdown with the same UX pattern as the College and District dropdowns. Filters results to only show the selected course/branch(es). Button label shows count when active (e.g., `Course (2)`).
+- **Filter Bar Row Consolidation**: District, College, Course, and Sort are now all on the same filter row for a compact layout.
+- **URL State**: College and course filter selections are persisted in the URL (`col=` and `crs=` params, `||`-delimited) so shared links reflect the current college/course filters.
+- **Reset All**: The "Reset all filters" empty-state button now also clears college and course selections.
+- **Cache Busted**: `app_revision` incremented to 96 in `api/update.json`.
+
+- **Logo Navigation**: The header logo image is now wrapped in a link that directs users back to the root page (`/`), improving navigation efficiency.
+- **Cache Busted**: `app_revision` incremented to 95 in `api/update.json`.
 - **Community Gate Logic Fix**: Resolved an issue where selecting a primary community as a new user would override the community parameter (`c=`) in a shared link. The URL parameter now correctly takes precedence, ensuring users see the specific community view intended by the share link.
-- **Cache Busted**: `app_revision` incremented to 94 in `api/update.json`.
 - **Frontend Assets Relocation**: Moved `assets`, `shared`, `tnea`, and `index.html` to the `public/` directory. Moved brand images (`rankra_favicon30.png`, `rankra_logo.png`, `rankra_logo50.png`) from `public/` to `public/assets/`. Updated all corresponding HTML file references and fully revised the directory tree and file paths inside `structure.md`.
 - **Cache Busted**: `app_revision` incremented to 93 in `api/update.json`.
 - **Git Maintenance**: Updated `.gitignore` to include project-specific files (`local_changelog.md`, `structure.md`, `.agents/`) and system artifacts (`desktop.ini`). Cleaned up duplicates for a more organized structure.
@@ -170,6 +330,17 @@
 - Data: 6 JSON files (2020–2025), ~3,474 records/year
 - Search: prefix Trie (college name, abbreviation, branch, code)
 - District normalization map for spelling variants
+- Chunked rendering (60 records/batch) via IntersectionObserver
+- Light / Dark mode with system preference detection
+- Service Worker cache-first strategy for all JSON assets
+- Expandable drawer for seat details and address
+- Mobile-first CSS with separate card list view
+- Chunked rendering (60 records/batch) via IntersectionObserver
+- Light / Dark mode with system preference detection
+- Service Worker cache-first strategy for all JSON assets
+- Expandable drawer for seat details and address
+- Mobile-first CSS with separate card list view
+- Mobile-first CSS with separate card list view
 - Chunked rendering (60 records/batch) via IntersectionObserver
 - Light / Dark mode with system preference detection
 - Service Worker cache-first strategy for all JSON assets

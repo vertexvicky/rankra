@@ -55,6 +55,15 @@
   gap: 6px;
 }
 
+.header-logo-link {
+  display: flex;
+  transition: opacity var(--t);
+}
+
+.header-logo-link:hover {
+  opacity: 0.8;
+}
+
 .header-logo {
   border-radius: 6px;
   flex-shrink: 0;
@@ -144,10 +153,10 @@
 .frow {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 1px 0;
+  gap: 0px 8px;
+  padding: 0;
   border-bottom: 1px solid var(--border);
-  min-height: 32px;
+  min-height: 28px;
 }
 
 .frow:last-child {
@@ -294,8 +303,46 @@
     padding: 8px 4px;
   }
 
-  /* Filter bar gets bigger padding */
   .filter-bar {
     padding: 0 20px;
   }
+}
+
+@media (min-width: 1000px) {
+  .filter-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 0 20px;
+  }
+
+  .frow.frow-district,
+  .frow.frow-bottom {
+    display: contents;
+  }
+
+  .frow-district > .district-wrap,
+  .frow-district > .sort-group {
+    flex: 0 0 auto !important;
+  }
+
+  .sort-group {
+    margin-left: 0 !important;
+  }
+
+  .cutoff-group {
+    flex: 0 0 auto !important;
+    flex-wrap: nowrap !important;
+  }
+
+  #college-wrap { order: 1; }
+  #course-wrap { order: 2; }
+  #district-wrap { order: 3; }
+  #year-wrap { order: 4; }
+  .sort-group { order: 5; }
+  .cutoff-group { order: 6; }
+  #clear-wrap { order: 7; }
+  .results-count { order: 8; margin-left: auto !important; }
 }

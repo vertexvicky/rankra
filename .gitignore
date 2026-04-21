@@ -1,29 +1,12 @@
 .env
 .dev.vars
-# Python virtual environments
 .venv/
 venv/
 __pycache__/
-
-# VS Code
 .vscode/
-
-# OS artifacts
 .DS_Store
 Thumbs.db
-
-# npm
 node_modules/
-
-# Logs
 *.log
-# OS / Tools
 .fiveserver.config.js
-
-#Antigravity
 .agents/
-
-.vscode/
-
-brain/
-

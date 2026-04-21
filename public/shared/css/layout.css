@@ -1,4 +1,3 @@
-/* ── Vignette Ad ── */
 .vignette-overlay {
   background: rgba(0, 0, 0, 0.85);
   z-index: 2000;
@@ -34,7 +33,6 @@
   z-index: 10;
 }
 
-/* ── Header ── */
 .site-header {
   position: sticky;
   top: 0;
@@ -128,7 +126,191 @@
   color: var(--text-primary);
 }
 
-/* ── Filter Bar ── */
+.hamburger-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  border-radius: 8px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.hamburger-bar {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-primary);
+  transition: transform 0.25s ease, opacity 0.2s ease, width 0.2s ease;
+  transform-origin: center;
+}
+
+.hamburger-btn[aria-expanded="true"] .hamburger-bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.hamburger-btn[aria-expanded="true"] .hamburger-bar:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+.hamburger-btn[aria-expanded="true"] .hamburger-bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.hamburger-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85vw;
+  max-width: 85vw;
+  background: var(--bg-card);
+  border-left: 1.5px solid var(--border);
+  box-shadow: -6px 0 32px rgba(0, 0, 0, 0.18);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(.4, 0, .2, 1);
+  overflow: hidden;
+}
+
+.hamburger-menu.open {
+  transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+  .hamburger-menu {
+    width: 280px;
+    max-width: 280px;
+  }
+}
+.hmenu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.hmenu-logo {
+  display: block;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.hmenu-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hmenu-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 13px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background var(--t), color var(--t);
+  flex-shrink: 0;
+}
+
+.hmenu-close:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.theme-pill-toggle {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  padding: 2px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  background: #e8e8e8;
+  gap: 6px;
+  width: auto;
+  min-width: 96px;
+}
+
+body.dark .theme-pill-toggle {
+  background: #222;
+  border-color: #444;
+}
+
+.tpt-knob {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  order: 0;
+}
+
+body.dark .tpt-knob {
+  background: #555;
+  order: 2;
+}
+
+.tpt-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  color: #444;
+  white-space: nowrap;
+  order: 1;
+  padding: 0 4px 0 0;
+}
+
+body.dark .tpt-label {
+  color: #ccc;
+  padding: 0 0 0 4px;
+  order: 0;
+}
+
+.hmenu-body {
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.hamburger-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(1px);
+  transition: opacity 0.25s ease;
+}
+
+.hamburger-backdrop.hidden {
+  display: none;
+}
+
 .filter-bar {
   position: sticky;
   top: var(--header-h);
@@ -163,7 +345,6 @@
   border-bottom: none;
 }
 
-/* Year row — horizontal scroll */
 .frow-scroll {
   overflow-x: auto;
   scrollbar-width: none;
@@ -175,13 +356,11 @@
   display: none;
 }
 
-/* District row — NO overflow clipping so dropdown shows */
 .frow-district {
   overflow: visible;
   position: relative;
 }
 
-/* Community chips row — wrap on small screens */
 .frow-comms {
   overflow: visible;
   flex-wrap: wrap;
@@ -189,14 +368,12 @@
   padding: 3px 0;
 }
 
-/* Bottom row */
 .frow-bottom {
   flex-wrap: wrap;
   gap: 6px;
   padding: 1px 0;
 }
 
-/* ── Responsive ── */
 @media (max-width: 900px) {
   .drawer-grid {
     grid-template-columns: repeat(4, 1fr);
@@ -225,7 +402,6 @@
     display: none;
   }
 
-  /* saves space on mobile */
 }
 
 @media (max-width: 380px) {
@@ -240,10 +416,8 @@
   }
 }
 
-/* ── Larger Viewport Optimizations (above 650px) ── */
 @media (min-width: 651px) {
 
-  /* Increase card info sizes so it doesn't look small on desktop */
   .card-header {
     padding: 16px 20px 12px;
   }
@@ -278,9 +452,6 @@
   .card-foot .seat-badge {
     font-size: 0.85rem;
   }
-
-  /* Table: Override clamp on desktop to use fixed larger sizes, 
-     but still use proportional 1fr widths to fill space */
   .ct-th {
     font-size: 0.75rem;
     padding: 8px 4px;
@@ -296,8 +467,6 @@
     padding: 8px 8px;
     justify-content: flex-start;
   }
-
-  /* seat-detail specific spacing if needed */
   .seat-detail .ct-td {
     font-size: 0.95rem;
     padding: 8px 4px;
@@ -323,8 +492,8 @@
     display: contents;
   }
 
-  .frow-district > .district-wrap,
-  .frow-district > .sort-group {
+  .frow-district>.district-wrap,
+  .frow-district>.sort-group {
     flex: 0 0 auto !important;
   }
 
@@ -337,12 +506,36 @@
     flex-wrap: nowrap !important;
   }
 
-  #college-wrap { order: 1; }
-  #course-wrap { order: 2; }
-  #district-wrap { order: 3; }
-  #year-wrap { order: 4; }
-  .sort-group { order: 5; }
-  .cutoff-group { order: 6; }
-  #clear-wrap { order: 7; }
-  .results-count { order: 8; margin-left: auto !important; }
+  #college-wrap {
+    order: 1;
+  }
+
+  #course-wrap {
+    order: 2;
+  }
+
+  #district-wrap {
+    order: 3;
+  }
+
+  #year-wrap {
+    order: 4;
+  }
+
+  .sort-group {
+    order: 5;
+  }
+
+  .cutoff-group {
+    order: 6;
+  }
+
+  #clear-wrap {
+    order: 7;
+  }
+
+  .results-count {
+    order: 8;
+    margin-left: auto !important;
+  }
 }

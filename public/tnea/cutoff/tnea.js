@@ -4,12 +4,10 @@ import { Trie } from '../../shared/js/trie.js';
 import { TNEA_CONFIG } from './tnea-config.js';
 import { buildInfeedAd, initVignetteAd } from '../../shared/js/ad-engine.js';
 import { FilterSheet } from '../../shared/js/FilterSheet.js';
+import { SiteHeader } from '../../shared/js/SiteHeader.js';
 
 const _v1 = "rank";
 
-/**
- * TNEA Cutoff Search - Global State
- */
 const S = {
   data: [],
   districtIndex: new Map(),
@@ -31,18 +29,13 @@ const S = {
   isMobile: window.innerWidth < 1024
 };
 
-// Component instances
 let shDistrict, shCollege, shCourse;
 
-// Variables removed
 
 function setCommUI(val) {
   $$('.comm-option').forEach(o => o.classList.toggle('active', o.dataset.value === val));
   if ($('comm-btn-text')) $('comm-btn-text').textContent = val || 'OC';
 }
-
-/* ── No AdSense / DIY Universal Ads ── */
-// universal ads are now dynamically inserted via generateAdMockup()
 
 function syncURL() {
   const params = new URLSearchParams();
@@ -59,13 +52,17 @@ function syncURL() {
     params.set('crs', [...S.courses].join('||'));
     if (S.courseMode === 'exclude') params.set('rm', 'ex');
   }
+  if (S.cutoffComm) params.set('c', S.cutoffComm);
+  if (S.sortBy !== 'cutoff-desc') params.set('sort', S.sortBy);
+  if (S.cutoffMin > 0) params.set('min', S.cutoffMin);
+  if (S.cutoffMax < 200) params.set('max', S.cutoffMax);
+  if (S.search) params.set('q', S.search);
 
   const qs = params.toString();
   const url = window.location.pathname + (qs ? '?' + qs : '');
   window.history.replaceState(null, '', url);
 }
 
-/* ── Custom UI Components ── */
 function showFeatureNotice(title = 'Feature Coming Soon', message = "We're building this! 🚀 Our team is working hard to bring you detailed college and course insights. Check back in a few days!") {
   const container = $('info-box-container');
   if (!container) return;
@@ -151,22 +148,22 @@ function initFromURL() {
     $$('#sort-dropdown .sort-option').forEach(opt => {
       if (opt.dataset.value === S.sortBy) {
         opt.classList.add('active');
-        $('sort-btn-text').textContent = 'Sort: ' + opt.textContent.replace(/<i.*<\/i>/, '').trim();
+        $('sort-btn-text').textContent = opt.textContent.replace(/<i.*<\/i>/, '').trim();
       } else {
         opt.classList.remove('active');
       }
     });
   }
-
-  // Update year button text from URL
+  if (params.has('q')) {
+    S.search = params.get('q');
+    if ($('search-input')) $('search-input').value = S.search;
+  }
   if ($('year-btn-text')) $('year-btn-text').textContent = 'Year: ' + S.year;
 }
 
-/* ── Init ── */
 async function init() {
   S.isMobile = window.innerWidth < 1024;
 
-  // Initialize sheets
   shDistrict = new FilterSheet('district-sheet', {
     title: 'Select District',
     placeholder: 'Search district...',
@@ -190,6 +187,11 @@ async function init() {
   });
 
   initFromURL();
+
+  new SiteHeader({
+    title: 'TNEA cutoff',
+    onShare: () => showShareModal()
+  });
 
   // Vignette Ad via centralized ad-engine
   initVignetteAd('vignette-ad', 'vignette-close');
@@ -287,7 +289,6 @@ async function _rx(_d) {
   return new Response(_s).json();
 }
 
-/* ── Caching Logic ── */
 const BR_CACHE_KEY = 'tnea_db_cutoffmark_cached';
 
 function markYearCached(year) {
@@ -300,7 +301,6 @@ function markYearCached(year) {
 }
 
 async function preCacheAllYears() {
-  // Wait 4s to ensure main entry render and initial ads are settled
   await new Promise(r => setTimeout(r, 4000));
 
   const cachedStr = localStorage.getItem(BR_CACHE_KEY) || '';
@@ -311,11 +311,9 @@ async function preCacheAllYears() {
 
     const rev = year.split('').reverse().join('');
     try {
-      // Fetching actually populates the browser's HTTP cache
       const res = await fetch(`${TNEA_CONFIG.dataPath}${rev}.gzip`, { cache: 'no-cache' });
       if (res.ok) {
         markYearCached(year);
-        // Small stagger to avoid hammering the network
         await new Promise(r => setTimeout(r, 1200));
       }
     } catch (e) {
@@ -324,13 +322,12 @@ async function preCacheAllYears() {
   }
 }
 
-/* ── Data Loading ── */
 async function loadYear(year) {
   const rev = year.split('').reverse().join('');
   try {
     const res = await fetch(`${TNEA_CONFIG.dataPath}${rev}.gzip`, { cache: 'no-cache' });
     if (!res.ok) throw new Error(res.status);
-    markYearCached(year); // Mark this year as cached
+    markYearCached(year);
     const buf = await res.arrayBuffer();
     const raw = await _rx(buf);
     S.data = raw.map(r => {
@@ -346,7 +343,6 @@ async function loadYear(year) {
   }
 }
 
-/* ── Search Index (Trie) ── */
 function buildSearchIndex() {
   const t = new Trie();
   S.districtIndex = new Map();
@@ -364,7 +360,6 @@ function buildSearchIndex() {
   S.trie = t;
 }
 
-/* ── Filter & Sort ── */
 function applyFilters() {
   if (!S.trie) { S.filtered = []; return; }
   let res = S.data;
@@ -422,11 +417,9 @@ function tSeats(r) { return TNEA_CONFIG.communities.reduce((s, c) => s + (parseI
 function tFill(r) { return TNEA_CONFIG.communities.reduce((s, c) => s + (parseInt(r[TNEA_CONFIG.seatKeys[c].al], 10) || 0), 0); }
 function tVacant(r) { return tSeats(r) - tFill(r); }
 
-/* ── Render ── */
 let _scrollObserver = null;
 
 function render() {
-  // Disconnect any previous observer so stale sentinels don't trigger
   if (_scrollObserver) { _scrollObserver.disconnect(); _scrollObserver = null; }
 
   $('results-body').innerHTML = '';
@@ -459,7 +452,6 @@ function renderResults() {
     lastCard = card;
   }
 
-  // Inject ad after the first card of the first batch only if interval allows
   if (from === 0) {
     const firstCard = frag.firstElementChild;
     const ad = buildInfeedAd();
@@ -469,14 +461,12 @@ function renderResults() {
   body.appendChild(frag);
   S.rendered = to;
 
-  // Attach IntersectionObserver on the last card of this batch
   if (S.rendered < S.filtered.length && lastCard) {
     _scrollObserver = new IntersectionObserver((entries, obs) => {
       if (!entries[0].isIntersecting) return;
       obs.disconnect();
       _scrollObserver = null;
 
-      // Inject ad between batches if interval allows
       const ad = buildInfeedAd();
       if (ad) body.appendChild(ad);
 
@@ -571,7 +561,6 @@ function mkResultCard(r, idx) {
   return card;
 }
 
-/* ── Filter List Builders ── */
 function buildDistrictList() {
   const districts = [...S.districtIndex.keys()].sort((a, b) => {
     const sA = S.districts.has(a), sB = S.districts.has(b);
@@ -593,7 +582,6 @@ function buildDistrictList() {
 
   if (shDistrict) shDistrict.updateItems(districts, S.districts, S.districtMode);
 
-  // Sync desktop mode buttons
   $$('#district-dropdown .sheet-mode-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === S.districtMode);
   });
@@ -625,7 +613,6 @@ function buildCollegeList() {
   });
   if (shCollege) shCollege.updateItems(items, S.colleges, S.collegeMode);
 
-  // Sync desktop mode buttons
   $$('#college-dropdown .sheet-mode-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === S.collegeMode);
   });
@@ -654,7 +641,6 @@ function buildCourseList() {
   });
   if (shCourse) shCourse.updateItems(items, S.courses, S.courseMode);
 
-  // Sync desktop mode buttons
   $$('#course-dropdown .sheet-mode-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === S.courseMode);
   });
@@ -696,7 +682,6 @@ function syncCourseLabel() {
   $('course-btn').classList.toggle('active', n > 0);
 }
 
-/* ── Event Binding ── */
 function bindEvents() {
   $('dd-search-input').addEventListener('input', e => {
     const q = e.target.value.toLowerCase();
@@ -711,55 +696,6 @@ function bindEvents() {
     $('course-dd-list').querySelectorAll('label').forEach(l => l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none');
   });
 
-  const hamburgerBtn = $('hamburger-btn');
-  const hamburgerMenu = $('hamburger-menu');
-  const hamburgerBackdrop = $('hamburger-backdrop');
-
-  function openMenu() {
-    hamburgerMenu.classList.add('open');
-    hamburgerMenu.setAttribute('aria-hidden', 'false');
-    hamburgerBtn.setAttribute('aria-expanded', 'true');
-    hamburgerBackdrop.classList.remove('hidden');
-  }
-
-  function closeMenu() {
-    hamburgerMenu.classList.remove('open');
-    hamburgerMenu.setAttribute('aria-hidden', 'true');
-    hamburgerBtn.setAttribute('aria-expanded', 'false');
-    hamburgerBackdrop.classList.add('hidden');
-  }
-
-  hamburgerBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    hamburgerMenu.classList.contains('open') ? closeMenu() : openMenu();
-  });
-
-  $('hmenu-close').addEventListener('click', closeMenu);
-  hamburgerBackdrop.addEventListener('click', closeMenu);
-
-  function syncThemePill() {
-    const isDark = document.body.classList.contains('dark');
-    const label = $('tpt-label');
-    const sun = $('icon-sun');
-    const moon = $('icon-moon');
-    if (label) label.textContent = isDark ? 'NIGHTMODE' : 'DAYMODE';
-    if (sun) sun.classList.toggle('hidden', isDark);
-    if (moon) moon.classList.toggle('hidden', !isDark);
-  }
-
-  syncThemePill();
-
-  $('theme-toggle').addEventListener('click', () => {
-    applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
-    syncThemePill();
-  });
-
-  // Export button
-  $('export-btn').addEventListener('click', () => {
-    showShareModal();
-  });
-
-  // Share Modal interactions
   const shareModal = $('share-modal');
   if (shareModal) {
     const closeShare = () => shareModal.classList.add('hidden');
@@ -770,7 +706,6 @@ function bindEvents() {
 
 
 
-  // District button — desktop dropdown or mobile sheet
   $('district-btn').addEventListener('click', e => {
     e.stopPropagation();
     if (S.isMobile) {
@@ -853,7 +788,6 @@ function bindEvents() {
     syncCourseLabel(); render();
   });
 
-  // Cutoff inputs
   $('cutoff-min').addEventListener('change', e => {
     S.cutoffMin = Math.max(0, parseFloat(e.target.value) || 0);
     e.target.value = S.cutoffMin;
@@ -865,7 +799,6 @@ function bindEvents() {
     render();
   });
 
-  // Desktop Mode toggles
   $$('.mode-toggle-btns .sheet-mode-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mode = btn.dataset.mode;
@@ -879,7 +812,6 @@ function bindEvents() {
     });
   });
 
-  // Comm custom dropdown
   $('comm-btn').addEventListener('click', e => {
     e.stopPropagation();
     const sd = $('comm-dropdown');
@@ -899,7 +831,6 @@ function bindEvents() {
     });
   });
 
-  // Year custom dropdown
   $('year-btn').addEventListener('click', e => {
     e.stopPropagation();
     const yd = $('year-dropdown');
@@ -909,7 +840,6 @@ function bindEvents() {
     $('year-btn').setAttribute('aria-expanded', String(willBeOpen));
   });
 
-  // Sort custom dropdown
   $('sort-btn').addEventListener('click', e => {
     e.stopPropagation();
     const sd = $('sort-dropdown');
@@ -935,20 +865,16 @@ function bindEvents() {
     });
   });
 
-  // Empty reset
-  $('empty-reset').addEventListener('click', resetAll);
+  if ($('empty-reset')) $('empty-reset').addEventListener('click', resetAll);
+  if ($('header-reset')) $('header-reset').addEventListener('click', resetAll);
 
-  // Load More Button
   if ($('load-more-btn')) {
     $('load-more-btn').addEventListener('click', () => {
-      // Find the last item before we load more
       const cards = $$('.result-card');
       const lastItem = cards.length > 0 ? cards[cards.length - 1] : null;
 
-      // Vanish previous ads
       $$('.in-feed-ad').forEach(el => el.remove());
 
-      // Render next 20 items
       renderResults(false);
 
       if (lastItem) {
@@ -957,26 +883,21 @@ function bindEvents() {
     });
   }
 
-  // Responsive breakpoint
   let wasMobile = S.isMobile;
   window.addEventListener('resize', () => {
     const now = window.innerWidth < 768;
     if (now !== wasMobile) { wasMobile = now; S.isMobile = now; render(); }
   });
 
-  // Hide filter bar on scroll down, show on scroll up
   let lastScrollY = window.scrollY;
   const filterBar = $('filter-bar');
   window.addEventListener('scroll', () => {
     const currentY = window.scrollY;
     if (currentY <= 60) {
-      // Always show near top
       filterBar.classList.remove('filter-bar--hidden');
     } else if (currentY > lastScrollY + 4) {
-      // Scrolling down — hide
       filterBar.classList.add('filter-bar--hidden');
     } else if (lastScrollY > currentY + 4) {
-      // Scrolling up — show
       filterBar.classList.remove('filter-bar--hidden');
     }
     lastScrollY = currentY;
@@ -1004,9 +925,6 @@ function resetAll() {
   S.cutoffMin = 0; S.cutoffMax = 200; S.cutoffComm = S.primaryComm || '';
   $('cutoff-min').value = 0; $('cutoff-max').value = 200;
   setCommUI(S.cutoffComm);
-  S.sortBy = 'cutoff-desc';
-  $$('.sort-option').forEach(o => o.classList.toggle('active', o.dataset.value === 'cutoff-desc'));
-  if ($('sort-btn-text')) $('sort-btn-text').textContent = 'Sort: High → Low';
   if ($('year-btn-text')) $('year-btn-text').textContent = 'Year: 2025';
   render();
 }

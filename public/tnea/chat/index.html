@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rankra AI - Streaming Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        #chat-box {
+            min-height: 250px;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        input {
+            width: 75%;
+            padding: 10px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Rankra AI</h2>
+    <div id="chat-box">Waiting for your question...</div>
+
+    <div style="display: flex;">
+        <input type="text" id="user-input" placeholder="Ask a career question...">
+        <button onclick="askAI()">Ask</button>
+    </div>
+
+    <script>
+        async function askAI() {
+            const inputEl = document.getElementById("user-input");
+            const chatBox = document.getElementById("chat-box");
+
+            const text = inputEl.value.trim();
+            if (!text) return;
+
+            inputEl.value = "";
+            chatBox.innerText = "Thinking...";
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: text })
+                });
+
+                if (!response.ok) {
+                    chatBox.innerText = `Error: ${response.statusText}`;
+                    return;
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                let fullText = "";
+                let buffer = ""; 
+
+                chatBox.innerText = ""; 
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+
+                    const lines = buffer.split('\n');
+
+                    buffer = lines.pop();
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ') && !line.includes('[DONE]')) {
+                            try {
+                                const jsonStr = line.replace('data: ', '').trim();
+                                if (!jsonStr) continue;
+
+                                const data = JSON.parse(jsonStr);
+
+                                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                                    fullText += data.candidates[0].content.parts[0].text;
+                                    chatBox.innerText = fullText;
+                                    chatBox.scrollTop = chatBox.scrollHeight;
+                                }
+                            } catch (e) {
+                                console.error("JSON Parse failed on chunk:", line, e);
+                            }
+                        }
+                    }
+                }
+
+            } catch (err) {
+                chatBox.innerText = "Connection lost.";
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+
+</html>

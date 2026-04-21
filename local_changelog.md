@@ -2,6 +2,22 @@
 
 ---
 
+- **Architecture Refactor**: Removed `api/` directory and `update.json` versioning tracker. Created `functions/` directory to house backend logic, moving towards a function-based architecture.
+- **Documentation Sync**: Fully revised `structure.md` to reflect the removal of versioning API and the addition of the new directory hierarchy.
+- **Cleanup: Systematic Removal of All Comments**: Cleansed the entire codebase of comments and documentation across JS, CSS, and HTML files for a production-ready state.
+
+---
+
+- **UI Enhancement: Reverted Theme Labels**: Updated the theme toggle labels from "DAY/NIGHT" back to the preferred "DAY MODE" and "NIGHT MODE" within the shared header component.
+- **Architecture Refactor: Shared SiteHeader Component**: Migrated the hardcoded header and hamburger menu logic into a centralized `SiteHeader.js` shared component.
+- **Cache Busted**: `app_revision` incremented to 147 in `api/update.json`.
+
+- **UI Enhancement: FilterSheet Header Refinement**: 
+  - Replaced the bulky "Include/Exclude" toggle row in mobile `FilterSheet` with a compact, inline dropdown positioned next to the 'X' close button.
+  - Centered the "Select [Filter]" sheet title dynamically.
+  - Bound the global header "Clear filters" button correctly to reset all filter categories (fixing clear-wrap bug).
+- **Cache Busted**: `app_revision` incremented to 132 in `api/update.json`.
+
 - **UI Optimization: Compact Filter Bar Layout**: Reduced vertical spacing between filter rows and wrapped filter pills. Decreased the base row height and implemented a tighter `row-gap` (2px) to ensure the interface remains information-dense and minimizes layout shifts on smaller screens.
 - **Cache Busted**: `app_revision` incremented to 131 in `api/update.json`.
 
@@ -334,6 +350,12 @@
 - Light / Dark mode with system preference detection
 - Service Worker cache-first strategy for all JSON assets
 - Expandable drawer for seat details and address
+- Mobile-first CSS with separate card list view
+- Chunked rendering (60 records/batch) via IntersectionObserver
+- Light / Dark mode with system preference detection
+- Service Worker cache-first strategy for all JSON assets
+- Expandable drawer for seat details and address
+- Mobile-first CSS with separate card list view
 - Mobile-first CSS with separate card list view
 - Chunked rendering (60 records/batch) via IntersectionObserver
 - Light / Dark mode with system preference detection

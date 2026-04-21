@@ -10,7 +10,7 @@
 1. [Project Overview](#1-project-overview)
 2. [Full Directory Tree](#2-full-directory-tree)
 3. [Root-Level Files](#3-root-level-files)
-4. [/api — Version Control](#4-api--version-control)
+4. [/functions — Backend Logic](#4-functions--backend-logic)
 5. [/public/shared/css — Design System](#5-publicsharedcss--design-system)
 6. [/public/shared/js — Core Utilities](#6-publicsharedjs--core-utilities)
 7. [/public/shared/components/dummy-ad — Ad Component](#7-publicsharedcomponentsdummy-ad--ad-component)
@@ -36,7 +36,7 @@
 - A single **shared layer** (`/shared/`) provides CSS design tokens, reusable UI components, and JS utilities that are product-agnostic and shared across all apps.
 - Individual **product apps** (currently only `tnea/cutoff/`) have their own logic, config, and app-specific CSS while importing from the shared layer.
 - A **data tier** (`/assets/db/`) holds compressed, encrypted binary data files. No raw JSON is ever exposed to the public.
-- A lightweight **versioning API** (`/api/update.json`) manages client-side cache invalidation.
+- A **functions tier** (`/functions/`) handles specialized backend logic.
 
 The UI is built using **pure HTML, CSS, and vanilla ES Modules** — no bundler, no framework, no npm runtime dependency.
 
@@ -50,10 +50,8 @@ rankra/
 ├── .git/                       ← Git version control metadata
 ├── .gitignore                  ← Files excluded from git tracking
 ├── .vscode/                    ← VS Code editor settings (git-ignored)
-├── api/
-│   └── update.json             ← App/data revision tracker for cache busting
 ├── brain/                      ← AI assistant scratch space (git-ignored)
-├── implementation_plan.md      ← Historical planning document
+├── functions/                  ← Specialized backend logic
 ├── local_changelog.md          ← Detailed changelog with uncommitted tracking
 ├── public/
 │   ├── assets/
@@ -145,35 +143,9 @@ This document. Provides the complete technical reference for the entire codebase
 
 ---
 
-### `implementation_plan.md`
-A historical planning document from earlier architecture phases. Documents the rationale behind the migration from a monolith to the modular Rankra ecosystem structure. Not actively maintained but kept as institutional memory.
+## 4. /functions — Backend Logic
 
----
-
-## 4. /api — Version Control
-
-### `api/update.json`
-A JSON file served as an API endpoint. It is fetched by the client to detect when the app or data has been updated.
-
-```json
-{
-  "app_revision": 48,
-  "data_revision": 2,
-  "apps": { "tnea": { "data_revision": 2 } }
-}
-```
-
-**Fields:**
-- `app_revision` — Incremented whenever a JS, CSS, or HTML file changes. When the client detects a mismatch with its stored value (`rankra-app-revision` in localStorage), it wipes all browser caches and forces a fresh load.
-- `data_revision` — Incremented when the data files (`.gzip`) are regenerated. Can be used to trigger data re-fetches.
-- `apps.tnea.data_revision` — Per-app data revision for granular cache targeting.
-
-**Background Caching (`localStorage` key: `tnea_db_cutoffmark_cached`):**
-The app implements a silent background pre-caching system. After the primary year (usually 2025) is loaded and rendered, the app waits for a short duration and then silently downloads all other configured years from `TNEA_CONFIG.years`. This ensures that switching between years is instantaneous. The `tnea_db_cutoffmark_cached` key stores a comma-separated list of years currently available in the browser's HTTP cache. The app uses `{ cache: 'no-cache' }` for all data fetches, forcing the browser to validate every file with the server (via ETags) before using the local copy, ensuring perfect data freshness.
-
-**Consumed by:** `sw-register.js` → `checkRevision()` function and `tnea.js` → `preCacheAllYears()`.
-
-**Rule for developers:** Every time you deploy, bump `app_revision` by 1. Every time you re-encrypt the data files, bump `data_revision` by 1.
+This directory contains specialized backend logic and serverless functions.
 
 ---
 
@@ -1176,8 +1148,7 @@ Handled entirely by `_rx()` in `tnea.js`. Data is only ever held in memory as th
    node brain/812727c9-2ae9-475e-9b26-3b0ce1a1a675/scratch/obfuscate_data.js
    ```
    This will create `5202.gzip` and delete `tnea_c_2025.json`
-5. Bump `data_revision` in `api/update.json`
-6. Bump `app_revision` in `api/update.json`
+5. Update the structure documentation if folder locations changed.
 
 ### 🎨 Making Global Style Changes
 - Change a color → edit `shared/css/tokens.css` (update both `:root` and `body.dark`)
@@ -1205,6 +1176,5 @@ Handled entirely by `_rx()` in `tnea.js`. Data is only ever held in memory as th
 
 ### 🚀 Deploying Changes
 1. Make your changes
-2. Bump `app_revision` in `api/update.json`
-3. Document changes in `local_changelog.md` under `(Uncommitted)` section
+2. Document changes in `local_changelog.md` under `(Uncommitted)` section
 4. Deploy to hosting

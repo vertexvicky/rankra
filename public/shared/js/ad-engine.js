@@ -1,8 +1,7 @@
 import { generateAdMockup } from '../components/dummy-ad/dummy-ad.js';
 
-/* ── Ad Disabling Master List ── */
 const DISABLED_PATHS = [
-  '/tnea/cutoff/', // Disable ads on TNEA cutoff tool
+  '/tnea/cutoff/',
 ];
 
 function isAdDisabled() {

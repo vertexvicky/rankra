@@ -1,4 +1,3 @@
-/* ── Animations ── */
 @keyframes fadeScale {
   from {
     transform: scale(.95);

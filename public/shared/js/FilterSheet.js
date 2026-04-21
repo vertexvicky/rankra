@@ -1,8 +1,4 @@
 
-/**
- * Universal FilterSheet Component
- * Handles mobile bottom sheets with search, selection, and include/exclude modes.
- */
 export class FilterSheet {
   constructor(id, options = {}) {
     this.id = id;
@@ -12,7 +8,7 @@ export class FilterSheet {
     this.onApply = options.onApply || (() => { });
     this.onClear = options.onClear || (() => { });
 
-    this.mode = 'include'; // 'include' or 'exclude'
+    this.mode = 'include';
     this.selectedSet = new Set();
     this.items = [];
 
@@ -21,7 +17,6 @@ export class FilterSheet {
   }
 
   init() {
-    // Create DOM element if not exists
     let el = document.getElementById(this.id);
     if (!el) {
       el = document.createElement('div');
@@ -37,10 +32,16 @@ export class FilterSheet {
   renderBase() {
     const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-    const modeRow = this.showModeToggle ? `
-      <div class="sheet-mode-row">
-        <button class="sheet-mode-btn ${this.mode === 'include' ? 'active' : ''}" data-mode="include">Include</button>
-        <button class="sheet-mode-btn ${this.mode === 'exclude' ? 'active' : ''}" data-mode="exclude">Exclude</button>
+    const modeDropdown = this.showModeToggle ? `
+      <div class="district-wrap sheet-mode-wrap" style="position: relative; margin-right: 20px;">
+        <button class="pill-btn sheet-mode-dropdown-btn" aria-haspopup="true" aria-expanded="false" style="background: transparent; padding: 4px 10px;">
+          <span class="sheet-mode-btn-text">${this.mode === 'include' ? 'Include' : 'Exclude'}</span>
+          <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4" /></svg>
+        </button>
+        <div class="sort-dropdown sheet-mode-dropdown" hidden style="right: 0; min-width: 120px;">
+          <div class="sort-option ${this.mode === 'include' ? 'active' : ''}" data-mode="include">Include</div>
+          <div class="sort-option ${this.mode === 'exclude' ? 'active' : ''}" data-mode="exclude">Exclude</div>
+        </div>
       </div>
     ` : '';
 
@@ -51,9 +52,11 @@ export class FilterSheet {
         <div class="sheet-header">
           <button class="btn-ghost sheet-clear">Clear all</button>
           <div class="sheet-title">${esc(this.title)}</div>
-          <button class="sheet-close"><i class="fa-solid fa-xmark"></i></button>
+          <div style="display: flex; align-items: center; margin-left: auto;">
+            ${modeDropdown}
+            <button class="sheet-close" style="width: auto; height: auto;"><i class="fa-solid fa-xmark" style="font-size: 1.2rem;"></i></button>
+          </div>
         </div>
-        ${modeRow}
         <div class="sheet-search-wrap">
           <input type="text" placeholder="${esc(this.placeholder)}" autocomplete="off">
         </div>
@@ -83,22 +86,42 @@ export class FilterSheet {
     });
 
     if (this.showModeToggle) {
-      this.el.querySelectorAll('.sheet-mode-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          this.mode = btn.dataset.mode;
-          this.el.querySelectorAll('.sheet-mode-btn').forEach(b => b.classList.toggle('active', b === btn));
+      const btn = this.el.querySelector('.sheet-mode-dropdown-btn');
+      const dd = this.el.querySelector('.sheet-mode-dropdown');
+      const text = this.el.querySelector('.sheet-mode-btn-text');
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const willBeOpen = dd.hidden;
+        dd.hidden = !willBeOpen;
+        btn.setAttribute('aria-expanded', String(willBeOpen));
+      });
+
+      this.el.querySelectorAll('.sheet-mode-dropdown .sort-option').forEach(opt => {
+        opt.addEventListener('click', e => {
+          e.stopPropagation();
+          this.mode = opt.dataset.mode;
+          text.textContent = this.mode === 'include' ? 'Include' : 'Exclude';
+          this.el.querySelectorAll('.sheet-mode-dropdown .sort-option').forEach(o => o.classList.toggle('active', o === opt));
+          dd.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
         });
+      });
+
+      this.el.addEventListener('click', e => {
+        if (!this.el.querySelector('.sheet-mode-wrap').contains(e.target)) {
+          dd.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+        }
       });
     }
 
-    // Drag-down to close logic
     const sheetContent = this.el.querySelector('.sheet-content');
     let startY = 0;
     let currentY = 0;
     let isDragging = false;
 
     sheetContent.addEventListener('touchstart', (e) => {
-      // Abort drag if the user is scrolling down inside the list
       if (e.target.closest('.sheet-list') && this.listEl.scrollTop > 0) return;
 
       startY = e.touches[0].clientY;
@@ -127,11 +150,10 @@ export class FilterSheet {
       const deltaY = currentY - startY;
       sheetContent.style.transition = 'transform 0.25s ease';
 
-      if (deltaY > 70) { // Threshold to trigger close
+      if (deltaY > 70) {
         this.close();
         setTimeout(() => { sheetContent.style.transform = ''; }, 300);
       } else {
-        // Bounce back
         sheetContent.style.transform = '';
       }
     });
@@ -142,9 +164,9 @@ export class FilterSheet {
     this.selectedSet = new Set(selectedSet);
     this.mode = mode;
 
-    // Update mode buttons
     if (this.showModeToggle) {
-      this.el.querySelectorAll('.sheet-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === this.mode));
+      this.el.querySelector('.sheet-mode-btn-text').textContent = this.mode === 'include' ? 'Include' : 'Exclude';
+      this.el.querySelectorAll('.sheet-mode-dropdown .sort-option').forEach(b => b.classList.toggle('active', b.dataset.mode === this.mode));
     }
 
     const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -164,7 +186,6 @@ export class FilterSheet {
   }
 
   open() {
-    // Dynamically sort DOM labels so selected items float to the top
     const labels = Array.from(this.listEl.querySelectorAll('label'));
     const checkedNodes = [];
     const uncheckedNodes = [];
@@ -173,18 +194,18 @@ export class FilterSheet {
       const cb = l.querySelector('input');
       const isSelected = this.selectedSet.has(cb.value);
       cb.checked = isSelected;
-      l.style.display = ''; // reset search visibility
+      l.style.display = '';
       if (isSelected) checkedNodes.push(l);
       else uncheckedNodes.push(l);
     });
 
-    // Re-append nodes in sorted order
     this.listEl.innerHTML = '';
     checkedNodes.forEach(l => this.listEl.appendChild(l));
     uncheckedNodes.forEach(l => this.listEl.appendChild(l));
 
     if (this.showModeToggle) {
-      this.el.querySelectorAll('.sheet-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === this.mode));
+      this.el.querySelector('.sheet-mode-btn-text').textContent = this.mode === 'include' ? 'Include' : 'Exclude';
+      this.el.querySelectorAll('.sheet-mode-dropdown .sort-option').forEach(b => b.classList.toggle('active', b.dataset.mode === this.mode));
     }
     this.searchInp.value = '';
 

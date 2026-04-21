@@ -14,7 +14,6 @@ export async function checkRevision(apiPath) {
       localStorage.setItem('rankra-app-revision', String(app_revision));
     }
   } catch (e) {
-    // Silent
   }
 }
 

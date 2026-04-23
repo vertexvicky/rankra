@@ -19,6 +19,6 @@ export const TNEA_CONFIG = {
     'Tirupur': 'Tiruppur', 'Nagappattinam': 'Nagapattinam',
     'Thiruppathur': 'Tirupattur', 'Thiruppattur': 'Tirupattur',
   },
-  dataPath: '../../assets/db/tnea/cutoff/',
+  dataPath: '/assets/db/tnea/cutoff/',
   chunkSize: 60,
 };

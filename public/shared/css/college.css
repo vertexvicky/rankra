@@ -1,0 +1,777 @@
+/* ═══════════════════════════════════════════════════════════
+   COLLEGE PAGE — Premium Layout
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Container ── */
+.college-container {
+  width: min(100%, 860px);
+  margin: 20px auto 80px;
+  padding: 0 14px;
+  color: var(--text-primary);
+}
+
+.college-hero,
+.college-section {
+  scroll-margin-top: calc(var(--header-h) + 60px);
+}
+
+/* ── Hero Card ── */
+.college-hero {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px 18px 16px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+  animation: slideUp .45s ease both;
+}
+
+.college-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), #8b5cf6, #ec4899);
+  border-radius: 20px 20px 0 0;
+}
+
+.college-identity {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.college-heading {
+  min-width: 0;
+}
+
+.college-logo {
+  display: none; /* User requested removal */
+}
+
+.college-title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1.15;
+  margin: 0 0 3px;
+  letter-spacing: -.01em;
+}
+
+.college-meta {
+  font-size: .82rem;
+  color: var(--text-secondary);
+  font-weight: 650;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.college-code-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 5px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent-soft) 65%, transparent);
+  color: var(--accent);
+  font-size: .7rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.college-meta-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.college-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: .72rem;
+  font-weight: 800;
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.college-meta-chip:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: var(--accent-soft);
+}
+
+.college-meta-chip i {
+  font-size: .7rem;
+  opacity: .6;
+}
+
+.college-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0 10px;
+}
+
+.college-quote {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: .84rem;
+  line-height: 1.4;
+  white-space: normal;
+  font-style: italic;
+  padding-left: 12px;
+  border-left: 3px solid var(--accent);
+  opacity: .85;
+}
+
+/* ── Sticky Navigation ── */
+.college-nav {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 450;
+  margin-top: 14px;
+  background: color-mix(in srgb, var(--bg-primary) 80%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 5px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow-x: auto;
+  display: flex;
+  gap: 4px;
+  scrollbar-width: none;
+  animation: fadeDown .35s ease both;
+  animation-delay: .1s;
+}
+
+.college-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-item {
+  flex: 1 0 auto;
+  padding: 8px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: .82rem;
+  color: var(--text-secondary);
+  transition: all .18s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ── Sections ── */
+.college-section {
+  margin-top: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px 16px;
+  box-shadow: var(--shadow-sm);
+  animation: slideUp .4s ease both;
+}
+
+.college-section:nth-child(3) { animation-delay: .05s; }
+.college-section:nth-child(4) { animation-delay: .1s; }
+.college-section:nth-child(5) { animation-delay: .15s; }
+.college-section:nth-child(6) { animation-delay: .2s; }
+.college-section:nth-child(7) { animation-delay: .25s; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.section-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+}
+
+.section-icon.overview-icon { color: #3b82f6; }
+.section-icon.cutoff-icon { color: #f59e0b; }
+.section-icon.courses-icon { color: #10b981; }
+.section-icon.recruiters-icon { color: #ec4899; }
+.section-icon.info-icon { color: #8b5cf6; }
+
+.section-title-text {
+  font-size: 1.08rem;
+  font-weight: 900;
+  letter-spacing: -.01em;
+}
+
+.college-section p {
+  margin: 0 0 10px;
+  color: var(--text-secondary);
+  font-size: .88rem;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+}
+
+/* ── Stat Grid ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.stat-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 52px;
+  transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.stat-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
+}
+
+.stat-label {
+  font-size: .66rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1.1;
+}
+
+.stat-value {
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+
+.stat-value a {
+  text-decoration: none;
+  color: var(--accent);
+  transition: opacity .15s ease;
+}
+
+.stat-value a:hover {
+  opacity: .8;
+}
+
+/* Stars */
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.star-rating .star.filled {
+  color: #fbbf24;
+}
+
+.star-rating .star.half {
+  color: #fbbf24;
+  opacity: .6;
+}
+
+.star-rating .star.empty {
+  color: var(--border-strong);
+}
+
+.star-rating .rating-num {
+  margin-left: 4px;
+  font-size: .78rem;
+  font-weight: 900;
+  color: var(--text-secondary);
+}
+
+/* Level Pills */
+.level-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .03em;
+}
+
+.level-pill[data-sentiment="negative"] {
+  background: var(--red-bg);
+  color: var(--red);
+  border: 1px solid color-mix(in srgb, var(--red) 20%, transparent);
+}
+
+.level-pill[data-sentiment="warning"] {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid color-mix(in srgb, var(--amber) 20%, transparent);
+}
+
+.level-pill[data-sentiment="positive"] {
+  background: var(--green-bg);
+  color: var(--green);
+  border: 1px solid color-mix(in srgb, var(--green) 20%, transparent);
+}
+
+.level-pill[data-sentiment="neutral"] {
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+/* ── Cutoff ── */
+.cutoff-stack {
+  display: grid;
+  gap: 0;
+}
+
+.cutoff-card {
+  padding: 12px 0 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cutoff-card + .cutoff-card {
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.cutoff-course-name {
+  font-weight: 900;
+  font-size: .98rem;
+  color: var(--text-primary);
+  line-height: 1.25;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cutoff-course-name::before {
+  content: '';
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, var(--accent), #8b5cf6);
+  flex-shrink: 0;
+}
+
+.cutoff-table-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+}
+
+.cutoff-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.cutoff-table th,
+.cutoff-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  font-size: .85rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cutoff-table th:first-child,
+.cutoff-table td:first-child {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  background: inherit;
+  z-index: 1;
+}
+
+.cutoff-table thead th {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-size: .68rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight: 900;
+  padding: 10px;
+}
+
+.cutoff-table tbody th {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: .88rem;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 900;
+}
+
+.cutoff-table tbody td {
+  color: var(--text-secondary);
+  font-weight: 750;
+}
+
+.cutoff-table tbody tr:last-child th,
+.cutoff-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cutoff-table tbody tr:hover th,
+.cutoff-table tbody tr:hover td {
+  background: var(--bg-hover);
+}
+
+/* ── Courses ── */
+.courses-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.course-card {
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.course-card + .course-card {
+  border-top: 1px solid var(--border);
+}
+
+.course-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.course-name {
+  font-size: .95rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: .72rem;
+  font-weight: 850;
+}
+
+.chip.seats-chip {
+  border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Seat table inside course */
+.course-seat-table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+}
+
+.course-seat-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+.course-seat-table th,
+.course-seat-table td {
+  padding: 6px 10px;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 800;
+  border-bottom: 1px solid var(--border);
+}
+
+.course-seat-table thead th {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  font-size: .66rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.course-seat-table tbody td {
+  color: var(--text-primary);
+  font-weight: 900;
+  font-size: .88rem;
+}
+
+.course-seat-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Detailed Info / Markdown ── */
+.markdown-body > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5 {
+  margin: 14px 0 8px;
+  color: var(--text-primary);
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.markdown-body h3 {
+  font-size: 1rem;
+}
+
+.markdown-body h4,
+.markdown-body h5 {
+  font-size: .92rem;
+}
+
+.markdown-body {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  line-height: 1.6;
+}
+
+.markdown-body p {
+  margin-bottom: 12px;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin-bottom: 14px;
+  padding-left: 18px;
+}
+
+.markdown-body li {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: .88rem;
+}
+
+.markdown-body a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.inline-code {
+  padding: 1px 5px;
+  border-radius: 6px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: .82em;
+}
+
+/* ── FAQ ── */
+.faq-list {
+  display: grid;
+  gap: 0;
+  margin-top: 8px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.faq-q {
+  font-weight: 900;
+  font-size: .9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.faq-q::before {
+  content: '▸';
+  font-size: .8rem;
+  color: var(--accent);
+  transition: transform .2s ease;
+}
+
+details[open] .faq-q::before {
+  transform: rotate(90deg);
+}
+
+.faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.faq-a {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: .86rem;
+  line-height: 1.5;
+  padding-left: 18px;
+}
+
+/* ── Related ── */
+.related-block {
+  margin-top: 14px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.related-title {
+  margin: 0 0 8px;
+  font-size: .82rem;
+  font-weight: 950;
+  color: var(--text-secondary);
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+
+.related-list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  color: var(--text-primary);
+}
+
+.related-list a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: .88rem;
+  transition: color .15s ease;
+}
+
+.related-list a:hover {
+  color: var(--accent);
+}
+
+/* ── Responsive ── */
+@media (min-width: 600px) {
+  .stat-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 720px) {
+  .stat-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .college-container {
+    padding: 0 10px;
+    margin-top: 14px;
+  }
+
+  .college-hero {
+    padding: 16px 14px 14px;
+  }
+
+  .college-title {
+    font-size: 1.08rem;
+  }
+
+  .college-section {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+
+  .section-icon {
+    width: 32px;
+    height: 32px;
+    font-size: .9rem;
+  }
+
+  .section-title-text {
+    font-size: 1rem;
+  }
+
+  .stat-card {
+    padding: 8px 10px;
+    min-height: 48px;
+  }
+
+  .cutoff-course-name {
+    font-size: .92rem;
+  }
+
+  .cutoff-table th,
+  .cutoff-table td {
+    padding: 7px 8px;
+    font-size: .8rem;
+  }
+
+  .course-card {
+    padding: 10px 0;
+  }
+}

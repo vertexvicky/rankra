@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Rankra</title>
+  <meta name="description" content="Privacy Policy for Rankra. Understand how we handle your data and our commitment to transparency.">
+  <link rel="icon" type="image/png" href="../assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../shared/css/tokens.css">
+  <link rel="stylesheet" href="../shared/css/reset.css">
+  <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../shared/css/components.css">
+  <link rel="stylesheet" href="../shared/css/layout.css">
+  <link rel="stylesheet" href="../shared/css/pages.css">
+</head>
+<body class="light">
+
+  <header class="site-header"></header>
+
+  <main class="legal-container">
+    <div class="legal-header">
+      <h1>Privacy Policy</h1>
+      <p class="last-updated">Last Updated: April 22, 2026</p>
+    </div>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-eye"></i> Our Commitment</h2>
+      <p>Your privacy is of paramount importance to us. At Rankra, we follow a strictly privacy-first approach. We collect the minimum amount of data necessary to provide you with a high-quality experience.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-database"></i> Data Collection</h2>
+      <p>We do not require you to create an account or provide personal information to use our cutoff search tools. However, we may collect the following information:</p>
+      <ul>
+        <li><strong>Preference Data:</strong> We store your selected community (e.g., OC, BC) and theme preference (Light/Dark) locally on your device (using <code>localStorage</code>) so you don't have to re-select them every time you visit.</li>
+        <li><strong>Contact Form Data:</strong> If you voluntarily reach out via our contact form, we collect your name and email address to respond to your inquiry.</li>
+      </ul>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-cookie-bite"></i> Cookies & Third-Party Services</h2>
+      <p>Rankra itself does not use tracking cookies. However, we use third-party services that may use cookies:</p>
+      <ul>
+        <li><strong>Google AdSense:</strong> To support this free project, we may display ads. Google and its partners use cookies to serve ads based on your visit to this and other websites. You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank">Google Ad Settings</a>.</li>
+      </ul>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-user-shield"></i> Data Security</h2>
+      <p>We use industry-standard security measures to protect the data we handle. Our core data files are compressed and encrypted to prevent unauthorized access and ensure integrity.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-envelope-open-text"></i> Contact Us</h2>
+      <p>If you have any questions about this Privacy Policy, please contact us at <strong>help@rankra.in</strong>.</p>
+    </section>
+
+    <div class="legal-footer">
+      <p>&copy; 2026 Rankra. Thiruvarur, Tamilnadu.</p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { SiteHeader } from '../shared/js/SiteHeader.js';
+    import { applyTheme } from '../shared/js/theme.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new SiteHeader({
+        title: 'Privacy Policy',
+        logoPath: '../assets/rankra_logo50.png'
+      });
+
+      const saved = localStorage.getItem('rankra-theme');
+      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
+        applyTheme('dark');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -191,6 +191,7 @@
     max-width: 280px;
   }
 }
+
 .hmenu-header {
   display: flex;
   align-items: center;
@@ -293,9 +294,63 @@ body.dark .tpt-label {
   padding: 14px 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
   flex: 1;
   overflow-y: auto;
+}
+
+.hmenu-section {
+  margin-bottom: 0;
+}
+
+.hmenu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--t);
+  margin-bottom: 2px;
+}
+
+.hmenu-item i {
+  width: 20px;
+  text-align: center;
+  font-size: 1rem;
+  opacity: 0.7;
+}
+
+.hmenu-item:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+.hmenu-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.hmenu-footer {
+  border-top: 1px solid var(--border);
+  padding: 12px;
+  flex-shrink: 0;
+  background: var(--bg-card);
+}
+
+.hmenu-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hmenu-copyright {
+  margin: 10px 12px 2px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
 }
 
 .hamburger-backdrop {
@@ -452,6 +507,7 @@ body.dark .tpt-label {
   .card-foot .seat-badge {
     font-size: 0.85rem;
   }
+
   .ct-th {
     font-size: 0.75rem;
     padding: 8px 4px;
@@ -467,6 +523,7 @@ body.dark .tpt-label {
     padding: 8px 8px;
     justify-content: flex-start;
   }
+
   .seat-detail .ct-td {
     font-size: 0.95rem;
     padding: 8px 4px;

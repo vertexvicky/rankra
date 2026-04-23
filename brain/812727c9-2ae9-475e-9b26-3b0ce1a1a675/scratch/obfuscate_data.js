@@ -3,7 +3,7 @@ const zlib = require('zlib');
 const path = require('path');
 
 const dataDir = 'c:/Users/t8962/Downloads/rankra/assets/db/tnea/cutoff';
-const years = ['2020', '2021', '2022', '2023', '2024'];
+const years = ['2020', '2021', '2022', '2023', '2024','2025'];
 const key = Buffer.from('rankravicky1611');
 
 years.forEach(year => {

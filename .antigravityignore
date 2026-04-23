@@ -1,0 +1,16 @@
+node_modules/
+.next/
+dist/
+build/
+out/
+.git/
+coverage/
+*.log
+*.lock
+**/*.mp4
+**/*.zip
+**/*.gzip
+.venv/
+public/assets/hidden/
+public/assets/db/tnea/cutoff
+scratchbook/heavy/*

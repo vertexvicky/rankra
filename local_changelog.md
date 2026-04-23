@@ -2,11 +2,40 @@
 
 ---
 
+(uncommited)
+
+- **College Page UX Cleanup**: Refined the sample college page to remove overflow and align with the TNEA dropdown interaction pattern.
+    - **Unified Overview Cards**: Collapsed the overview into a single responsive info grid so stats, placement signals, and key details feel consistent.
+    - **Custom Cutoff Dropdowns**: Replaced the native course selector with pill-style dropdowns for `Course` and `Community`, covering all 7 communities (`OC`, `BC`, `MBC`, `BCM`, `SC`, `SCA`, `ST`).
+    - **Responsive Cutoff View**: Reworked the cutoff display into a compact grid so it no longer overflows horizontally on small screens.
+    - **Course Card Cleanup**: Removed tier chips, `UG` text, and extra paragraph copy from course cards.
+    - **SEO Block Cleanup**: Kept related colleges at the bottom as a numbered list and tightened the hash scroll behavior for `#cutoff`.
+
+- **Colleges: Sample Universal Page Layout**: Added a data-driven sample college page with a reusable layout and navigation.
+    - **New Page**: Implemented `public/colleges/sample/` with sections: Overview, Cutoff (course-wise), Courses, Detailed Info.
+    - **Reusable Renderer**: Added `public/shared/js/college/college-page.js` to render the page from a single `college-config.js` object.
+    - **New Styles**: Added `public/shared/css/college.css` for the college page UI (hero, sticky nav, stats grid, cutoff table, related blocks).
+    - **Navigation Links**: Linked the sample from the home page and the shared hamburger menu.
+
+- **Home Page Redesign**: Transformed the root `index.html` from a simple redirect into a premium, responsive landing page.
+    - **Header Refinement**: Increased the header height specifically for the home page to `70px` via local CSS override, maintaining the standard `50px` height for the TNEA application.
+    - **Shared Component Integration**: Implemented the standardized `SiteHeader.js` shared component for the header and hamburger menu, ensuring UI consistency with the TNEA application.
+    - **Responsive Cards**: Implemented a 4-card service grid (TNEA, Choice AI, Colleges, Course).
+    - **Expanded Desktop Layout**: Removed the hero logo and expanded the `apps-flex` container to `90vw` on desktop, allowing cards to spread horizontally and utilize the available viewport space more effectively.
+    - **Aesthetics**: Applied a glassmorphism design language using the shared `tokens.css`. Integrated the premium **Share Modal** (from the TNEA app) and upgraded service card icons to high-fidelity Font Awesome variants (Clipboard, Columns, Cap) for a more professional look.
+- **Support & Legal Infrastructure**: Added a suite of professional pages to establish trust and E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) for Google Search/AdSense approval.
+    - **New Pages**: Implemented `About`, `Contact`, `Privacy Policy`, `Terms of Service`, and `Disclaimer` pages with premium typography and standardized legal language.
+    - **Contact System**: Mocked the feedback and report system on the `Contact` page by faking the submission logic with a timeout. Implemented a significant UI redesign featuring a modern 2-column grid layout on desktop and an optimized mobile view. Removed redundant physical location and info list elements to focus on the flashy primary support notice and compact form layout. Corrected a structural HTML nesting error that caused footer displacement on desktop.
+    - **Menu Integration**: Revamped the `SiteHeader.js` Hamburger Menu with organized sections (**Navigation**, **Project**, **Legal**) and high-fidelity icons for all links.
+    - **Design System Expansion**: Created `pages.css` to handle long-form professional text layouts and form elements across the entire platform.
+
 - **Architecture Refactor**: Removed `api/` directory and `update.json` versioning tracker. Created `functions/` directory to house backend logic, moving towards a function-based architecture.
 - **Documentation Sync**: Fully revised `structure.md` to reflect the removal of versioning API and the addition of the new directory hierarchy.
 - **Cleanup: Systematic Removal of All Comments**: Cleansed the entire codebase of comments and documentation across JS, CSS, and HTML files for a production-ready state.
 
 ---
+
+(commited) 
 
 - **UI Enhancement: Reverted Theme Labels**: Updated the theme toggle labels from "DAY/NIGHT" back to the preferred "DAY MODE" and "NIGHT MODE" within the shared header component.
 - **Architecture Refactor: Shared SiteHeader Component**: Migrated the hardcoded header and hamburger menu logic into a centralized `SiteHeader.js` shared component.
@@ -246,7 +275,7 @@
   - **Storage Optimization**: Drastically reduced data footprint from ~10MB total down to < 700KB, improving initial load times and cache efficiency.
   - Originals were deleted; the app never touches raw JSON files on the server anymore.
 
-## [v0.4] — 2026-04-04 (Architecture & Performance Refactor) (uncommited)
+## [v0.4] — 2026-04-22 (Home Page & Architecture Refactor) (commited)
 
 ### Major Restructuring & Monetization (2026-04-10)
 - **Directory Flattening**: Migrated TNEA app from `apps/tnea/` to a cleaner, SEO-friendly path: `tnea/cutoff/`.

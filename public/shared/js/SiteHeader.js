@@ -19,6 +19,16 @@ export class SiteHeader {
     const header = $('filter-bar') ? $('filter-bar').previousElementSibling : document.querySelector('.site-header');
     if (!header || !header.classList.contains('site-header')) return;
 
+    const normalizePath = (p) => {
+      const withoutIndex = String(p || '/').replace(/index\.html$/i, '');
+      const collapsed = withoutIndex.replace(/\/{2,}/g, '/');
+      return collapsed.endsWith('/') ? collapsed : `${collapsed}/`;
+    };
+
+    const currentPath = normalizePath(window.location?.pathname || '/');
+    const isActive = (targetPath) => currentPath === normalizePath(targetPath);
+    const isCutoffActive = currentPath.startsWith('/tnea/cutoff/');
+
     header.innerHTML = `
       <div class="header-left">
         <a href="/" class="header-logo-link" aria-label="Go to home">
@@ -56,6 +66,19 @@ export class SiteHeader {
           </div>
         </div>
         <div class="hmenu-body">
+          <div class="hmenu-section">
+            <a href="/" class="hmenu-item ${isActive('/') ? 'active' : ''}"><i class="fa-solid fa-house"></i> Home</a>
+          </div>
+        </div>
+        <div class="hmenu-footer">
+          <div class="hmenu-footer-links">
+            <a href="/about/" class="hmenu-item"><i class="fa-solid fa-circle-info"></i> About Us</a>
+            <a href="/contact/" class="hmenu-item"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+            <a href="/privacy/" class="hmenu-item"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
+            <a href="/terms/" class="hmenu-item"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
+            <a href="/disclaimer/" class="hmenu-item"><i class="fa-solid fa-triangle-exclamation"></i> Disclaimer</a>
+          </div>
+          <p class="hmenu-copyright">&copy; 2026 Rankra. Thiruvarur, Tamilnadu.</p>
         </div>
       </div>
       <div class="hamburger-backdrop hidden" id="hamburger-backdrop"></div>

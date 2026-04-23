@@ -5,8 +5,7 @@ const DISABLED_PATHS = [
 ];
 
 function isAdDisabled() {
-  const path = window.location.pathname;
-  return DISABLED_PATHS.some(p => path.includes(p));
+  return true;
 }
 
 const AD_MIN_INTERVAL_MS = 10_000;

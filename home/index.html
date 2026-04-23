@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rankra - Home</title>
+  <link rel="icon" type="image/png" href="./assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="./shared/css/tokens.css">
+  <link rel="stylesheet" href="./shared/css/reset.css">
+  <link rel="stylesheet" href="./shared/css/animations.css">
+  <link rel="stylesheet" href="./shared/css/components.css">
+  <link rel="stylesheet" href="./shared/css/layout.css">
+  <style>
+    body {
+      background-color: var(--bg-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    .site-header {
+      height: 50px !important;
+    }
+
+    .header-title {
+      display: none !important;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 20px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-section {
+      margin-bottom: 50px;
+      text-align: center;
+      animation: fadeDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-logo {
+      width: 80px;
+      margin-bottom: 20px;
+    }
+
+    .hero-section h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-section p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .apps-flex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .app-card {
+      width: 90vw;
+      max-width: 500px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .app-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--accent-soft);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.4s ease;
+    }
+
+    .app-card:hover .card-icon {
+      transform: scale(1.1) rotate(-5deg);
+    }
+
+    .card-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .badge-soon {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: var(--border);
+      color: var(--text-secondary);
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-left: 8px;
+    }
+
+    @media (min-width: 768px) {
+      .apps-flex {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        width: 90vw;
+        max-width: 1400px;
+      }
+
+      .app-card {
+        width: 300px;
+        height: 300px;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .card-content {
+        text-align: center;
+      }
+
+      .card-icon {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 15px;
+      }
+
+      .card-icon img,
+      .card-icon svg {
+        width: 60px;
+        height: 60px;
+      }
+
+      .card-title {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .badge-soon {
+        margin-left: 0;
+      }
+    }
+
+    body.dark .app-card {
+      box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    body.dark .app-card:hover {
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</head>
+
+<body class="light">
+
+  <header class="site-header"></header>
+
+  <main class="main-container">
+    <div class="hero-section">
+      <h1>Welcome to Rankra</h1>
+      <p>Precision data insights for your educational journey. Choose an application to get started.</p>
+    </div>
+
+    <div class="apps-flex">
+      <!-- TNEA Cutoffs -->
+      <a href="./tnea/cutoff/" class="app-card">
+        <div class="card-icon">
+          <i class="fa-solid fa-certificate" style="font-size: 2rem; color: var(--accent);"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-title">TNEA - Engineering Cutoffs</div>
+          <div class="card-desc">Detailed engineering cutoff data for years 2020 to 2025 across all districts.</div>
+        </div>
+      </a>
+
+      <!-- Choice List AI -->
+      <div class="app-card" style="opacity: 0.8; cursor: default;">
+        <div class="card-icon">
+          <i class="fa-solid fa-clipboard-list" style="font-size: 2.5rem; color: var(--accent);"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-title">Choice List AI <span class="badge-soon">Coming Soon</span></div>
+          <div class="card-desc">AI-powered recommendation engine to build your perfect college choice list.</div>
+        </div>
+      </div>
+
+      <!-- Colleges (Sample) -->
+      <a href="./colleges/sample/" class="app-card">
+        <div class="card-icon">
+          <i class="fa-solid fa-building-columns" style="font-size: 2rem; color: var(--accent);"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-title">Colleges <span class="badge-soon">Sample</span></div>
+          <div class="card-desc">Sample universal college page layout (overview, cutoff, courses, detailed info).</div>
+        </div>
+      </a>
+
+      <!-- Course -->
+      <div class="app-card" style="opacity: 0.8; cursor: default;">
+        <div class="card-icon">
+          <i class="fa-solid fa-graduation-cap" style="font-size: 2rem; color: var(--accent);"></i>
+        </div>
+        <div class="card-content">
+          <div class="card-title">Course <span class="badge-soon">Coming Soon</span></div>
+          <div class="card-desc">Deep dive into engineering branches, future prospects, and career opportunities.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="share-modal" class="overlay-full hidden" role="dialog" aria-modal="true" aria-label="Share this app">
+    <div class="overlay-backdrop" id="share-modal-backdrop"></div>
+    <div class="share-modal-sheet">
+      <button class="sheet-close" id="share-modal-close" aria-label="Close">✕</button>
+      <div class="share-header">
+        <h2 class="share-title">Share link</h2>
+      </div>
+      <p class="share-desc">Share Rankra with your friends! Let them explore engineering cutoffs and college insights
+        with ease.</p>
+      <div class="share-body">
+        <div class="copy-link-wrap">
+          <i class="fa-solid fa-link copy-link-icon"></i>
+          <input type="text" id="share-link-input" class="copy-link-input" readonly value="https://rankra.in/" />
+          <button id="share-copy-btn" class="copy-btn">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { applyTheme } from './shared/js/theme.js';
+    import { SiteHeader } from './shared/js/SiteHeader.js';
+
+    const $ = id => document.getElementById(id);
+
+    const init = () => {
+      const showShareModal = () => {
+        const modal = $('share-modal');
+        if (!modal) return;
+        $('share-link-input').value = window.location.href;
+        modal.classList.remove('hidden');
+        $('share-copy-btn').textContent = 'Copy';
+      };
+
+      const closeShare = () => $('share-modal').classList.add('hidden');
+
+      $('share-modal-close').addEventListener('click', closeShare);
+      $('share-modal-backdrop').addEventListener('click', closeShare);
+      $('share-copy-btn').addEventListener('click', () => {
+        const input = $('share-link-input');
+        const btn = $('share-copy-btn');
+        input.select();
+        navigator.clipboard.writeText(input.value).then(() => {
+          btn.textContent = 'Copied!';
+          setTimeout(() => btn.textContent = 'Copy', 2000);
+        });
+      });
+
+      new SiteHeader({
+        title: '',
+        logoPath: './assets/rankra_logo50.png',
+        onShare: () => showShareModal()
+      });
+
+      // Apply initial theme
+      const saved = localStorage.getItem('rankra-theme');
+      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
+        applyTheme('dark');
+      }
+    };
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Rankra</title>
+  <meta name="description" content="Learn more about Rankra, an indie educational data platform providing precision insights for students in Tamil Nadu.">
+  <link rel="icon" type="image/png" href="../assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../shared/css/tokens.css">
+  <link rel="stylesheet" href="../shared/css/reset.css">
+  <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../shared/css/components.css">
+  <link rel="stylesheet" href="../shared/css/layout.css">
+  <link rel="stylesheet" href="../shared/css/pages.css">
+</head>
+<body class="light">
+
+  <header class="site-header"></header>
+
+  <main class="legal-container">
+    <div class="legal-header">
+      <h1>About Rankra</h1>
+      <p class="last-updated">Established 2026</p>
+    </div>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-rocket"></i> Our Mission</h2>
+      <p>Rankra is an independent educational data platform built with a single goal: to empower students in Tamil Nadu with clear, accurate, and actionable admission insights.</p>
+      <p>We believe that high-quality data should be accessible to everyone. By transforming complex official records into a fast, intuitive experience, we help thousands of engineering aspirants make data-driven decisions about their future.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-database"></i> Where our data comes from</h2>
+      <p>Integrity is the foundation of Rankra. We don't guess at numbers; we derive them from source material:</p>
+      <ul>
+        <li><strong>TNEA Official Records:</strong> Our cutoff engines are built directly from official round-wise data and updated PDFs from the Tamil Nadu Engineering Admissions portal.</li>
+        <li><strong>College & Course Insights:</strong> Information regarding campus infrastructure and branch prospects is meticulously collected from verified official sites, direct student reviews, and on-ground feedback.</li>
+      </ul>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-heart"></i> An Indie Initiative</h2>
+      <p>Rankra is not a corporate-backed entity. We are an indie project born out of a passion for transparency in the education sector. Operating from <strong>Thiruvarur, Tamil Nadu</strong>, we are deeply connected to the student community we serve.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Technical Excellence</h2>
+      <p>We pride ourselves on building tools that are as fast as they are useful. Our platform uses custom-built prefix-tree algorithms for real-time search and advanced data compression to ensure you get insights instantly, even on weak mobile connections.</p>
+    </section>
+
+    <div class="legal-footer">
+      <p>&copy; 2026 Rankra Core Team. Built for students, by students.</p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { SiteHeader } from '../shared/js/SiteHeader.js';
+    import { applyTheme } from '../shared/js/theme.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new SiteHeader({
+        title: 'About Rankra',
+        logoPath: '../assets/rankra_logo50.png'
+      });
+
+      const saved = localStorage.getItem('rankra-theme');
+      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
+        applyTheme('dark');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -8,7 +8,7 @@ export async function onRequestPost(context) {
     const body = await request.json();
     const userMessage = body.prompt;
 
-    const model = 'gemma-4-26b-a4b-it';
+    const model = 'gemma-3-27b-it';
     const googleUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse`;
 
     const payload = {
@@ -18,14 +18,8 @@ export async function onRequestPost(context) {
       contents: [
         { role: "user", parts: [{ text: userMessage }] }
       ],
-      generationConfig: {
-        thinkingConfig: {
-          thinkingLevel: "MINIMAL"
-        }
-      },
-      tools: [
-        { googleSearch: {} }
-      ]
+      
+      
     };
 
     const googleResponse = await fetch(googleUrl, {

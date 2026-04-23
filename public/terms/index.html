@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service - Rankra</title>
+  <meta name="description" content="Terms of Service for Rankra. Guidelines for using our educational data platform.">
+  <link rel="icon" type="image/png" href="../assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../shared/css/tokens.css">
+  <link rel="stylesheet" href="../shared/css/reset.css">
+  <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../shared/css/components.css">
+  <link rel="stylesheet" href="../shared/css/layout.css">
+  <link rel="stylesheet" href="../shared/css/pages.css">
+</head>
+<body class="light">
+
+  <header class="site-header"></header>
+
+  <main class="legal-container">
+    <div class="legal-header">
+      <h1>Terms of Service</h1>
+      <p class="last-updated">Last Updated: April 22, 2026</p>
+    </div>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-gavel"></i> Acceptance of Terms</h2>
+      <p>By accessing and using Rankra, you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you must not use our platform.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-scale-balanced"></i> Permitted Use</h2>
+      <p>Rankra is provided for personal, non-commercial use by students and their guardians for educational research. You agree not to:</p>
+      <ul>
+        <li>Automate the collection of data (scraping) from our platform.</li>
+        <li>Attempt to reverse-engineer or decrypt our core data files.</li>
+        <li>Bypass any security measures or ad-block detection.</li>
+        <li>Use our data to create a competing service or commercial product.</li>
+      </ul>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-triangle-exclamation"></i> Limitation of Liability</h2>
+      <p>Rankra is an independent project. While we strive for extreme precision, we cannot guarantee that all data is free from errors. All data is provided "as-is." Rankra is not liable for any decisions made based on the data provided on this platform.</p>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-shield"></i> Intellectual Property</h2>
+      <p>The code, design, and proprietary sorting algorithms of Rankra are protected by intellectual property laws. Institutional data remains the property of its respective owners (TNEA, DoTE, etc.).</p>
+    </section>
+
+    <section class="legal-section">
+      <h2><i class="fa-solid fa-circle-question"></i> Changes to Terms</h2>
+      <p>We reserve the right to modify these terms at any time. Continued use of the platform after changes are posted constitutes acceptance of the new terms.</p>
+    </section>
+
+    <div class="legal-footer">
+      <p>&copy; 2026 Rankra. Thiruvarur, Tamilnadu.</p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { SiteHeader } from '../shared/js/SiteHeader.js';
+    import { applyTheme } from '../shared/js/theme.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new SiteHeader({
+        title: 'Terms of Service',
+        logoPath: '../assets/rankra_logo50.png'
+      });
+
+      const saved = localStorage.getItem('rankra-theme');
+      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
+        applyTheme('dark');
+      }
+    });
+  </script>
+</body>
+</html>

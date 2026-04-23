@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Rankra</title>
+  <meta name="description"
+    content="Reach out to the Rankra team for feedback, reports, or inquiries. We are here to help engineering aspirants in Tamil Nadu.">
+  <link rel="icon" type="image/png" href="../assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../shared/css/tokens.css">
+  <link rel="stylesheet" href="../shared/css/reset.css">
+  <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../shared/css/components.css">
+  <link rel="stylesheet" href="../shared/css/layout.css">
+  <link rel="stylesheet" href="../shared/css/pages.css">
+</head>
+
+<body class="light">
+
+  <header class="site-header"></header>
+
+  <main class="legal-container contact-page">
+    <div class="contact-grid">
+      <div class="contact-sidebar">
+        <div class="contact-notice">
+          <i class="fa-solid fa-bolt"></i>
+          <span>Mail to <strong>help@rankra.in</strong> for faster response</span>
+        </div>
+
+        <div class="legal-header">
+          <h1>Contact Us</h1>
+          <p>Have questions or feedback? We'd love to hear from you.</p>
+        </div>
+      </div>
+
+      <div class="contact-main">
+        <div class="contact-card">
+          <form id="contact-form" class="contact-form">
+            <input type="hidden" name="access_key" value="y2GjUQ0eiO91G46wP2ICT29b6C4FgDpe4Ss9oyXM">
+            <input type="hidden" name="subject" value="New Contact Form Submission from Rankra">
+            <input type="checkbox" name="botcheck" id="" style="display: none;">
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Mail</label>
+              <input type="email" id="email" name="email" placeholder="example@email.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone (Optional)</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000">
+            </div>
+
+            <div class="form-group">
+              <label for="message">Feedback or Report</label>
+              <textarea id="message" name="message" placeholder="Write your feedback or report any issues here..."
+                required></textarea>
+            </div>
+
+            <button type="submit" id="submit-btn" class="btn-primary">
+              <span id="btn-text">Submit</span>
+              <i id="btn-spinner" class="fa-solid fa-spinner fa-spin hidden"></i>
+            </button>
+            <div id="form-result" class="hidden"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="legal-footer">
+      <p>&copy; 2026 Rankra Core Team. We usually respond within 24-48 hours.</p>
+    </div>
+  </main>
+
+  <style>
+    #form-result {
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    #form-result.success {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    #form-result.error {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+  </style>
+
+  <script type="module">
+    import { SiteHeader } from '../shared/js/SiteHeader.js';
+    import { applyTheme } from '../shared/js/theme.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new SiteHeader({
+        title: 'Contact Us',
+        logoPath: '../assets/rankra_logo50.png'
+      });
+
+      const saved = localStorage.getItem('rankra-theme');
+      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
+        applyTheme('dark');
+      }
+
+      const form = document.getElementById('contact-form');
+      const result = document.getElementById('form-result');
+      const btn = document.getElementById('submit-btn');
+      const btnText = document.getElementById('btn-text');
+      const spinner = document.getElementById('btn-spinner');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        btn.disabled = true;
+        btnText.textContent = 'Sending...';
+        spinner.classList.remove('hidden');
+        result.classList.add('hidden');
+
+        setTimeout(() => {
+          btn.disabled = false;
+          btnText.textContent = 'Submit';
+          spinner.classList.add('hidden');
+          
+          result.innerHTML = "Success! Your message has been sent.";
+          result.className = "success";
+          result.classList.remove('hidden');
+          
+          form.reset();
+
+          setTimeout(() => {
+            result.classList.add('hidden');
+          }, 5000);
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+
+</html>

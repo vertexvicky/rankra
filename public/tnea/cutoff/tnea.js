@@ -530,10 +530,6 @@ function mkResultCard(r, idx) {
       <div class="card-code-line">
         <span class="card-code">${esc(code)}</span>
         <span class="card-district">${esc(r.district || '')}</span>
-        <div class="card-links-row">
-          <button class="card-link">College info <i class="fa-solid fa-up-right-from-square"></i></button>
-          <button class="card-link">Course info <i class="fa-solid fa-up-right-from-square"></i></button>
-        </div>
       </div>
       <div class="card-name">${esc(r._conClean || '')}</div>
       <div class="card-branch">${esc(r.brc || '')} — ${esc(r.brn || '')}</div>
@@ -550,13 +546,7 @@ function mkResultCard(r, idx) {
     </div>
   `;
 
-  card.querySelectorAll('.card-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const type = link.textContent.trim();
-      showFeatureNotice(`${type} Coming Soon`);
-    });
-  });
+
 
   return card;
 }

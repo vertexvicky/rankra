@@ -453,3 +453,163 @@ body.dark .custom-select {
     display: none !important;
   }
 }
+
+/* ── Special Access Gate ── */
+.special-gate {
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 400px;
+}
+
+.special-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  color: var(--accent);
+  margin: 0 auto 24px;
+  filter: drop-shadow(0 10px 15px color-mix(in srgb, var(--accent) 20%, transparent));
+}
+
+
+
+.special-gate .gate-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.special-gate .gate-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.special-gate .gate-continue {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  width: 100%;
+}
+
+.special-gate .gate-continue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 30%, transparent);
+  background: var(--accent-hover);
+}
+
+.special-gate .gate-continue:active {
+  transform: translateY(0);
+}
+
+/* ── Guest Limits UI ── */
+.guest-gate-card {
+  background: var(--bg-card);
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 40px 24px;
+  text-align: center;
+  margin: 20px 0;
+  animation: fadeIn var(--t) ease;
+}
+
+.guest-gate-icon {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.guest-gate-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.guest-gate-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.guest-gate-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.guest-gate-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.guest-limit-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  background: linear-gradient(to bottom right, var(--bg-card), var(--accent-soft));
+}
+
+.guest-limit-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.guest-limit-icon {
+  font-size: 2.5rem;
+  color: var(--accent);
+}
+
+.guest-limit-text h4 {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.guest-limit-text p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.guest-limit-btn {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+@media (min-width: 600px) {
+  .guest-limit-content {
+    flex-direction: row;
+    text-align: left;
+    justify-content: space-between;
+  }
+  .guest-limit-btn {
+    white-space: nowrap;
+  }
+}

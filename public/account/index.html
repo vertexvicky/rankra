@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Account - Rankra</title>
+  <meta name="description" content="Manage your Rankra account, update profile details, and personalize your experience." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/png" href="../assets/rankra_favicon30.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../shared/css/tokens.css" />
+  <link rel="stylesheet" href="../shared/css/reset.css" />
+  <link rel="stylesheet" href="../shared/css/animations.css" />
+  <link rel="stylesheet" href="../shared/css/components.css" />
+  <link rel="stylesheet" href="../shared/css/layout.css" />
+  <link rel="stylesheet" href="account.css" />
+</head>
+<body class="light">
+
+  <header class="site-header" role="banner"></header>
+
+  <main class="account-main">
+    <div class="account-card" id="account-card">
+      <div class="account-loading" id="account-loading">
+        <div class="spinner"></div>
+        <p>Loading profile…</p>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../shared/components/auth/auth.js"></script>
+  <script type="module">
+    import { $ } from '../shared/js/utils.js';
+    import { SiteHeader } from '../shared/js/SiteHeader.js';
+    import { applyTheme } from '../shared/js/theme.js';
+
+    applyTheme();
+    new SiteHeader({ title: 'TNEA cutoff', logoPath: '../assets/rankra_logo50.png' });
+
+    const card = $('account-card');
+
+    function renderProfile(user, profile) {
+      if (profile.isGuest) {
+        card.innerHTML = `
+          <div class="profile-header guest-view">
+            <div class="avatar-circle"><i class="fa-solid fa-user-secret"></i></div>
+            <div class="profile-name-area">
+              <h2 class="profile-display-name">Sign in to get unlimited free results</h2>
+            </div>
+          </div>
+          <p class="guest-notice-text">Sign in to unlock personalized insights, unlimited searches, and sync your profile across devices.</p>
+          <button class="logout-btn" onclick="window.RankraAuth.showLogin()"><i class="fa-solid fa-right-to-bracket"></i> Sign in now</button>
+        `;
+        return;
+      }
+
+      const initial = (profile.displayName || user.email || '?')[0].toUpperCase();
+      const provider = user.providerData[0]?.providerId === 'google.com' ? 'Google' : 'Email';
+      
+      card.innerHTML = `
+        <div class="profile-header">
+          <div class="avatar-circle" id="avatar-circle">${initial}</div>
+          <div class="profile-name-area">
+            <h2 class="profile-display-name">${profile.displayName || 'No name set'}</h2>
+            <p class="profile-email">${user.email}</p>
+            <span class="profile-badge">${provider}</span>
+          </div>
+        </div>
+
+        <button class="profile-edit-btn" id="profile-edit-btn" type="button">Edit</button>
+
+        <div class="profile-info" id="profile-info">
+          <div class="info-row"><span class="info-label">Role</span><span class="info-value" id="val-role">${profile.role || '—'}</span></div>
+          <div class="info-row"><span class="info-label">Medium</span><span class="info-value" id="val-medium">${profile.medium || '—'}</span></div>
+          <div class="info-row"><span class="info-label">School Type</span><span class="info-value" id="val-schoolType">${profile.schoolType || '—'}</span></div>
+          <div class="info-row"><span class="info-label">Community</span><span class="info-value" id="val-community">${profile.community || '—'}</span></div>
+          <div class="info-row"><span class="info-label">Gender</span><span class="info-value" id="val-gender">${profile.gender || '—'}</span></div>
+        </div>
+
+        <div class="profile-edit-form hidden" id="profile-edit-form">
+          <div class="edit-group">
+            <label class="edit-label">Display Name</label>
+            <input type="text" class="edit-input" id="edit-name" value="${profile.displayName || ''}" />
+          </div>
+
+          <div class="edit-group">
+            <label class="edit-label">Role</label>
+            <div class="edit-chips" data-field="role">
+              <button type="button" class="edit-chip ${profile.role === 'Student' ? 'selected' : ''}" data-value="Student">Student</button>
+              <button type="button" class="edit-chip ${profile.role === 'Teacher' ? 'selected' : ''}" data-value="Teacher">Teacher</button>
+            </div>
+          </div>
+
+          <div class="edit-group">
+            <label class="edit-label">Medium</label>
+            <div class="edit-chips" data-field="medium">
+              <button type="button" class="edit-chip ${profile.medium === 'Tamil' ? 'selected' : ''}" data-value="Tamil">Tamil</button>
+              <button type="button" class="edit-chip ${profile.medium === 'English' ? 'selected' : ''}" data-value="English">English</button>
+            </div>
+          </div>
+
+          <div class="edit-group">
+            <label class="edit-label">School Type</label>
+            <div class="edit-chips" data-field="schoolType">
+              <button type="button" class="edit-chip ${profile.schoolType === 'Govt' ? 'selected' : ''}" data-value="Govt">Govt</button>
+              <button type="button" class="edit-chip ${profile.schoolType === 'Aided' ? 'selected' : ''}" data-value="Aided">Aided</button>
+              <button type="button" class="edit-chip ${profile.schoolType === 'Private' ? 'selected' : ''}" data-value="Private">Private</button>
+            </div>
+          </div>
+
+          <div class="edit-group" id="edit-community-group">
+            <label class="edit-label">Community</label>
+            <div class="edit-chips" data-field="community">
+              ${['OC','BC','BCM','MBC','SC','SCA','ST'].map(c => 
+                `<button type="button" class="edit-chip ${profile.community === c ? 'selected' : ''}" data-value="${c}">${c}</button>`
+              ).join('')}
+            </div>
+          </div>
+
+          <div class="edit-group">
+            <label class="edit-label">Gender</label>
+            <div class="edit-chips" data-field="gender">
+              <button type="button" class="edit-chip ${profile.gender === 'Male' ? 'selected' : ''}" data-value="Male">Male</button>
+              <button type="button" class="edit-chip ${profile.gender === 'Female' ? 'selected' : ''}" data-value="Female">Female</button>
+              <button type="button" class="edit-chip ${profile.gender === 'Other' ? 'selected' : ''}" data-value="Other">Other</button>
+            </div>
+          </div>
+
+          <div class="edit-actions">
+            <button class="edit-cancel-btn" id="edit-cancel-btn" type="button">Cancel</button>
+            <button class="edit-update-btn disabled" id="edit-update-btn" type="button" disabled>Update</button>
+          </div>
+        </div>
+
+        <button class="logout-btn" id="page-logout-btn" type="button"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      `;
+
+      // ── Original values for dirty check ──
+      const original = {
+        displayName: profile.displayName || '',
+        role: profile.role || '',
+        medium: profile.medium || '',
+        schoolType: profile.schoolType || '',
+        community: profile.community || '',
+        gender: profile.gender || ''
+      };
+
+      // ── Chip logic ──
+      card.querySelectorAll('.edit-chips').forEach(container => {
+        container.addEventListener('click', (e) => {
+          const chip = e.target.closest('.edit-chip');
+          if (!chip) return;
+          container.querySelectorAll('.edit-chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+
+          // Teacher toggle: grey community
+          if (container.dataset.field === 'role') {
+            const cg = $('edit-community-group');
+            if (chip.dataset.value === 'Teacher') {
+              cg.classList.add('edit-section-disabled');
+            } else {
+              cg.classList.remove('edit-section-disabled');
+            }
+          }
+
+          checkDirty();
+        });
+      });
+
+      // ── Dirty check ──
+      function getEditValues() {
+        const getChip = (f) => {
+          const s = card.querySelector(`.edit-chips[data-field="${f}"] .edit-chip.selected`);
+          return s ? s.dataset.value : '';
+        };
+        return {
+          displayName: $('edit-name').value.trim(),
+          role: getChip('role'),
+          medium: getChip('medium'),
+          schoolType: getChip('schoolType'),
+          community: getChip('community'),
+          gender: getChip('gender')
+        };
+      }
+
+      function checkDirty() {
+        const current = getEditValues();
+        const isDirty = Object.keys(original).some(k => current[k] !== original[k]);
+        const btn = $('edit-update-btn');
+        if (isDirty) {
+          btn.disabled = false;
+          btn.classList.remove('disabled');
+        } else {
+          btn.disabled = true;
+          btn.classList.add('disabled');
+        }
+      }
+
+      $('edit-name').addEventListener('input', checkDirty);
+
+      // ── Toggle edit ──
+      $('profile-edit-btn').addEventListener('click', () => {
+        $('profile-info').classList.add('hidden');
+        $('profile-edit-btn').classList.add('hidden');
+        $('profile-edit-form').classList.remove('hidden');
+        
+        // Sync teacher state
+        const role = card.querySelector('.edit-chips[data-field="role"] .edit-chip.selected');
+        if (role && role.dataset.value === 'Teacher') {
+          $('edit-community-group').classList.add('edit-section-disabled');
+        }
+      });
+
+      $('edit-cancel-btn').addEventListener('click', () => {
+        $('profile-info').classList.remove('hidden');
+        $('profile-edit-btn').classList.remove('hidden');
+        $('profile-edit-form').classList.add('hidden');
+      });
+
+      // ── Save ──
+      $('edit-update-btn').addEventListener('click', async () => {
+        const btn = $('edit-update-btn');
+        if (btn.disabled) return;
+        btn.textContent = 'Saving...';
+        btn.disabled = true;
+
+        try {
+          const vals = getEditValues();
+          if (vals.role === 'Teacher') vals.community = null;
+          await window.RankraAuth.updateProfile(vals);
+          
+          // Refresh the whole view with updated profile
+          const updatedProfile = window.RankraAuth.getProfile();
+          renderProfile(user, updatedProfile);
+        } catch (err) {
+          alert('Failed to save: ' + err.message);
+          btn.textContent = 'Update';
+          btn.disabled = false;
+        }
+      });
+
+      // ── Logout ──
+      $('page-logout-btn').addEventListener('click', () => {
+        if (window.RankraAuth) window.RankraAuth.logout();
+      });
+    }
+
+    // Boot
+    const waitForAuth = setInterval(() => {
+      if (window.RankraAuth) {
+        clearInterval(waitForAuth);
+        window.RankraAuth.requireAuth((user, profile) => {
+          renderProfile(user, profile);
+        });
+      }
+    }, 50);
+  </script>
+</body>
+</html>

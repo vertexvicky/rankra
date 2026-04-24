@@ -14,18 +14,20 @@
 5. [/public/shared/css — Design System](#5-publicsharedcss--design-system)
 6. [/public/shared/js — Core Utilities](#6-publicsharedjs--core-utilities)
 7. [/public/shared/components/dummy-ad — Ad Component](#7-publicsharedcomponentsdummy-ad--ad-component)
-8. [/public/assets — Media and Data](#8-publicassets--media-and-data)
-9. [/public/assets — Brand Assets](#9-publicassets--brand-assets)
-10. [/public/tnea/cutoff — TNEA Application](#10-publictneacutoff--tnea-application)
-    - [index.html](#1001-tnea-cutoff-indexhtml)
-    - [tnea-config.js](#1002-tnea-cutoff-tnea-configjs)
-    - [tnea.css](#1003-tnea-cutoff-tneacss)
-    - [tnea.js — Full Function Reference](#1004-tnea-cutoff-tneajs)
-11. [Data Schema Reference](#11-data-schema-reference)
-12. [Data Security Pipeline](#12-data-security-pipeline)
-13. [Monetization & Ad Engine](#13-monetization--ad-engine)
-14. [localStorage Keys Reference](#14-localstorage-keys-reference)
-15. [Developer Runbooks](#15-developer-runbooks)
+8. [/public/shared/components/auth — Authentication & Onboarding](#8-publicsharedcomponentsauth--authentication--onboarding)
+9. [/public/assets — Media and Data](#9-publicassets--media-and-data)
+10. [/public/assets — Brand Assets](#10-publicassets--brand-assets)
+11. [/public/tnea/cutoff — TNEA Application](#11-publictneacutoff--tnea-application)
+    - [index.html](#1101-tnea-cutoff-indexhtml)
+    - [tnea-config.js](#1102-tnea-cutoff-tnea-configjs)
+    - [tnea.css](#1103-tnea-cutoff-tneacss)
+    - [tnea.js — Full Function Reference](#1104-tnea-cutoff-tneajs)
+12. [/public/account — Account Page](#12-publicaccount--account-page)
+13. [Data Schema Reference](#13-data-schema-reference)
+14. [Data Security Pipeline](#14-data-security-pipeline)
+15. [Monetization & Ad Engine](#15-monetization--ad-engine)
+16. [localStorage Keys Reference](#16-localstorage-keys-reference)
+17. [Developer Runbooks](#17-developer-runbooks)
 
 ---
 
@@ -40,20 +42,31 @@
 
 The UI is built using **pure HTML, CSS, and vanilla ES Modules** — no bundler, no framework, no npm runtime dependency.
 
+### User Access & Freemium Model
+Rankra implements a tiered access model to balance user acquisition with data security:
+- **Guest Mode (Default)**: New users can explore the platform immediately. 
+  - **Limits**: Guests are restricted to 5 filter applications per session (tracked via `localStorage`) and see a maximum of 20 results per search.
+  - **UI Gate**: Once limits are reached, a "Sign in for Free Access" gate appears, encouraging account creation to unlock full data.
+- **Registered Mode**: Creating a free account (Google or Email) removes all search/filter limits and unlocks the full list of 500+ records.
+
 ---
 
 ## 2. Full Directory Tree
 
 ```
 rankra/
-├── .agents/                    ← AI assistant internal state (git-ignored)
 ├── .git/                       ← Git version control metadata
 ├── .gitignore                  ← Files excluded from git tracking
-├── .vscode/                    ← VS Code editor settings (git-ignored)
-├── brain/                      ← AI assistant scratch space (git-ignored)
 ├── functions/                  ← Specialized backend logic
+│   └── api/
+│       └── chat.js             ← Serverless function handling Gemini API chat
 ├── local_changelog.md          ← Detailed changelog with uncommitted tracking
 ├── public/
+│   ├── about/                  ← About Us page
+│   │   └── index.html          ← About page entry point
+│   ├── account/                ← User account & profile management page
+│   │   ├── account.css         ← Account page styles (avatar, info rows, edit form)
+│   │   └── index.html          ← Account page entry point
 │   ├── assets/
 │   │   ├── db/
 │   │   │   └── tnea/
@@ -70,31 +83,57 @@ rankra/
 │   │   ├── rankra_favicon30.png    ← Browser tab favicon (30px)
 │   │   ├── rankra_logo.png         ← Full-size logo for portal page
 │   │   └── rankra_logo50.png       ← 50px logo used in app headers
+│   ├── colleges/               ← College information pages
+│   │   └── sample/             ← Sample college implementation
+│   │       ├── college-config.js ← JSON configuration for sample college
+│   │       ├── index.html      ← Sample college entry point
+│   │       └── index.js        ← Initialization script for sample college
+│   ├── contact/                ← Contact Us page
+│   │   └── index.html          ← Contact page entry point
+│   ├── disclaimer/             ← Disclaimer page
+│   │   └── index.html          ← Disclaimer page entry point
+│   ├── home/  
+│   │   └── index.html          ← Home page entry point backup
 │   ├── index.html              ← Ecosystem portal / landing page
+│   ├── privacy/                ← Privacy Policy page
+│   │   └── index.html          ← Privacy Policy page entry point
 │   ├── shared/
 │   │   ├── components/
+│   │   │   ├── auth/
+│   │   │   │   ├── auth.css    ← Auth modal, onboarding chips, toast styles
+│   │   │   │   └── auth.js     ← Firebase auth, Firestore profiles, onboarding
 │   │   │   └── dummy-ad/
-│   │   │       ├── dummy-ad.css    ← Styles for the ad simulator widget
-│   │   │       └── dummy-ad.js     ← Ad mockup generator function
+│   │   │       ├── dummy-ad.css ← Styles for the ad simulator widget
+│   │   │       └── dummy-ad.js  ← Ad mockup generator function
 │   │   ├── css/
-│   │   │   ├── animations.css      ← All @keyframes animations
-│   │   │   ├── components.css      ← Reusable UI component styles
-│   │   │   ├── layout.css          ← Header, filter bar, and page structure
-│   │   │   ├── reset.css           ← Browser defaults reset + base typography
-│   │   │   └── tokens.css          ← CSS variables (colors, spacing, themes)
+│   │   │   ├── animations.css  ← All @keyframes animations
+│   │   │   ├── college.css     ← Styles for the dynamic college page layouts
+│   │   │   ├── components.css  ← Reusable UI component styles
+│   │   │   ├── layout.css      ← Header, filter bar, and page structure
+│   │   │   ├── pages.css       ← Typography and layout for text/legal pages
+│   │   │   ├── reset.css       ← Browser defaults reset + base typography
+│   │   │   └── tokens.css      ← CSS variables (colors, spacing, themes)
 │   │   └── js/
-│   │       ├── ad-engine.js        ← Ad injection utilities
-│   │       ├── sw-register.js      ← Service Worker registration + cache revision
-│   │       ├── theme.js            ← Dark/light mode toggle utility
-│   │       ├── trie.js             ← Prefix-tree for O(n) real-time search
-│   │       └── utils.js            ← DOM helpers and string utilities
+│   │       ├── FilterSheet.js  ← Reusable mobile filter bottom sheet component
+│   │       ├── SiteHeader.js   ← Shared header + hamburger menu component
+│   │       ├── ad-engine.js    ← Ad injection utilities
+│   │       ├── college/        ← College page utilities
+│   │       │   ├── college-page.js ← Generic college page rendering logic
+│   │       │   └── colleges.json   ← Static data schema for colleges
+│   │       ├── sw-register.js  ← Service Worker registration + cache revision
+│   │       ├── theme.js        ← Dark/light mode toggle utility
+│   │       ├── trie.js         ← Prefix-tree for O(n) real-time search
+│   │       └── utils.js        ← DOM helpers and string utilities
+│   ├── terms/                  ← Terms of Service page
+│   │   └── index.html          ← Terms of Service entry point
 │   └── tnea/
 │       └── cutoff/
-│           ├── index.html          ← TNEA Cutoff app entry point
-│           ├── tnea-config.js      ← App configuration (years, communities, seat keys)
-│           ├── tnea.css            ← App-specific styles (cutoff table, year tabs)
-│           └── tnea.js             ← Main application logic engine (769 lines)
-└── structure.md                ← This document
+│           ├── index.html      ← TNEA Cutoff app entry point
+│           ├── tnea-config.js  ← App configuration (years, communities, seat keys)
+│           ├── tnea.css        ← App-specific styles (cutoff table, year tabs)
+│           └── tnea.js         ← Main application logic engine
+├── structure.md                ← This document
+└── sysprompt.md                ← AI assistant system prompt
 ```
 
 ---
@@ -102,14 +141,16 @@ rankra/
 ## 3. Root-Level Files
 
 ### `.gitignore`
-Excludes files from git version control to keep the repository clean:
-- `.venv/`, `venv/`, `__pycache__/` — Python virtual environments (unused, included for safety)
-- `.vscode/` — Editor-specific settings that vary per developer
+Excludes files from git version control to keep the repository clean. Files in this list are generally excluded from documentation as well:
+- `.venv/`, `venv/`, `__pycache__/` — Python virtual environments
+- `.vscode/` — Editor-specific settings
 - `.DS_Store`, `Thumbs.db` — macOS/Windows OS artifacts
-- `node_modules/` — npm packages (none currently installed, included for safety)
+- `node_modules/` — npm packages
 - `*.log` — Log files
-- `.agents/` — AI assistant internal context files
-- `.fiveserver.config.js` — Local dev server config (not to be committed)
+- `.agents/`, `brain/`, `scratchbook/`, `.antigravityignore` — AI assistant internal context and scratch files
+- `.fiveserver.config.js` — Local dev server config
+- `.env`, `.dev.vars` — Secret environment variables
+- `.wrangler/` — Cloudflare Wrangler deployment state
 
 ---
 
@@ -145,7 +186,13 @@ This document. Provides the complete technical reference for the entire codebase
 
 ## 4. /functions — Backend Logic
 
-This directory contains specialized backend logic and serverless functions.
+This directory contains specialized backend logic and serverless functions designed to run on Cloudflare Pages/Workers.
+
+### `functions/api/chat.js`
+A serverless endpoint handling chat queries directed to the Gemini API (`gemma-3-27b-it` model).
+
+- **Functionality**: Extracts the `GEMINI_API_KEY` from the environment, processes the user prompt, sends it to Google Generative Language API, and streams the AI's response back via Server-Sent Events (SSE).
+- **System Instructions**: The AI is instructed to act as "Rankra AI," offering friendly career guidance for 12th-grade students.
 
 ---
 
@@ -431,6 +478,8 @@ export async function checkRevision(apiPath) {
 
 ## 7. /public/shared/components/dummy-ad — Ad Component
 
+> See also: [Section 8 — Auth Component](#8-publicsharedcomponentsauth--authentication--onboarding)
+
 ### `dummy-ad.js`
 A self-contained ad simulator used **in place of real AdSense ad units** during development and as actual "house ads" in production. The same function is used for both vignette and in-feed ad placements.
 
@@ -472,7 +521,66 @@ Styles for the ad simulator widget.
 
 ---
 
-## 8. /public/assets — Media and Data
+## 8. /public/shared/components/auth — Authentication & Onboarding
+
+A self-contained Firebase-based authentication and profile onboarding system. Replaces the legacy community gate with a database-backed user profile.
+
+### `auth.js`
+The core authentication engine (~490 lines). An ES Module that self-initializes on import.
+
+**Dependencies:**
+- Firebase SDK v10.8.0 (loaded as ES modules from CDN): `firebase-app`, `firebase-auth`, `firebase-firestore`
+- Injects its own CSS (`auth.css`) into the document head on load
+
+**Firebase Services:**
+- **Auth:** Google sign-in (`signInWithPopup`), email/password (`createUserWithEmailAndPassword`, `signInWithEmailAndPassword`), email verification (`sendEmailVerification`), password reset (`sendPasswordResetEmail`)
+- **Firestore:** User profiles stored in `users/{uid}` collection
+
+**Onboarding Fields (horizontal chip selectors):**
+Collected during first sign-up, in this order:
+1. **Role** — Student (default) / Teacher
+2. **Medium** — Tamil / English
+3. **School Type** — Govt / Aided / Private
+4. **Community** — OC / BC / BCM / MBC / SC / SCA / ST (greyed out for Teachers)
+5. **Gender** — Male / Female / Other
+
+**Teacher Logic:** When "Teacher" is selected, only the Community section is disabled (greyed out via `.auth-section-disabled`). Medium and School Type remain mandatory for all users.
+
+**Views (4 states inside the modal):**
+1. **`view-email`** — Initial login screen. Google button + email input. Shows "Don't have an account?" link.
+2. **`view-password`** — Email login with password field. Back arrow returns to email view.
+3. **`view-signup`** — Full registration: Name, Email, Password + all onboarding fields inline. Google button available here too.
+4. **`view-onboarding`** — Shown to Google users who don't have a profile yet. "Welcome to Rankra" with onboarding fields + Continue button.
+
+**Profile Caching Strategy:**
+- On profile save: writes to both Firestore AND `localStorage` (`rankra_profile_{uid}`)
+- On profile load: checks `localStorage` first. Only calls Firestore if cache is empty.
+- Result: **zero Firestore reads** on subsequent visits for existing users.
+
+**Validation Toast:** When users click Continue without selecting all required fields, a small pill-shaped toast slides down from the top of the screen listing exactly which fields are missing (e.g., "Select medium, school type, gender"). Auto-dismisses after 3 seconds.
+
+**Exported API (`window.RankraAuth`):**
+| Method | Description |
+|---|---|
+| `requireAuth(callback)` | Waits for Firebase auth state, shows login if needed, calls `callback(user, profile)` on success |
+| `updateProfile(data)` | Merges new data into the existing profile, saves to Firestore + cache, returns updated profile |
+| `logout()` | Clears profile cache, signs out, reloads page |
+| `getCurrentUser()` | Returns the current Firebase `User` object or `null` |
+| `getProfile()` | Returns the cached profile object or `null` |
+
+### `auth.css`
+Styles for the auth modal system (~400 lines).
+
+**Key classes:**
+- `.auth-overlay` — Full-screen backdrop with blur effect, z-index 10000
+- `.auth-sheet` — Modal card, `max-width: 440px`, `max-height: 85vh`, with custom slim scrollbar
+- `.auth-chip` / `.auth-chips` — Horizontal selection chips with `.selected` state (accent border + background)
+- `.auth-section-disabled` — Applied to community section when Teacher is selected (opacity 0.4, pointer-events none, grayscale)
+- `.auth-toast` — Fixed-position pill toast at top-center with slide-down animation
+
+---
+
+## 9. /public/assets — Media and Data
 
 ### `/public/assets/engineering/tnea/cutoff/tnea100.png`
 The TNEA brand/logo image (100px dimensions). Used in the app header and on the root portal.
@@ -494,7 +602,7 @@ Contains 5 binary data files. **There are no raw JSON files here.** All data has
 
 ---
 
-## 9. /public/assets — Brand Assets
+## 10. /public/assets — Brand Assets
 
 | File | Size | Usage |
 |---|---|---|
@@ -504,9 +612,9 @@ Contains 5 binary data files. **There are no raw JSON files here.** All data has
 
 ---
 
-## 10. /public/tnea/cutoff — TNEA Application
+## 11. /public/tnea/cutoff — TNEA Application
 
-### 10.01 `public/tnea/cutoff/index.html`
+### 11.01 `public/tnea/cutoff/index.html`
 The main entry point for the TNEA Cutoff web app. 257 lines.
 
 **`<head>` section:**
@@ -515,9 +623,8 @@ The main entry point for the TNEA Cutoff web app. 257 lines.
 - **Font:** Google Inter font loaded via `fonts.googleapis.com`.
 - **CSS load order:** `tokens.css` → `reset.css` → `animations.css` → `components.css` → `layout.css` → `dummy-ad.css` → `tnea.css`. Each layer relies on variables defined by the previous.
 
-**Overlays (before main content in DOM):**
-
-**Community Gate `#community-gate` (lines 34–52):** A full-screen overlay (`overlay-full hidden`) with a modal sheet. On first visit (when `tnea-primary` is not in localStorage), this is shown. Contains 7 `.gate-chip` buttons for OC, BC, BCM, MBC, SC, SCA, ST. The `#gate-continue` button is disabled until a chip is selected. Selecting a chip sets the user's primary community for the session.
+**Authentication:**
+The TNEA app uses the shared auth component (`shared/components/auth/auth.js`) for user authentication and profile-based community selection. On first visit, users must sign in and complete onboarding. The community gate overlay has been removed and replaced by the auth onboarding flow. The user's community preference is now read from their Firestore-backed profile.
 
 **District Bottom Sheet `#district-sheet` (lines 55–71):** Mobile-only sliding panel that replaces the desktop dropdown. Contains a search input (`#district-sheet-search`), a scrollable list of checkboxes (`#district-sheet-list`), and a footer with "Clear All" + "Apply" buttons. Has a backdrop element (`#district-sheet-backdrop`) that closes the sheet when clicked.
 
@@ -545,7 +652,7 @@ The main entry point for the TNEA Cutoff web app. 257 lines.
 
 ---
 
-### 10.02 `public/tnea/cutoff/tnea-config.js`
+### 11.02 `public/tnea/cutoff/tnea-config.js`
 A **pure configuration object** for the TNEA app. Contains no logic. Changing this file is the correct way to modify app-wide settings.
 
 ```js
@@ -581,7 +688,7 @@ export const TNEA_CONFIG = {
 
 ---
 
-### 10.03 `public/tnea/cutoff/tnea.css`
+### 11.03 `public/tnea/cutoff/tnea.css`
 Application-specific CSS file that overrides and extends the shared styles for TNEA-specific components.
 
 **Year Tabs (`.year-tab`):** `padding: 2px 12px; border-radius: 18px; border: 1.5px solid transparent`. Active state has `background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600`.
@@ -619,7 +726,7 @@ Application-specific CSS file that overrides and extends the shared styles for T
 
 ---
 
-### 10.04 `public/tnea/cutoff/tnea.js`
+### 11.04 `public/tnea/cutoff/tnea.js`
 The **core application logic engine** (769 lines). An ES Module that imports utilities, manages state, handles data, and drives the entire TNEA Cutoff UI.
 
 #### Imports (lines 1–5)
@@ -1021,7 +1128,75 @@ Boots the entire app when the DOM is fully parsed. This is the last line.
 
 ---
 
-## 11. Data Schema Reference
+## 12. /public/account — Account Page
+
+A dedicated profile management page at `/account/`.
+
+### `account/index.html`
+Single-page app that loads the auth component and renders the user's profile.
+
+**Features:**
+- **Avatar Circle** — Shows the first letter of the user's display name in a gradient circle (accent → indigo)
+- **Profile Info (readonly)** — Displays Role, Medium, School Type, Community, Gender in clean label-value rows with dividers
+- **Provider Badge** — Small pill showing "Google" or "Email" depending on sign-in method
+- **Edit Button** — Blue text link (no decoration) positioned between avatar and info. Toggles into edit mode.
+- **Edit Mode** — Replaces readonly info with editable chip selectors (same pattern as onboarding) + a text input for Display Name
+- **Dirty-State Update Button** — Greyed out and disabled by default. Only becomes active (blue) when the user actually changes a value from the original. Uses a `checkDirty()` function that compares all current values against the snapshot taken when edit mode opened.
+- **Teacher Logic** — Same as onboarding: selecting Teacher greys out the Community section
+- **Logout Button** — Full-width red outline button at the bottom
+
+### `account/account.css`
+Page-specific styles (~280 lines). Key classes:
+- `.avatar-circle` — 56px gradient circle with centered letter
+- `.profile-edit-btn` — Blue text, no border/background
+- `.info-row` — Flex row with label and value, separated by bottom borders
+- `.edit-chip` / `.edit-chips` — Same visual pattern as auth chips
+- `.edit-update-btn.disabled` — Greyed out via `opacity: 0.4` and muted background
+- `.edit-section-disabled` — Same disabled pattern for Teacher community section
+
+---
+
+## 13. Support & Legal Pages
+
+A collection of static and interactive text-heavy pages providing support, policies, and company information. These pages leverage the shared `pages.css` file for a consistent, premium typographical layout.
+
+### `public/about/index.html`
+Describes the Rankra mission, data sources, and technical foundation. Includes a clean hero section and markdown-like structural content.
+
+### `public/contact/index.html`
+Features a two-column responsive layout. On the left, a "Reach Out to Us" form (mocked submission) with Name, Email, Topic dropdown, and Message field. On the right, direct email information (`hello@rankra.com`) and operating hours.
+
+### Legal Pages (`privacy`, `terms`, `disclaimer`)
+Each contains a structured, multi-section text layout outlining policies, data handling practices, and service agreements respectively.
+
+---
+
+## 14. College Information System
+
+A dynamic, data-driven framework for generating detailed pages for individual colleges.
+
+### `public/colleges/sample/`
+A sample implementation showing how the college renderer is used.
+- `index.html` — The basic HTML shell.
+- `index.js` — Bootstraps the renderer by passing data to `renderCollegePage`.
+- `college-config.js` — A massive JSON object demonstrating the complete schema (stats, signals, seat breakdown, cutoffs, markdown content).
+
+### `public/shared/js/college/college-page.js`
+The heavy-lifting rendering engine (~500 lines). Exported function `renderCollegePage(mountEl, rawCollege)` dynamically builds the entire DOM structure:
+- **`renderHero`**: District, establishment year, and quick-info chips.
+- **`renderNav`**: Sticky scroll-spy navigation.
+- **`renderOverview`**: A grid of stats (`stat-card`), supporting star ratings, level pills (High/Medium/Low with sentiment colors), and external links.
+- **`renderCutoff`**: Reusable cutoff tables for multiple branches over multiple years.
+- **`renderSeats`**: Seat distribution tables per branch across all communities.
+- **Markdown Renderer**: Custom markdown parser handling bold, italic, code blocks, links, and lists for the Recruiters and More Info sections.
+- **SEO & JSON-LD**: Automatically injects dynamic meta descriptions and `CollegeOrUniversity` schema.org markup.
+
+### `public/shared/css/college.css`
+Contains all the specialized styling for the college page UI. Includes classes for `.college-hero`, `.stat-grid`, `.star-rating`, `.level-pill`, `.cutoff-table`, and scroll-spy sticky `.college-nav`.
+
+---
+
+## 15. Data Schema Reference
 
 Each record object in the decoded data array has the following fields:
 
@@ -1061,7 +1236,7 @@ Each record object in the decoded data array has the following fields:
 
 ---
 
-## 12. Data Security Pipeline
+## 16. Data Security Pipeline
 
 ### Why it exists
 Raw JSON data is ~2MB per year file. Exposing it directly would let anyone trivially scrape, copy, or redistribute the TNEA cutoff dataset. The pipeline provides basic data protection and massive bandwidth savings.
@@ -1101,7 +1276,7 @@ Handled entirely by `_rx()` in `tnea.js`. Data is only ever held in memory as th
 
 ---
 
-## 13. Monetization & Ad Engine
+## 17. Monetization & Ad Engine
 
 ### Vignette Ads (Full-Screen Overlay)
 **Trigger condition:** `!vignetteTime || (now - vignetteTime) > 10 * 60 * 1000`
@@ -1125,19 +1300,18 @@ Handled entirely by `_rx()` in `tnea.js`. Data is only ever held in memory as th
 
 ---
 
-## 14. localStorage Keys Reference
+## 18. localStorage Keys Reference
 
-| Key | Set by | Value | Purpose |
-|---|---|---|---|
 | `rankra-theme` | `theme.js → applyTheme()` | `'light'` or `'dark'` | Persists user theme preference |
 | `rankra-app-revision` | `sw-register.js → checkRevision()` | Integer string | Tracks app version for cache busting |
-| `tnea-primary` | `tnea.js → showGate()` | Community string e.g. `'OC'` | User's selected primary community |
+| `rankra_profile_{uid}` | `auth.js → saveUserProfile() / getCachedProfile()` | JSON string | Cached Firestore user profile (role, community, gender, etc.) |
+| `rankra_guest_filters` | `tnea.js → handleFilterClick()` | Integer string | Tracks number of filter applications for guest users |
 | `vignette_ad_time` | `tnea.js → init()` | Unix timestamp ms string | Last vignette ad shown time |
 | `native_ad_last_time` | `tnea.js → tryInjectAd()` | Unix timestamp ms string | Last in-feed ad shown time |
 
 ---
 
-## 15. Developer Runbooks
+## 19. Developer Runbooks
 
 ### ➕ Adding a New Year of Data
 1. Obtain the raw JSON file in the original schema format

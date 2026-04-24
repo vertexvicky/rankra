@@ -26,7 +26,9 @@ const S = {
   sortBy: 'cutoff-desc',
   currentPage: 1,
   pageSize: 20,
-  isMobile: window.innerWidth < 1024
+  isMobile: window.innerWidth < 1024,
+  isGuest: false,
+  filterCount: parseInt(localStorage.getItem('rankra_guest_filters') || '0', 10)
 };
 
 let shDistrict, shCollege, shCourse;
@@ -162,7 +164,32 @@ function initFromURL() {
 }
 
 async function init() {
+
+  const waitForAuth = setInterval(() => {
+    if (window.RankraAuth) {
+      clearInterval(waitForAuth);
+      window.RankraAuth.requireAuth((user, profile) => {
+        
+        S.isGuest = profile.isGuest || false;
+        
+        // Use community from profile
+        const community = profile.community || 'OC'; // Default to OC if teacher or guest
+        S.primaryComm = community;
+        if (!S.cutoffComm) S.cutoffComm = community;
+        
+        // Cache in memory for this session
+        localStorage.setItem('tnea-primary', community);
+        
+        // Set UI and boot using the resolved cutoffComm (respects URL if present)
+        setCommUI(S.cutoffComm);
+        boot();
+      });
+    }
+  }, 50);
+
+
   S.isMobile = window.innerWidth < 1024;
+
 
   shDistrict = new FilterSheet('district-sheet', {
     title: 'Select District',
@@ -230,44 +257,9 @@ async function init() {
   if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
     applyTheme('dark');
   }
-
-  // Community gate
-  const p = localStorage.getItem('tnea-primary');
-  if (!p) {
-    showGate();
-  } else {
-    S.primaryComm = p;
-    if (!S.cutoffComm) S.cutoffComm = p;
-    setCommUI(S.cutoffComm);
-    boot();
-  }
 }
 
-/* ── Community Gate ── */
-function showGate() {
-  const gate = $('community-gate');
-  gate.classList.remove('hidden');
-  let selected = null;
 
-  gate.querySelectorAll('.gate-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      gate.querySelectorAll('.gate-chip').forEach(c => c.classList.remove('selected'));
-      chip.classList.add('selected');
-      selected = chip.dataset.community;
-      $('gate-continue').disabled = false;
-    });
-  });
-
-  $('gate-continue').addEventListener('click', () => {
-    if (!selected) return;
-    S.primaryComm = selected;
-    if (!S.cutoffComm) S.cutoffComm = selected;
-    setCommUI(S.cutoffComm);
-    localStorage.setItem('tnea-primary', selected);
-    gate.classList.add('hidden');
-    boot();
-  });
-}
 
 async function boot() {
   renderSkeletons();
@@ -389,8 +381,13 @@ function applyFilters() {
 
   res = sortArr(res);
   S.filtered = res;
-  S.rendered = 0;
   S.expandedIdx = -1;
+
+  // Guest filter limit logic
+  if (S.isGuest) {
+    S.filterCount++;
+    localStorage.setItem('rankra_guest_filters', S.filterCount);
+  }
 }
 
 function sortArr(arr) {
@@ -427,12 +424,31 @@ function render() {
   applyFilters();
   syncURL();
   S.rendered = 0;
-  renderResults();
-  $('empty-state').classList.toggle('hidden', S.filtered.length > 0);
+
+  // Guest limit check: If > 5 filters, show hard wall
+  if (S.isGuest && S.filterCount > 5) {
+    renderGuestWall();
+  } else {
+    renderResults();
+    $('empty-state').classList.toggle('hidden', S.filtered.length > 0);
+  }
+
   if ($('results-count')) {
     const total = S.filtered.length;
     $('results-count').textContent = total > 0 ? `${total} result${total !== 1 ? 's' : ''}` : '';
   }
+}
+
+function renderGuestWall() {
+  const body = $('results-body');
+  body.innerHTML = `
+    <div class="guest-gate-card">
+      <div class="guest-gate-icon"><i class="fa-solid fa-rocket"></i></div>
+      <h3 class="guest-gate-title">Sign in to get unlimited free results</h3>
+      <button class="guest-gate-btn" onclick="window.RankraAuth.showLogin()">Sign in for Free Access</button>
+    </div>
+  `;
+  if ($('results-count')) $('results-count').textContent = '';
 }
 
 const BATCH = 7;
@@ -440,8 +456,20 @@ const BATCH = 7;
 function renderResults() {
   const body = $('results-body');
   const from = S.rendered;
-  const to = Math.min(from + BATCH, S.filtered.length);
-  if (from >= to) return;
+  
+  // Guest result limit logic: Cap at 20
+  let effectiveMax = S.filtered.length;
+  if (S.isGuest) effectiveMax = Math.min(effectiveMax, 20);
+
+  const to = Math.min(from + BATCH, effectiveMax);
+  
+  if (from >= to) {
+    // If we hit the 20 limit and there's more, show the guest card
+    if (S.isGuest && S.rendered >= 20 && S.filtered.length > 20 && !body.querySelector('.guest-limit-card')) {
+      renderGuestLimitCard();
+    }
+    return;
+  }
 
   const frag = document.createDocumentFragment();
   let lastCard = null;
@@ -474,6 +502,23 @@ function renderResults() {
     }, { rootMargin: '0px', threshold: 0.1 });
     _scrollObserver.observe(lastCard);
   }
+}
+
+function renderGuestLimitCard() {
+  const body = $('results-body');
+  const card = document.createElement('div');
+  card.className = 'guest-limit-card';
+  card.innerHTML = `
+    <div class="guest-limit-content">
+      <div class="guest-limit-icon"><i class="fa-solid fa-layer-group"></i></div>
+      <div class="guest-limit-text">
+        <h4>Want to see all ${S.filtered.length} results for free?</h4>
+        <p>Sign in to unlock full access to all 500+ engineering colleges.</p>
+      </div>
+      <button class="guest-limit-btn" onclick="window.RankraAuth.showLogin()">Sign in now</button>
+    </div>
+  `;
+  body.appendChild(card);
 }
 
 function renderSkeletons() {
@@ -610,7 +655,7 @@ function buildCollegeList() {
 
 function buildCourseList() {
   const map = new Map();
-  S.data.forEach(r => { if (r.brc && r.brn) map.set(r.brc, r.brn); });
+  S.data.forEach(r => { if (r.brc && r.brn) map.set(r.brc, r.brn.toUpperCase()); });
   const items = [...map.entries()].map(([v, l]) => ({ label: l, value: v })).sort((a, b) => {
     const sA = S.courses.has(a.value), sB = S.courses.has(b.value);
     if (sA !== sB) return sA ? -1 : 1;

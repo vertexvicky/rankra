@@ -37,6 +37,19 @@
 
 <body class="light">
 
+  <div id="special-access-gate" class="overlay-full hidden" role="dialog" aria-modal="true"
+    aria-label="Special Access">
+    <div class="overlay-backdrop"></div>
+    <div class="gate-sheet special-gate">
+      <div class="special-icon">
+        <i class="fa-solid fa-certificate"></i>
+      </div>
+      <h2 class="gate-title">Special Access</h2>
+      <p class="gate-subtitle">You are recognized as a trusted special access user. Welcome back to Rankra!</p>
+      <button class="gate-continue" id="special-gate-continue">Continue →</button>
+    </div>
+  </div>
+
   <div id="community-gate" class="overlay-full hidden" role="dialog" aria-modal="true"
     aria-label="Select your community">
     <div class="overlay-backdrop"></div>
@@ -257,6 +270,7 @@
 
   <div id="info-box-container" class="info-box-container"></div>
 
+  <script type="module" src="../../shared/components/auth/auth.js"></script>
   <script type="module" src="tnea.js"></script>
 </body>
 

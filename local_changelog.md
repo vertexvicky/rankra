@@ -2,7 +2,57 @@
 
 ---
 
-(uncommited)
+(committed)
+
+- **Authentication & Onboarding System**: Replaced the legacy community gate with a full Firebase-backed authentication and profile onboarding system.
+    - **Auth Component**: Created `shared/components/auth/auth.js` (~490 lines) and `auth.css` (~400 lines) as a self-contained, self-initializing module.
+    - **Firebase Integration**: Implemented Google sign-in (`signInWithPopup`), email/password registration with email verification, and password reset via Firebase Auth SDK v10.8.0.
+    - **Firestore Profiles**: User profiles (role, gender, community, school type, medium) are stored in Firestore `users/{uid}` collection and cached in `localStorage` (`rankra_profile_{uid}`) to avoid repeated database reads.
+    - **Onboarding Flow**: New users see horizontal chip selectors for Role (Student/Teacher), Medium (Tamil/English), School Type (Govt/Aided/Private), Community (7 options), and Gender. Teachers only have Community greyed out.
+    - **Validation Toast**: When users click Continue without completing required fields, a small pill toast slides from the top listing exactly which fields are missing (e.g., "Select medium, school type, gender"). Auto-dismisses after 3 seconds.
+    - **Auth Modal UX**: 4-view system (Email → Password → Signup → Onboarding) with smooth transitions, back navigation, and eye toggle for password fields.
+    - **Compact Modal Design**: `max-height: 85vh`, custom dark scrollbar, tight spacing to fit on mobile without excessive scrolling.
+    - **Legacy Removal**: Removed `#community-gate` and `#special-access-gate` overlays from `index.html`. Removed `showGate()` and related localStorage-based community logic from `tnea.js`.
+    - **TNEA Integration**: `tnea.js` init flow now calls `window.RankraAuth.requireAuth()` to get user profile before booting. Community defaults come from the Firestore profile instead of localStorage.
+
+- **Account Page**: Created `/account/` page for user profile management.
+    - **New Files**: `public/account/index.html` and `public/account/account.css`.
+    - **Profile View**: Avatar circle with user's first letter initial (gradient background), display name, email, and provider badge (Google/Email).
+    - **Readonly Info**: Role, Medium, School Type, Community, and Gender displayed in clean label-value rows with dividers.
+    - **Edit Mode**: Blue "Edit" text button toggles into editable chip selectors + display name input. Teacher logic greys out Community section.
+    - **Dirty-State Update Button**: Greyed out and disabled by default. Only activates (turns blue) when user changes any value from original. Compares all fields via `checkDirty()`.
+    - **Logout**: Full-width red outline button at the bottom of the card.
+
+- **SiteHeader Menu Updates**: Added "Account" link above "About Us" and "Logout" button (red text) at the bottom of the hamburger menu. Logout calls `window.RankraAuth.logout()`.
+
+- **RankraAuth API**: Exposed `window.RankraAuth` with methods: `requireAuth(callback)`, `updateProfile(data)`, `logout()`, `getCurrentUser()`, `getProfile()`, `isGuest()`, `showLogin()`.
+
+- **Guest User System (Freemium Model)**:
+    - **Default Access**: The platform now grants immediate access in "Guest Mode" without forcing a login modal.
+    - **Renaming**: Renamed all "Anonymous User" references to "Guest User" for a more welcoming tone.
+    - **Usage Limits**: Implemented soft gates for guest users:
+        - **Filter Limit**: Guests can apply up to 5 filters per session.
+        - **Result Limit**: Guests can see the first 20 results per search.
+    - **Persistence**: Guest filter counts are now persisted in `localStorage` (`rankra_guest_filters`) so refresh doesn't reset the limit.
+    - **Improved Gating UI**: Updated the "Search Limit Reached" screen with positive, action-driven messaging ("Sign in to get unlimited free results").
+    - **Result Counter Upgrade**: The results counter now shows the total number of filtered results (e.g., "3503 results") even when the view is capped for guest users.
+    - **Sidebar Cleanup**: The "Logout" button is now automatically hidden for guest users via a new `.is-guest` global body class.
+    - **ShowLogin API**: Added `window.RankraAuth.showLogin()` to trigger the authentication modal on-demand.
+
+- **Community Parameter Logic Fixes**:
+    - **Respect URL Parameters**: Fixed a bug where the user's profile community would override a community specified in the URL (`?c=...`).
+    - **Automatic URL Sync**: If no community parameter is present in the URL, the app now automatically defaults to the account holder's community and updates the browser address bar accordingly.
+
+- **Legal Document Updates**:
+    - **Privacy Policy**: Added sections for "Guest Access & Anonymous Usage" and clarified the use of `localStorage` for usage tracking.
+    - **Terms of Service**: Defined the "Access & Usage Models" (Guest vs. Full Account) and specified the 5-filter/20-result limits.
+    - **Disclaimer**: Added a note about the limited nature of guest results.
+
+- **Bug Fixes & Maintenance**:
+    - **Duplicate Header Fix**: Removed a redundant `<header class="site-header">` in `index.html`.
+    - **TNEA Boot Fix**: Added the missing `auth.js` script tag to `public/tnea/cutoff/index.html`.
+    - **Initialization Fix**: Resolved a `ReferenceError` in `tnea.js` related to an outdated `hasSetup` check.
+    - **Documentation Sync**: Updated `structure.md` and `local_changelog.md` to reflect the new architecture.
 
 - **College Page UX Cleanup**: Refined the sample college page to remove overflow and align with the TNEA dropdown interaction pattern.
     - **Unified Overview Cards**: Collapsed the overview into a single responsive info grid so stats, placement signals, and key details feel consistent.

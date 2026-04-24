@@ -37,27 +37,6 @@
 
 <body class="light">
 
-  <div id="community-gate" class="overlay-full hidden" role="dialog" aria-modal="true"
-    aria-label="Select your community">
-    <div class="overlay-backdrop"></div>
-    <div class="gate-sheet">
-      <h2 class="gate-title">Rankra - TNEA cutoff</h2>
-      <p class="gate-subtitle">Select your community to get started.</p>
-      <div class="gate-chips" id="gate-chips">
-        <button class="gate-chip" data-community="OC">OC</button>
-        <button class="gate-chip" data-community="BC">BC</button>
-        <button class="gate-chip" data-community="BCM">BCM</button>
-        <button class="gate-chip" data-community="MBC">MBC</button>
-        <button class="gate-chip" data-community="SC">SC</button>
-        <button class="gate-chip" data-community="SCA">SCA</button>
-        <button class="gate-chip" data-community="ST">ST</button>
-      </div>
-      <button class="gate-continue" id="gate-continue" disabled>Continue →</button>
-
-    </div>
-  </div>
-
-
   <header class="site-header" role="banner"></header>
 
   <div class="filter-bar" id="filter-bar" role="search" aria-label="Filters">
@@ -257,6 +236,7 @@
 
   <div id="info-box-container" class="info-box-container"></div>
 
+  <script type="module" src="shared/components/auth/auth.js"></script>
   <script type="module" src="tnea/cutoff/tnea.js"></script>
 </body>
 

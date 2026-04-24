@@ -72,11 +72,13 @@ export class SiteHeader {
         </div>
         <div class="hmenu-footer">
           <div class="hmenu-footer-links">
+            <a href="/account/" class="hmenu-item"><i class="fa-solid fa-user-circle"></i> Account</a>
             <a href="/about/" class="hmenu-item"><i class="fa-solid fa-circle-info"></i> About Us</a>
             <a href="/contact/" class="hmenu-item"><i class="fa-solid fa-envelope"></i> Contact Us</a>
             <a href="/privacy/" class="hmenu-item"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
             <a href="/terms/" class="hmenu-item"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
             <a href="/disclaimer/" class="hmenu-item"><i class="fa-solid fa-triangle-exclamation"></i> Disclaimer</a>
+            <button class="hmenu-item hmenu-logout" id="hmenu-logout" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;color:var(--red);font-family:inherit;font-size:inherit;padding:12px 20px; ${window.RankraAuth?.isGuest() ? 'display:none;' : ''}"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
           </div>
           <p class="hmenu-copyright">&copy; 2026 Rankra. Thiruvarur, Tamilnadu.</p>
         </div>
@@ -121,6 +123,13 @@ export class SiteHeader {
     $('export-btn').addEventListener('click', () => {
       this.onShare();
     });
+
+    const logoutBtn = $('hmenu-logout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        if (window.RankraAuth) window.RankraAuth.logout();
+      });
+    }
   }
 
   syncThemePill() {

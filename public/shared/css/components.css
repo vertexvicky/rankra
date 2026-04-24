@@ -865,3 +865,8 @@ body.dark .custom-select {
   border-color: var(--text-muted);
   color: var(--text-primary);
 }
+
+/* ── Guest User Global State ── */
+.is-guest #hmenu-logout {
+  display: none !important;
+}

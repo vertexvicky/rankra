@@ -1,10 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-  getAuth, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   sendEmailVerification,
   sendPasswordResetEmail,
   onAuthStateChanged,
@@ -14,7 +14,7 @@ import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/fireb
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTAWFbw_Yj0qOgc13-nJUL5__lcsFuz9I",
-  authDomain: "rankra-in.firebaseapp.com",
+  authDomain: "auth.rankra.in",
   projectId: "rankra-in",
   storageBucket: "rankra-in.firebasestorage.app",
   messagingSenderId: "608634329807",
@@ -197,7 +197,7 @@ function initChips() {
     container.addEventListener('click', (e) => {
       const chip = e.target.closest('.auth-chip');
       if (!chip || chip.classList.contains('disabled')) return;
-      
+
       container.querySelectorAll('.auth-chip').forEach(c => c.classList.remove('selected'));
       chip.classList.add('selected');
 
@@ -233,7 +233,7 @@ function setView(view) {
     subtitleEl.textContent = 'Access your personalized Rankra experience';
     googleSec.classList.remove('hidden');
     backTopBtn.classList.add('hidden');
-  } 
+  }
   else if (view === 'password') {
     titleEl.textContent = 'Login with email';
     subtitleEl.textContent = '';
@@ -242,7 +242,7 @@ function setView(view) {
     inputPwEmail.value = inputEmail.value;
     inputPassword.value = '';
     inputPassword.focus();
-  } 
+  }
   else if (view === 'signup') {
     titleEl.textContent = 'Create an account';
     subtitleEl.textContent = 'Join Rankra today';
@@ -274,6 +274,20 @@ setupEyeToggle('auth-eye-signup', 'auth-signup-password');
 backTopBtn.addEventListener('click', () => setView('email'));
 document.getElementById('btn-go-to-signup').addEventListener('click', () => setView('signup'));
 document.getElementById('btn-go-to-signup-from-email').addEventListener('click', () => setView('signup'));
+document.getElementById('btn-forgot-password').addEventListener('click', async () => {
+  const email = inputPwEmail.value.trim();
+  if (!email) {
+    showError('Enter your email first.');
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showMessage('Password reset email sent! Check your inbox.');
+  } catch (err) {
+    showError(err.message);
+  }
+});
+
 document.getElementById('btn-go-to-login').addEventListener('click', () => setView('password'));
 
 closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
@@ -345,7 +359,7 @@ form.addEventListener('submit', async (e) => {
   try {
     if (currentView === 'email') {
       setView('password');
-    } 
+    }
     else if (currentView === 'password') {
       const email = inputPwEmail.value.trim();
       const password = inputPassword.value;
@@ -365,14 +379,14 @@ form.addEventListener('submit', async (e) => {
         if (err.code === 'auth/user-not-found') setView('signup');
         else throw err;
       }
-    } 
+    }
     else if (currentView === 'signup' || currentView === 'onboarding') {
       const missing = [];
       const role = getChipValue('role');
       const gender = getChipValue('gender');
-      
+
       if (!role) missing.push('role');
-      
+
       const medium = getChipValue('medium');
       const schoolType = getChipValue('schoolType');
       if (!medium) missing.push('medium');
@@ -383,7 +397,7 @@ form.addEventListener('submit', async (e) => {
         community = getChipValue('community');
         if (!community) missing.push('community');
       }
-      
+
       if (!gender) missing.push('gender');
 
       if (missing.length > 0) {

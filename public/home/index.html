@@ -297,12 +297,14 @@
   </div>
 
   <script type="module">
-    import { applyTheme } from './shared/js/theme.js';
+    import { applyTheme, initTheme } from './shared/js/theme.js';
     import { SiteHeader } from './shared/js/SiteHeader.js';
 
     const $ = id => document.getElementById(id);
 
     const init = () => {
+      initTheme();
+
       const showShareModal = () => {
         const modal = $('share-modal');
         if (!modal) return;
@@ -330,12 +332,6 @@
         logoPath: './assets/rankra_logo50.png',
         onShare: () => showShareModal()
       });
-
-      // Apply initial theme
-      const saved = localStorage.getItem('rankra-theme');
-      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
-        applyTheme('dark');
-      }
     };
     document.addEventListener('DOMContentLoaded', init);
   </script>

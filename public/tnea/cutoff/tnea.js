@@ -1,5 +1,5 @@
 import { $, $$, esc, tok } from '../../shared/js/utils.js';
-import { applyTheme } from '../../shared/js/theme.js';
+import { applyTheme, initTheme } from '../../shared/js/theme.js';
 import { Trie } from '../../shared/js/trie.js';
 import { TNEA_CONFIG } from './tnea-config.js';
 import { buildInfeedAd, initVignetteAd } from '../../shared/js/ad-engine.js';
@@ -253,10 +253,7 @@ async function init() {
   }
 
   // Theme
-  const saved = localStorage.getItem('rankra-theme');
-  if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
-    applyTheme('dark');
-  }
+  initTheme();
 }
 
 
@@ -628,7 +625,10 @@ function buildDistrictList() {
 function buildCollegeList() {
   const map = new Map();
   S.data.forEach(r => { if (r.coc && r._conClean) map.set(String(r.coc), r._conClean); });
-  const items = [...map.entries()].map(([v, l]) => ({ label: l, value: v })).sort((a, b) => {
+  const items = [...map.entries()].map(([v, l]) => ({ 
+    label: `${String(v).padStart(4, '0')} - ${l}`, 
+    value: v 
+  })).sort((a, b) => {
     const sA = S.colleges.has(a.value), sB = S.colleges.has(b.value);
     if (sA !== sB) return sA ? -1 : 1;
     return a.label.localeCompare(b.label);
@@ -656,7 +656,10 @@ function buildCollegeList() {
 function buildCourseList() {
   const map = new Map();
   S.data.forEach(r => { if (r.brc && r.brn) map.set(r.brc, r.brn.toUpperCase()); });
-  const items = [...map.entries()].map(([v, l]) => ({ label: l, value: v })).sort((a, b) => {
+  const items = [...map.entries()].map(([v, l]) => ({ 
+    label: `${v} - ${l}`, 
+    value: v 
+  })).sort((a, b) => {
     const sA = S.courses.has(a.value), sB = S.courses.has(b.value);
     if (sA !== sB) return sA ? -1 : 1;
     return a.label.localeCompare(b.label);

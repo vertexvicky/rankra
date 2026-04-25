@@ -34,9 +34,9 @@
   <script type="module">
     import { $ } from '../shared/js/utils.js';
     import { SiteHeader } from '../shared/js/SiteHeader.js';
-    import { applyTheme } from '../shared/js/theme.js';
+    import { applyTheme, initTheme } from '../shared/js/theme.js';
 
-    applyTheme();
+    initTheme();
     new SiteHeader({ title: 'TNEA cutoff', logoPath: '../assets/rankra_logo50.png' });
 
     const card = $('account-card');

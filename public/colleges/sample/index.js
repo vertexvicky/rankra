@@ -1,14 +1,7 @@
 import { SiteHeader } from '../../shared/js/SiteHeader.js';
-import { applyTheme } from '../../shared/js/theme.js';
+import { applyTheme, initTheme } from '../../shared/js/theme.js';
 import { renderCollegePage } from '../../shared/js/college/college-page.js';
 import { college } from './college-config.js';
-
-const initTheme = () => {
-  const saved = localStorage.getItem('rankra-theme');
-  if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
-    applyTheme('dark');
-  }
-};
 
 const shareLink = async () => {
   const url = window.location.href;

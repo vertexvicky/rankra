@@ -53,7 +53,7 @@
 
   <script type="module">
     import { SiteHeader } from '../shared/js/SiteHeader.js';
-    import { applyTheme } from '../shared/js/theme.js';
+    import { applyTheme, initTheme } from '../shared/js/theme.js';
 
     document.addEventListener('DOMContentLoaded', () => {
       new SiteHeader({
@@ -61,10 +61,7 @@
         logoPath: '../assets/rankra_logo50.png'
       });
 
-      const saved = localStorage.getItem('rankra-theme');
-      if (saved === 'dark' || (!saved && matchMedia('(prefers-color-scheme:dark)').matches)) {
-        applyTheme('dark');
-      }
+      initTheme();
     });
   </script>
 </body>

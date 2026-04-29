@@ -452,22 +452,48 @@ googleBtn.addEventListener('click', async () => {
 });
 
 let authReady = false;
+const authListeners = [];
 const authReadyPromise = new Promise((resolve) => {
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (!authReady) {
       authReady = true;
       currentUser = user;
-      if (user) currentProfile = await getCachedProfile(user.uid);
-      unsubscribe();
+      
+      // Resolve the promise immediately so requireAuth callers aren't blocked by profile fetch
       resolve(user);
+
+      if (user) {
+        try {
+          currentProfile = await getCachedProfile(user.uid);
+        } catch (e) {
+          console.error("Profile fetch failed:", e);
+        }
+      }
+      
+      unsubscribe();
+      authListeners.forEach(cb => cb(currentUser, currentProfile));
     }
   });
 });
 
 window.RankraAuth = {
+  onAuthChange(callback) {
+    authListeners.push(callback);
+    if (authReady) callback(currentUser, currentProfile);
+  },
   async requireAuth(callback) {
     authCallback = callback;
     await authReadyPromise;
+    
+    // If we have a user but no profile yet, wait a bit for the async fetch to finish
+    if (currentUser && !currentProfile) {
+      let attempts = 0;
+      while (!currentProfile && attempts < 20) { // Max 2 seconds
+        await new Promise(r => setTimeout(r, 100));
+        attempts++;
+      }
+    }
+
     if (currentUser) {
       if (currentUser.emailVerified || currentUser.providerData[0]?.providerId === 'google.com') {
         document.body.classList.remove('is-guest');
@@ -487,6 +513,7 @@ window.RankraAuth = {
       currentProfile = guestProfile;
       document.body.classList.add('is-guest');
       callback(null, guestProfile);
+      authListeners.forEach(cb => cb(null, guestProfile));
     }
   },
   showLogin() {
@@ -499,6 +526,7 @@ window.RankraAuth = {
     await setDoc(doc(db, 'users', currentUser.uid), updated);
     localStorage.setItem(CACHE_KEY_PREFIX + currentUser.uid, JSON.stringify(updated));
     currentProfile = updated;
+    authListeners.forEach(cb => cb(currentUser, currentProfile));
     return updated;
   },
   async logout() {

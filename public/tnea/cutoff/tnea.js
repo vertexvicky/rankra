@@ -31,7 +31,7 @@ const S = {
   filterCount: parseInt(localStorage.getItem('rankra_guest_filters') || '0', 10)
 };
 
-let shDistrict, shCollege, shCourse;
+let shDistrict, shCollege, shCourse, siteHeader;
 
 
 function setCommUI(val) {
@@ -113,6 +113,37 @@ function copyLink() {
   });
 }
 
+function initAwarenessModal() {
+  if (localStorage.getItem('disclaimerAccept')) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'overlay-full awareness-overlay';
+  modal.innerHTML = `
+    <div class="overlay-backdrop"></div>
+    <div class="gate-sheet awareness-sheet">
+      <h2 class="gate-title">முக்கிய விழிப்புணர்வு</h2>
+      <div class="awareness-content">
+        <p style="color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 16px;">65% இடங்கள் TNEA கவுன்சிலிங் மூலமும், 35% இடங்கள் மட்டுமே மேனேஜ்மென்ட் (direct admission) மூலம் நிரப்பப்படும்.</p>
+        <p style="color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 16px;">TNEA கவுன்சிலிங் (Govt Quota) மூலம் சேரும் மாணவர்கள் மட்டுமே First Graduate & Post Metric Scholarship, 7.5% இட ஒதுக்கீடு, வகுப்புவாரி இட ஒதுக்கீடு, sports quota மற்றும் இதர அரசு சலுகைகளை பெற முடியும்.</p>
+        <p style="color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 16px;">முழு அரசு கல்லூரிகளில் மேனேஜ்மென்ட் கோட்டா கிடையாது. அரசு உதவிபெரும் கல்லூரிகளில் SS(Self Supporting) course-களுக்கு மட்டும் மேனேஜ்மென்ட் கோட்டா உண்டு .</p>
+        <p style="color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 16px;">யாராவது உங்களுக்கு அரசு TNEA govt counselling seat-களை  வாங்கி அல்லது Lock செய்து தருவதாக சொன்னால் அது முற்றிலும் பொய்யானது, ஜாக்கிரதை!</p>
+        <p style="color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 16px;">யாராவது 2026 கட்-ஆஃப் உள்ளது என்று சொன்னால் அது முற்றிலும் பொய்யானது. ஏனென்றால் 2026-க்கான கவுன்சிலிங் இன்னும் நடக்கவில்லை.</p>
+        <p style="color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 16px;" >முயன்றவரை தாங்களே counselling செய்துகொள்ளவும், யாருக்கும் உங்களுடைய TNEA ID மற்றும் password பகிறவேண்டாம் .</p>
+        <p style="color: var(--red); font-weight: 700; border-left: 3px solid var(--red); padding-left: 12px; margin-bottom: 16px;">2026-ல் புதிய கல்லூரிகள், புதிய பாடப்பிரிவுகள் வரலாம் அல்லது இடங்களின் எண்ணிக்கை அதிகரிக்கவோ அல்லது குறையவோ வாய்ப்புள்ளது.</p>
+        <p>இந்த தளம் மாணவர்கள் விழிப்புணர்வு பெறவும், காலேஜ் மற்றும் கோர்ஸ்-ஐ  Maths , Physics , Chemistry மதிப்பெண் அல்லது cutoff மதிப்பெண் கொண்டு  கணிக்கவும் உருவாக்கப்பட்டது.</p>
+      </div>
+      <button class="gate-continue" id="awareness-close">I Understood , Continue →</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('awareness-close').addEventListener('click', () => {
+    localStorage.setItem('disclaimerAccept', 'true');
+    modal.classList.add('hidden');
+    setTimeout(() => modal.remove(), 400);
+  });
+}
+
 const _v2 = "vicky";
 
 function initFromURL() {
@@ -170,17 +201,23 @@ async function init() {
       clearInterval(waitForAuth);
       window.RankraAuth.requireAuth((user, profile) => {
         
+        const wasGuest = S.isGuest;
         S.isGuest = profile.isGuest || false;
         
         // Use community from profile
         const community = profile.community || 'OC'; // Default to OC if teacher or guest
         S.primaryComm = community;
-        if (!S.cutoffComm) S.cutoffComm = community;
+
+        // If we transitioned from guest to real user, or if cutoffComm hasn't been set by URL
+        const params = new URLSearchParams(window.location.search);
+        if (!params.has('c') || (wasGuest && !S.isGuest)) {
+          S.cutoffComm = community;
+        }
         
         // Cache in memory for this session
         localStorage.setItem('tnea-primary', community);
         
-        // Set UI and boot using the resolved cutoffComm (respects URL if present)
+        // Set UI and boot using the resolved cutoffComm
         setCommUI(S.cutoffComm);
         boot();
       });
@@ -203,7 +240,7 @@ async function init() {
     placeholder: 'Search college...',
     showModeToggle: true,
     onApply: (sel, mode) => { S.colleges = sel; S.collegeMode = mode; syncCollegeLabel(); render(); },
-    onClear: () => { S.colleges.clear(); syncCollegeLabel(); render(); }
+    onClear: () => { S.districts.clear(); syncDistrictLabel(); render(); }
   });
   shCourse = new FilterSheet('course-sheet', {
     title: 'Select Course',
@@ -215,7 +252,7 @@ async function init() {
 
   initFromURL();
 
-  new SiteHeader({
+  siteHeader = new SiteHeader({
     title: 'TNEA cutoff',
     onShare: () => showShareModal()
   });
@@ -260,6 +297,8 @@ async function init() {
 
 async function boot() {
   renderSkeletons();
+  initAwarenessModal();
+  if (siteHeader) siteHeader.update();
   await loadYear(S.year);
   buildDistrictList();
   bindEvents(); // bind after data is ready
@@ -720,7 +759,11 @@ function syncCourseLabel() {
   $('course-btn').classList.toggle('active', n > 0);
 }
 
+let eventsBound = false;
 function bindEvents() {
+  if (eventsBound) return;
+  eventsBound = true;
+
   $('dd-search-input').addEventListener('input', e => {
     const q = e.target.value.toLowerCase();
     $('dd-list').querySelectorAll('label').forEach(l => l.style.display = l.textContent.toLowerCase().includes(q) ? '' : 'none');

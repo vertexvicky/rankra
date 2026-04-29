@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Account - Rankra</title>
-  <meta name="description" content="Manage your Rankra account, update profile details, and personalize your experience." />
+  <meta name="description"
+    content="Manage your Rankra account, update profile details, and personalize your experience." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="icon" type="image/png" href="../assets/rankra_favicon30.png" />
@@ -17,6 +19,7 @@
   <link rel="stylesheet" href="../shared/css/layout.css" />
   <link rel="stylesheet" href="account.css" />
 </head>
+
 <body class="light">
 
   <header class="site-header" role="banner"></header>
@@ -58,7 +61,7 @@
 
       const initial = (profile.displayName || user.email || '?')[0].toUpperCase();
       const provider = user.providerData[0]?.providerId === 'google.com' ? 'Google' : 'Email';
-      
+
       card.innerHTML = `
         <div class="profile-header">
           <div class="avatar-circle" id="avatar-circle">${initial}</div>
@@ -113,9 +116,9 @@
           <div class="edit-group" id="edit-community-group">
             <label class="edit-label">Community</label>
             <div class="edit-chips" data-field="community">
-              ${['OC','BC','BCM','MBC','SC','SCA','ST'].map(c => 
-                `<button type="button" class="edit-chip ${profile.community === c ? 'selected' : ''}" data-value="${c}">${c}</button>`
-              ).join('')}
+              ${['OC', 'BC', 'BCM', 'MBC', 'SC', 'SCA', 'ST'].map(c =>
+        `<button type="button" class="edit-chip ${profile.community === c ? 'selected' : ''}" data-value="${c}">${c}</button>`
+      ).join('')}
             </div>
           </div>
 
@@ -205,7 +208,7 @@
         $('profile-info').classList.add('hidden');
         $('profile-edit-btn').classList.add('hidden');
         $('profile-edit-form').classList.remove('hidden');
-        
+
         // Sync teacher state
         const role = card.querySelector('.edit-chips[data-field="role"] .edit-chip.selected');
         if (role && role.dataset.value === 'Teacher') {
@@ -230,7 +233,7 @@
           const vals = getEditValues();
           if (vals.role === 'Teacher') vals.community = null;
           await window.RankraAuth.updateProfile(vals);
-          
+
           // Refresh the whole view with updated profile
           const updatedProfile = window.RankraAuth.getProfile();
           renderProfile(user, updatedProfile);
@@ -258,4 +261,5 @@
     }, 50);
   </script>
 </body>
+
 </html>

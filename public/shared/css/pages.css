@@ -151,6 +151,16 @@
   font-size: 0.85rem;
 }
 
+.legal-footer a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.legal-footer a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 850px) {
   .contact-grid {
     grid-template-columns: 1fr;

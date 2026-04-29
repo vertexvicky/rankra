@@ -13,6 +13,16 @@ export class SiteHeader {
     this.render();
     this.bindEvents();
     this.syncThemePill();
+
+    // Subscribe to auth changes to update header state
+    const setupAuth = () => {
+      if (window.RankraAuth) {
+        window.RankraAuth.onAuthChange(() => this.update());
+      } else {
+        setTimeout(setupAuth, 50);
+      }
+    };
+    setupAuth();
   }
 
   render() {
@@ -27,7 +37,9 @@ export class SiteHeader {
 
     const currentPath = normalizePath(window.location?.pathname || '/');
     const isActive = (targetPath) => currentPath === normalizePath(targetPath);
-    const isCutoffActive = currentPath.startsWith('/tnea/cutoff/');
+    
+    const isGuest = window.RankraAuth?.isGuest();
+    const user = window.RankraAuth?.getCurrentUser();
 
     header.innerHTML = `
       <div class="header-left">
@@ -37,15 +49,18 @@ export class SiteHeader {
         <span class="header-title">${this.title}</span>
       </div>
 
-      <button id="export-btn" class="header-export-btn" aria-label="Share App">
-        <i class="fa-solid fa-link"></i>
-        <span>Share</span>
-      </button>
-      <button class="icon-btn hamburger-btn" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
-        <span class="hamburger-bar"></span>
-      </button>
+      <div class="header-actions">
+        <button id="export-btn" class="header-export-btn" aria-label="Share App">
+          <i class="fa-solid fa-link"></i>
+          <span>Share</span>
+        </button>
+        
+        <button class="icon-btn hamburger-btn" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
+      </div>
 
       <div class="hamburger-menu" id="hamburger-menu" aria-hidden="true">
         <div class="hmenu-header">
@@ -78,9 +93,14 @@ export class SiteHeader {
             <a href="/privacy/" class="hmenu-item"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a>
             <a href="/terms/" class="hmenu-item"><i class="fa-solid fa-file-contract"></i> Terms of Service</a>
             <a href="/disclaimer/" class="hmenu-item"><i class="fa-solid fa-triangle-exclamation"></i> Disclaimer</a>
-            <button class="hmenu-item hmenu-logout" id="hmenu-logout" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;color:var(--red);font-family:inherit;font-size:inherit;padding:12px 20px; ${window.RankraAuth?.isGuest() ? 'display:none;' : ''}"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            
+            ${user ? `
+              <button class="hmenu-item hmenu-logout" id="hmenu-logout" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;color:var(--red);font-family:inherit;font-size:inherit;padding:12px 20px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            ` : `
+              <button class="hmenu-item hmenu-login" id="hmenu-login" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;color:var(--accent);font-family:inherit;font-size:inherit;padding:12px 20px; font-weight: 600;"><i class="fa-solid fa-right-to-bracket"></i> Log in</button>
+            `}
           </div>
-          <p class="hmenu-copyright">&copy; 2026 Rankra. Thiruvarur, Tamilnadu.</p>
+          <p class="hmenu-copyright">&copy; 2026 Rankra. All rights reserved. <br> Developed by <a href="https://github.com/vertexvignesh" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600;">vigneswaran</a></p>
         </div>
       </div>
       <div class="hamburger-backdrop hidden" id="hamburger-backdrop"></div>
@@ -91,6 +111,8 @@ export class SiteHeader {
     const hamburgerBtn = $('hamburger-btn');
     const hamburgerMenu = $('hamburger-menu');
     const hamburgerBackdrop = $('hamburger-backdrop');
+
+    if (!hamburgerBtn || !hamburgerMenu) return;
 
     const openMenu = () => {
       hamburgerMenu.classList.add('open');
@@ -111,23 +133,34 @@ export class SiteHeader {
       hamburgerMenu.classList.contains('open') ? closeMenu() : openMenu();
     });
 
-    $('hmenu-close').addEventListener('click', closeMenu);
-    hamburgerBackdrop.addEventListener('click', closeMenu);
+    if ($('hmenu-close')) $('hmenu-close').addEventListener('click', closeMenu);
+    if (hamburgerBackdrop) hamburgerBackdrop.addEventListener('click', closeMenu);
 
-    $('theme-toggle').addEventListener('click', () => {
-      const newTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
-      applyTheme(newTheme);
-      this.syncThemePill();
-    });
+    if ($('theme-toggle')) {
+      $('theme-toggle').addEventListener('click', () => {
+        const newTheme = document.body.classList.contains('dark') ? 'light' : 'dark';
+        applyTheme(newTheme);
+        this.syncThemePill();
+      });
+    }
 
-    $('export-btn').addEventListener('click', () => {
-      this.onShare();
-    });
+    if ($('export-btn')) {
+      $('export-btn').addEventListener('click', () => {
+        this.onShare();
+      });
+    }
 
     const logoutBtn = $('hmenu-logout');
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
         if (window.RankraAuth) window.RankraAuth.logout();
+      });
+    }
+
+    const loginBtn = $('hmenu-login');
+    if (loginBtn) {
+      loginBtn.addEventListener('click', () => {
+        if (window.RankraAuth) window.RankraAuth.showLogin();
       });
     }
   }
@@ -140,5 +173,11 @@ export class SiteHeader {
     if (label) label.textContent = isDark ? 'NIGHT MODE' : 'DAY MODE';
     if (sun) sun.classList.toggle('hidden', isDark);
     if (moon) moon.classList.toggle('hidden', !isDark);
+  }
+
+  update() {
+    this.render();
+    this.bindEvents();
+    this.syncThemePill();
   }
 }

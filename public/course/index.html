@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering Courses | Rankra</title>
+  <meta name="description" content="Explore various engineering courses and branches available in TNEA.">
+  <link rel="icon" type="image/png" href="../assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../shared/css/tokens.css">
+  <link rel="stylesheet" href="../shared/css/reset.css">
+  <link rel="stylesheet" href="../shared/css/animations.css">
+  <link rel="stylesheet" href="../shared/css/components.css">
+  <link rel="stylesheet" href="../shared/css/layout.css">
+  <link rel="stylesheet" href="course.css">
+  <style>
+    .site-header {
+      height: 50px !important;
+      min-height: 50px !important;
+      max-height: 50px !important;
+    }
+    .header-title {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="light">
+
+  <header class="site-header"></header>
+
+  <main class="course-main">
+    <div class="course-header-section">
+      <h1 class="page-title">Explore Engineering Branches</h1>
+      <p class="page-subtitle">Detailed insights into engineering branches, future prospects, and career opportunities.</p>
+    </div>
+
+    <div class="course-grid">
+      <!-- Sample Course Cards -->
+      <div class="course-rect">
+        <div class="course-code">CS</div>
+        <div class="course-name">Computer Science and Engineering</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">IT</div>
+        <div class="course-name">Information Technology</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">AD</div>
+        <div class="course-name">Artificial Intelligence and Data Science</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">EC</div>
+        <div class="course-name">Electronics and Communication Engineering</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">EE</div>
+        <div class="course-name">Electrical and Electronics Engineering</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">ME</div>
+        <div class="course-name">Mechanical Engineering</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">CE</div>
+        <div class="course-name">Civil Engineering</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">BM</div>
+        <div class="course-name">Bio- Medical Engineering</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">CH</div>
+        <div class="course-name">Chemical Engineering</div>
+      </div>
+
+      <div class="course-rect">
+        <div class="course-code">AE</div>
+        <div class="course-name">Aeronautical Engineering</div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="course.js"></script>
+  <script type="module" src="../shared/components/auth/auth.js"></script>
+  <script type="module">
+    import { applyTheme, initTheme } from '../shared/js/theme.js';
+    import { SiteHeader } from '../shared/js/SiteHeader.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      new SiteHeader({
+        title: '',
+        logoPath: '../assets/rankra_logo50.png',
+        onShare: () => {
+          if (navigator.share) {
+            navigator.share({ title: 'Rankra Courses', url: window.location.href });
+          } else {
+            alert('Link copied to clipboard!');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

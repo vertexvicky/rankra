@@ -83,6 +83,7 @@ export class SiteHeader {
         <div class="hmenu-body">
           <div class="hmenu-section">
             <a href="/" class="hmenu-item ${isActive('/') ? 'active' : ''}"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="/tnea/college/" class="hmenu-item ${isActive('/tnea/college/') ? 'active' : ''}"><i class="fa-solid fa-building-columns"></i> Colleges</a>
           </div>
         </div>
         <div class="hmenu-footer">
@@ -100,7 +101,7 @@ export class SiteHeader {
               <button class="hmenu-item hmenu-login" id="hmenu-login" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;color:var(--accent);font-family:inherit;font-size:inherit;padding:12px 20px; font-weight: 600;"><i class="fa-solid fa-right-to-bracket"></i> Log in</button>
             `}
           </div>
-          <p class="hmenu-copyright">&copy; 2026 Rankra. All rights reserved. <br> Developed by <a href="https://github.com/vertexvignesh" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600;">vigneswaran</a></p>
+          <p class="hmenu-copyright">&copy; 2026 Rankra. All rights reserved. <br> Developed by <a href="https://github.com/vertexvicky" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600;">vigneswaran</a></p>
         </div>
       </div>
       <div class="hamburger-backdrop hidden" id="hamburger-backdrop"></div>
@@ -153,7 +154,15 @@ export class SiteHeader {
     const logoutBtn = $('hmenu-logout');
     if (logoutBtn) {
       logoutBtn.addEventListener('click', () => {
-        if (window.RankraAuth) window.RankraAuth.logout();
+        if (window.RankraAuth) {
+          // Clear personal information and onboarding state
+          const keysToClear = [
+            'rankra_cutoff', 'rankra_comm', 'rankra_guest_filters',
+            'disclaimerAccept', 'rankra_tour_done', 'tnea-primary'
+          ];
+          keysToClear.forEach(k => localStorage.removeItem(k));
+          window.RankraAuth.logout();
+        }
       });
     }
 

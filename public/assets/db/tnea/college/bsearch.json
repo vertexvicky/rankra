@@ -1,0 +1,1138 @@
+{
+  "Bio- Medical Engineering (SS)": [
+    "BY",
+    "BME",
+    "Bio Medical",
+    "SS",
+    "self sustain"
+  ],
+  "Civil Engineering": [
+    "CE",
+    "Civil"
+  ],
+  "Computer Science and Engineering (SS)": [
+    "CM",
+    "CSE",
+    "CS",
+    "Computer",
+    "SS",
+    "self sustain"
+  ],
+  "Computer Science and Engineering": [
+    "CS",
+    "CSE",
+    "CS",
+    "Computer"
+  ],
+  "Electronics and Communication Engineering": [
+    "EC",
+    "ECE",
+    "Electronics",
+    "Communication"
+  ],
+  "Electrical and Electronics Engineering": [
+    "EE",
+    "EEE",
+    "Electrical",
+    "Electronics"
+  ],
+  "Electronics and Communication Engg. (SS)": [
+    "EM",
+    "ECE",
+    "EC",
+    "Electronics",
+    "SS",
+    "self sustain"
+  ],
+  "Geo-Informatics": [
+    "GI",
+    "Geo Informatics",
+    "Informatics"
+  ],
+  "Industrial Engineering": [
+    "IE",
+    "Industrial"
+  ],
+  "Information Tech. (SS)": [
+    "IM",
+    "IT",
+    "Information Technology",
+    "SS",
+    "self sustain"
+  ],
+  "Material Science and Engineering (SS)": [
+    "MA",
+    "Materials",
+    "SS",
+    "self sustain"
+  ],
+  "Mechanical Engineering": [
+    "ME",
+    "MECH",
+    "Mechanical"
+  ],
+  "Mining Engineering": [
+    "MI",
+    "Mining"
+  ],
+  "Manufacturing Engineering": [
+    "MN",
+    "Manufacturing"
+  ],
+  "Printing Technology": [
+    "PT",
+    "Printing"
+  ],
+  "Civil Engineering (Tamil Medium)": [
+    "XC",
+    "Civil",
+    "Tamil"
+  ],
+  "Mechanical Engineering (Tamil Medium)": [
+    "XM",
+    "MECH",
+    "Mechanical",
+    "Tamil"
+  ],
+  "Apparel Technology (SS)": [
+    "AP",
+    "Apparel",
+    "SS",
+    "self sustain"
+  ],
+  "Chemical Engineering": [
+    "CH",
+    "Chemical"
+  ],
+  "Chemical Engineering (SS)": [
+    "CL",
+    "Chemical",
+    "SS",
+    "self sustain"
+  ],
+  "Ceramic Technology (SS)": [
+    "CR",
+    "Ceramic",
+    "SS",
+    "self sustain"
+  ],
+  "Food Technology (SS)": [
+    "FS",
+    "Food",
+    "SS",
+    "self sustain"
+  ],
+  "Industrial Bio-Technology": [
+    "IB",
+    "Bio Technology",
+    "Industrial"
+  ],
+  "Industrial Bio-Tech. (SS)": [
+    "IS",
+    "Bio Technology",
+    "Industrial",
+    "SS",
+    "self sustain"
+  ],
+  "Leather Technology": [
+    "LE",
+    "Leather"
+  ],
+  "Pharmaceutical Tech (SS)": [
+    "PM",
+    "Pharmaceutical",
+    "SS",
+    "self sustain"
+  ],
+  "Petroleum Engineering and Technology (SS)": [
+    "PP",
+    "Petroleum",
+    "SS",
+    "self sustain"
+  ],
+  "Textile Technology": [
+    "TX",
+    "Textile"
+  ],
+  "Aeronautical Engineering": [
+    "AE",
+    "Aeronautical",
+    "Aero"
+  ],
+  "Automobile Engineering (SS)": [
+    "AS",
+    "Automobile",
+    "Auto",
+    "SS",
+    "self sustain"
+  ],
+  "Automobile Engineering": [
+    "AU",
+    "Automobile",
+    "Auto"
+  ],
+  "Electronics and Instrumentation Engineering": [
+    "EI",
+    "EIE",
+    "Electronics",
+    "Instrumentation"
+  ],
+  "Mechanical Engg. (SS)": [
+    "MF",
+    "MECH",
+    "Mechanical",
+    "SS",
+    "self sustain"
+  ],
+  "Production Engineering": [
+    "PR",
+    "Production"
+  ],
+  "Rubber and Plastic Tech.": [
+    "RP",
+    "Rubber",
+    "Plastic"
+  ],
+  "Computer Science and Engineering (AI and Machine Learning)": [
+    "AM",
+    "AI",
+    "ML",
+    "AIML",
+    "CSE"
+  ],
+  "Computer Science and Engineering (Big Data Analytics)": [
+    "BD",
+    "Big Data",
+    "CSE"
+  ],
+  "Civil and Structural Engineering": [
+    "CZ",
+    "Civil",
+    "Structural"
+  ],
+  "Information Technology": [
+    "IT",
+    "Information Technology"
+  ],
+  "Mechanical (Manufacturing)": [
+    "MM",
+    "Mechanical",
+    "Manufacturing"
+  ],
+  "Food Technology": [
+    "FD",
+    "Food"
+  ],
+  "Artificial Intelligence and Data Science": [
+    "AD",
+    "AI",
+    "DS",
+    "AIDS",
+    "Data Science"
+  ],
+  "Bio Technology": [
+    "BT",
+    "Bio Technology",
+    "Bio Tech"
+  ],
+  "Mechatronics Engineering": [
+    "MZ",
+    "Mechatronics"
+  ],
+  "Computer Science and Business System": [
+    "CB",
+    "CSBS",
+    "Business System",
+    "Computer"
+  ],
+  "Bio- Medical Engineering": [
+    "BM",
+    "BME",
+    "Bio Medical"
+  ],
+  "Robotics and Automation": [
+    "RM",
+    "Robotics",
+    "Automation"
+  ],
+  "Marine Engineering": [
+    "MR",
+    "Marine"
+  ],
+  "Agricultural Engineering": [
+    "AG",
+    "Agricultural",
+    "Agriculture"
+  ],
+  "Computer and Communication Engineering": [
+    "CO",
+    "CCE",
+    "Computer",
+    "Communication"
+  ],
+  "Artificial Intelligence and Machine Learning": [
+    "AL",
+    "AI",
+    "ML",
+    "AIML"
+  ],
+  "Petroleum Engineering": [
+    "PE",
+    "Petroleum"
+  ],
+  "Medical Electronics Engg.": [
+    "MD",
+    "Medical",
+    "Electronics"
+  ],
+  "Mechanical Engineering (Sandwich)": [
+    "MH",
+    "Mechanical",
+    "Sandwich"
+  ],
+  "Mechanical  and Automation Engineering": [
+    "MU",
+    "Mechanical",
+    "Automation"
+  ],
+  "Pharmaceutical Technology": [
+    "PH",
+    "Pharmaceutical"
+  ],
+  "Aerospace Engineering": [
+    "AO",
+    "Aerospace",
+    "Aero"
+  ],
+  "Fashion Technology": [
+    "FT",
+    "Fashion"
+  ],
+  "Instrumentation and Control Engineering": [
+    "IC",
+    "ICE",
+    "Instrumentation",
+    "Control"
+  ],
+  "Plastic Technology": [
+    "PA",
+    "Plastic"
+  ],
+  "Cyber Security": [
+    "CY",
+    "Cyber Security",
+    "Cyber"
+  ],
+  "Bio Technology (SS)": [
+    "BS",
+    "Bio Technology",
+    "SS",
+    "self sustain"
+  ],
+  "Civil Engineering (SS)": [
+    "CN",
+    "Civil",
+    "SS",
+    "self sustain"
+  ],
+  "Electrical and Electronics (Sandwich) (SS)": [
+    "ES",
+    "EEE",
+    "Sandwich",
+    "SS",
+    "self sustain"
+  ],
+  "Fashion Technology (SS)": [
+    "FY",
+    "Fashion",
+    "SS",
+    "self sustain"
+  ],
+  "Instrumentation and Control Engineering (SS)": [
+    "IY",
+    "ICE",
+    "Instrumentation",
+    "Control",
+    "SS",
+    "self sustain"
+  ],
+  "Mechanical Engineering (Sandwich) (SS)": [
+    "MS",
+    "MECH",
+    "Mechanical",
+    "Sandwich",
+    "SS",
+    "self sustain"
+  ],
+  "Metallurgical Engineering": [
+    "MT",
+    "Metallurgical",
+    "Metallurgy"
+  ],
+  "Metallurgical Engg. (SS)": [
+    "MY",
+    "Metallurgical",
+    "SS",
+    "self sustain"
+  ],
+  "Production Engineering (SS)": [
+    "PN",
+    "Production",
+    "SS",
+    "self sustain"
+  ],
+  "Production Engineering (Sandwich) (SS)": [
+    "PS",
+    "Production",
+    "Sandwich",
+    "SS",
+    "self sustain"
+  ],
+  "Robotics and Automation (SS)": [
+    "RA",
+    "Robotics",
+    "Automation",
+    "SS",
+    "self sustain"
+  ],
+  "Textile Technology (SS)": [
+    "TT",
+    "Textile",
+    "SS",
+    "self sustain"
+  ],
+  "Elec. And Electronics Engg (SS)": [
+    "EY",
+    "EEE",
+    "Electrical",
+    "Electronics",
+    "SS",
+    "self sustain"
+  ],
+  "Handloom and Textile Technology": [
+    "HT",
+    "Handloom",
+    "Textile"
+  ],
+  "Nano Science and Technology": [
+    "NS",
+    "Nano Science",
+    "Nano"
+  ],
+  "Mechatronics": [
+    "MC",
+    "Mechatronics"
+  ],
+  "Safety and Fire Engineering": [
+    "SF",
+    "Safety",
+    "Fire"
+  ],
+  "Petro Chemical Technology": [
+    "PC",
+    "Petro Chemical"
+  ],
+  "Textile Chemistry": [
+    "TC",
+    "Textile Chemistry"
+  ],
+  "Computer Science and Technology": [
+    "TS",
+    "CS",
+    "Computer",
+    "Technology"
+  ],
+  "Petrochemical Engineering": [
+    "PD",
+    "Petrochemical"
+  ],
+  "Computer Technology": [
+    "CT",
+    "Computer Technology",
+    "Computer"
+  ],
+  "Information Science and Engineering": [
+    "SE",
+    "ISE",
+    "Information Science"
+  ],
+  "Electronics and Telecommunication Engg.": [
+    "ET",
+    "Electronics",
+    "Telecommunication"
+  ],
+  "Computer Science and Engineering (Cyber Security)": [
+    "SC",
+    "CSE",
+    "Cyber Security",
+    "Cyber"
+  ],
+  "M.Tech. Computer Science and Engineering (Integrated 5 years)": [
+    "CJ",
+    "CSE",
+    "MTech",
+    "Integrated"
+  ],
+  "Mechanical and Mechatronics Engineering (Additive Manufacturing)": [
+    "MO",
+    "Mechanical",
+    "Mechatronics",
+    "Additive Manufacturing"
+  ],
+  "CSE(Internet of Things and Cyber Security including Block chain technology)`": [
+    "SB",
+    "CSE",
+    "IOT",
+    "Cyber Security",
+    "Blockchain"
+  ],
+  "Bio Technology and Bio Chemical Engineering": [
+    "BC",
+    "Bio Technology",
+    "Bio Chemical"
+  ],
+  "Industrial Engineering and Management": [
+    "IN",
+    "Industrial Engineering",
+    "Management"
+  ],
+  "Polymer Technology": [
+    "PL",
+    "Polymer"
+  ],
+  "Computer Science and Business System (SS)": [
+    "CW",
+    "CSBS",
+    "Computer",
+    "Business System",
+    "SS",
+    "self sustain"
+  ],
+  "Mechatronics (SS)": [
+    "MG",
+    "Mechatronics",
+    "SS",
+    "self sustain"
+  ],
+  "Chemical and Electro Chemical Engineering (SS)": [
+    "CC",
+    "Chemical",
+    "Electro Chemical",
+    "SS",
+    "self sustain"
+  ],
+  "BIO MEDICAL ENGINEERING  (SS)": [
+    "BY",
+    "BME",
+    "Bio Medical",
+    "SS",
+    "self sustain"
+  ],
+  "CIVIL  ENGINEERING": [
+    "CE",
+    "Civil"
+  ],
+  "COMPUTER SCIENCE AND ENGINEERING (SS)": [
+    "CM",
+    "CSE",
+    "CS",
+    "Computer",
+    "SS",
+    "self sustain"
+  ],
+  "COMPUTER SCIENCE AND ENGINEERING": [
+    "CS",
+    "CSE",
+    "CS",
+    "Computer"
+  ],
+  "ELECTRONICS AND COMMUNICATION ENGINEERING": [
+    "EC",
+    "ECE",
+    "Electronics",
+    "Communication"
+  ],
+  "ELECTRICAL AND ELECTRONICS ENGINEERING": [
+    "EE",
+    "EEE",
+    "Electrical",
+    "Electronics"
+  ],
+  "ELECTRONICS AND COMMUNICATION ENGINEERING (SS)": [
+    "EM",
+    "ECE",
+    "EC",
+    "Electronics",
+    "SS",
+    "self sustain"
+  ],
+  "GEO INFORMATICS": [
+    "GI",
+    "Geo Informatics"
+  ],
+  "INDUSTRIAL ENGINEERING": [
+    "IE",
+    "Industrial"
+  ],
+  "INFORMATION TECHNOLOGY (SS)": [
+    "IM",
+    "IT",
+    "Information Technology",
+    "SS",
+    "self sustain"
+  ],
+  "MATERIAL SCIENCE AND ENGINEERING (SS)": [
+    "MA",
+    "Materials",
+    "SS",
+    "self sustain"
+  ],
+  "MECHANICAL ENGINEERING": [
+    "ME",
+    "MECH",
+    "Mechanical"
+  ],
+  "MINING ENGINEERING": [
+    "MI",
+    "Mining"
+  ],
+  "MANUFACTURING ENGINEERING": [
+    "MN",
+    "Manufacturing"
+  ],
+  "PRINTING TECHNOLOGY": [
+    "PT",
+    "Printing"
+  ],
+  "CIVIL ENGINEERING (TAMIL MEDIUM)": [
+    "XC",
+    "Civil",
+    "Tamil"
+  ],
+  "MECHANICAL ENGINEERING (TAMIL MEDIUM)": [
+    "XM",
+    "MECH",
+    "Mechanical",
+    "Tamil"
+  ],
+  "APPAREL TECHNOLOGY (SS)": [
+    "AP",
+    "Apparel",
+    "SS",
+    "self sustain"
+  ],
+  "CHEMICAL  ENGINEERING": [
+    "CH",
+    "Chemical"
+  ],
+  "CHEMICAL  ENGINEERING (SS)": [
+    "CL",
+    "Chemical",
+    "SS",
+    "self sustain"
+  ],
+  "CERAMIC TECHNOLOGY (SS)": [
+    "CR",
+    "Ceramic",
+    "SS",
+    "self sustain"
+  ],
+  "FOOD TECHNOLOGY (SS)": [
+    "FS",
+    "Food",
+    "SS",
+    "self sustain"
+  ],
+  "INDUSTRIAL BIO TECHNOLOGY": [
+    "IB",
+    "Bio Technology",
+    "Industrial"
+  ],
+  "INDUSTRIAL BIO TECHNOLOGY (SS)": [
+    "IS",
+    "Bio Technology",
+    "Industrial",
+    "SS",
+    "self sustain"
+  ],
+  "LEATHER TECHNOLOGY": [
+    "LE",
+    "Leather"
+  ],
+  "PHARMACEUTICAL TECHNOLOGY (SS)": [
+    "PM",
+    "Pharmaceutical",
+    "SS",
+    "self sustain"
+  ],
+  "PETROLEUM ENGINEERING AND TECHNOLOGY (SS)": [
+    "PP",
+    "Petroleum",
+    "SS",
+    "self sustain"
+  ],
+  "TEXTILE TECHNOLOGY": [
+    "TX",
+    "Textile"
+  ],
+  "AERONAUTICAL ENGINEERING": [
+    "AE",
+    "Aeronautical",
+    "Aero"
+  ],
+  "AUTOMOBILE ENGINEERING": [
+    "AU",
+    "Automobile",
+    "Auto"
+  ],
+  "ELECTRONICS AND INSTRUMENTATION ENGINEERING": [
+    "EI",
+    "EIE",
+    "Electronics",
+    "Instrumentation"
+  ],
+  "MECHANICAL ENGINEERING (SS)": [
+    "MF",
+    "MECH",
+    "Mechanical",
+    "SS",
+    "self sustain"
+  ],
+  "PRODUCTION ENGINEERING": [
+    "PR",
+    "Production"
+  ],
+  "RUBBER AND PLASTIC TECHNOLOGY": [
+    "RP",
+    "Rubber",
+    "Plastic"
+  ],
+  "COMPUTER SCIENCE AND ENGINEERING (AI AND MACHINE LEARNING)": [
+    "AM",
+    "AI",
+    "ML",
+    "AIML",
+    "CSE"
+  ],
+  "COMPUTER SCIENCE AND ENGINEERING (DATA SCIENCE)": [
+    "CF",
+    "Data Science",
+    "DS",
+    "CSE"
+  ],
+  "CIVIL AND STRUCTUTURAL ENGINEERING": [
+    "CZ",
+    "Civil",
+    "Structural"
+  ],
+  "INFORMATION TECHNOLOGY": [
+    "IT",
+    "Information Technology"
+  ],
+  "MECHANICAL ENGINEERING (MANUFACTURING)": [
+    "MM",
+    "Mechanical",
+    "Manufacturing"
+  ],
+  "FOOD TECHNOLOGY": [
+    "FD",
+    "Food"
+  ],
+  "BIO TECHNOLOGY": [
+    "BT",
+    "Bio Technology",
+    "Bio Tech"
+  ],
+  "COMPUTER SCIENCE AND BUSSINESS SYSTEM": [
+    "CB",
+    "CSBS",
+    "Business System",
+    "Computer"
+  ],
+  "COMPUTER SCIENCE AND DESIGN": [
+    "CD",
+    "Computer",
+    "Design"
+  ],
+  "BIO MEDICAL ENGINEERING": [
+    "BM",
+    "BME",
+    "Bio Medical"
+  ],
+  "MARINE ENGINEERING": [
+    "MR",
+    "Marine"
+  ],
+  "AGRICULTURE ENGINEERING": [
+    "AG",
+    "Agriculture",
+    "Agricultural"
+  ],
+  "ROBOTICS AND AUTOMATION": [
+    "RM",
+    "Robotics",
+    "Automation"
+  ],
+  "COMPUTER AND  COMMUNICATION ENGINEERING": [
+    "CO",
+    "CCE",
+    "Computer",
+    "Communication"
+  ],
+  "PETROLEUM ENGINEERING": [
+    "PE",
+    "Petroleum"
+  ],
+  "MEDICAL ELECTRONICS ENGINEERING": [
+    "MD",
+    "Medical Electronics"
+  ],
+  "MECHANICAL ENGINEERING (SANDWICH)": [
+    "MH",
+    "Mechanical",
+    "Sandwich"
+  ],
+  "MECHANICAL AND AUTOMATION ENGINEERING": [
+    "MU",
+    "Mechanical",
+    "Automation"
+  ],
+  "PHARMACEUTICAL TECHNOLOGY": [
+    "PH",
+    "Pharmaceutical"
+  ],
+  "AEROSPACE ENGINEERING": [
+    "AO",
+    "Aerospace",
+    "Aero"
+  ],
+  "FASHION TECHNOLOGY": [
+    "FT",
+    "Fashion"
+  ],
+  "PLASTIC TECHNOLOGY": [
+    "PA",
+    "Plastic"
+  ],
+  "INSTRUMENTATION AND CONTROL ENGINEERING": [
+    "IC",
+    "ICE",
+    "Instrumentation",
+    "Control"
+  ],
+  "AUTOMOBILE ENGINEERING (SS)": [
+    "AS",
+    "Automobile",
+    "Auto",
+    "SS",
+    "self sustain"
+  ],
+  "BIO TECHNOLOGY (SS)": [
+    "BS",
+    "Bio Technology",
+    "SS",
+    "self sustain"
+  ],
+  "CIVIL  ENGINEERING (SS)": [
+    "CN",
+    "Civil",
+    "SS",
+    "self sustain"
+  ],
+  "ELECTRICAL AND ELECTRONICS (SANDWICH) (SS)": [
+    "ES",
+    "EEE",
+    "Sandwich",
+    "SS",
+    "self sustain"
+  ],
+  "FASHION TECHNOLOGY (SS)": [
+    "FY",
+    "Fashion",
+    "SS",
+    "self sustain"
+  ],
+  "INSTRUMENTATION AND CONTROL ENGINEERING (SS)": [
+    "IY",
+    "ICE",
+    "Instrumentation",
+    "Control",
+    "SS",
+    "self sustain"
+  ],
+  "MECHANICAL ENGINEERING (SANDWICH) (SS)": [
+    "MS",
+    "MECH",
+    "Mechanical",
+    "Sandwich",
+    "SS",
+    "self sustain"
+  ],
+  "METALLURGICAL ENGINEERING": [
+    "MT",
+    "Metallurgical",
+    "Metallurgy"
+  ],
+  "METALLURGICAL ENGINEERING (SS)": [
+    "MY",
+    "Metallurgical",
+    "SS",
+    "self sustain"
+  ],
+  "PRODUCTION ENGINEERING (SS)": [
+    "PN",
+    "Production",
+    "SS",
+    "self sustain"
+  ],
+  "PRODUCTION ENGINEERING (SANDWICH) (SS)": [
+    "PS",
+    "Production",
+    "Sandwich",
+    "SS",
+    "self sustain"
+  ],
+  "ROBOTICS AND AUTOMATION (SS)": [
+    "RA",
+    "Robotics",
+    "Automation",
+    "SS",
+    "self sustain"
+  ],
+  "TEXTILE TECHNOLOGY (SS)": [
+    "TT",
+    "Textile",
+    "SS",
+    "self sustain"
+  ],
+  "ARTIFICIAL INTELLIGENCE AND DATA SCIENCE (SS)": [
+    "AT",
+    "AI",
+    "DS",
+    "AIDS",
+    "Data Science",
+    "SS",
+    "self sustain"
+  ],
+  "ELECTRICAL AND ELECTRONICS ENGINEERING (SS)": [
+    "EY",
+    "EEE",
+    "Electrical",
+    "Electronics",
+    "SS",
+    "self sustain"
+  ],
+  "COMPUTER SCIENCE AND ENGINEERING (TAMIL)": [
+    "XS",
+    "CSE",
+    "Tamil"
+  ],
+  "HANDLOOM AND TEXTILE TECHNOLOGY": [
+    "HT",
+    "Handloom",
+    "Textile"
+  ],
+  "PHARMACEUTICAL ENGINEERING": [
+    "PU",
+    "Pharmaceutical"
+  ],
+  "MECHATRONICS": [
+    "MC",
+    "Mechatronics"
+  ],
+  "PETRO CHEMICAL TECHNOLOGY": [
+    "PC",
+    "Petro Chemical"
+  ],
+  "TEXTILE CHEMISTRY": [
+    "TC",
+    "Textile Chemistry"
+  ],
+  "COMPUTER TECHNOLOGY": [
+    "CT",
+    "Computer Technology"
+  ],
+  "ELECTRONICS AND  TELECOMMUNICATION ENGINEERING": [
+    "ET",
+    "Electronics",
+    "Telecommunication"
+  ],
+  "PETRO CHEMICAL ENGINEERING": [
+    "PD",
+    "Petro Chemical"
+  ],
+  "Computer Science and Engineering (Internet of Things and Cyber Security including Block Chain Technology)": [
+    "SB",
+    "CSE",
+    "IOT",
+    "Cyber Security",
+    "Blockchain"
+  ],
+  "ENVIRONMENTAL ENGINEERING": [
+    "EN",
+    "Environmental"
+  ],
+  "INDUSTRIAL ENGINEERING AND MANAGEMENT": [
+    "IN",
+    "Industrial",
+    "Management"
+  ],
+  "MECHATRONICS (SS)": [
+    "MG",
+    "Mechatronics",
+    "SS",
+    "self sustain"
+  ],
+  "CHEMICAL AND ELECTRO CHEMICAL  ENGINEERING (SS)": [
+    "CC",
+    "Chemical",
+    "Electro Chemical",
+    "SS",
+    "self sustain"
+  ],
+  "PRINTING AND PACKING TECHNOLOGY": [
+    "PT",
+    "Printing",
+    "Packing"
+  ],
+  "B.Plan": [
+    "BP",
+    "BPlan",
+    "Planning"
+  ],
+  "COMPUTER SCIENCE AND ENGINEERING (ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING)": [
+    "AM",
+    "AI",
+    "ML",
+    "AIML",
+    "CSE"
+  ],
+  "ARTIFICIAL INTELLIGENCE AND DATA SCIENCE": [
+    "AD",
+    "AI",
+    "DS",
+    "AIDS",
+    "Data Science"
+  ],
+  "AGRICULTURAL ENGINEERING": [
+    "AG",
+    "Agricultural",
+    "Agriculture"
+  ],
+  "Computer Science and Engineering (Internet of Things)": [
+    "CI",
+    "CSE",
+    "IOT"
+  ],
+  "Computer Science and Engineering (Artificial Intelligence and Machine Learning) (SS)": [
+    "CG",
+    "AI",
+    "ML",
+    "AIML",
+    "CSE",
+    "SS",
+    "self sustain"
+  ],
+  "Electronics and Communication ( Advanced Communication Technology)": [
+    "EA",
+    "ECE",
+    "Advanced Communication"
+  ],
+  "Electronics Engineering (VLSI design and Technology)": [
+    "EV",
+    "VLSI",
+    "Electronics"
+  ],
+  "Electronics Engineering (VLSI Design and Technology) (SS)": [
+    "EL",
+    "VLSI",
+    "Electronics",
+    "SS",
+    "self sustain"
+  ],
+  "PRINTING & PACKING TECHNOLOGY": [
+    "PT",
+    "Printing",
+    "Packing"
+  ],
+  "Electronics and Communication (Advanced Communication Technology)": [
+    "EA",
+    "ECE",
+    "Advanced Communication"
+  ],
+  "Electronics Engineering (VLSI Design and Technology)": [
+    "EV",
+    "VLSI",
+    "Electronics"
+  ],
+  "MEDICAL ELECTRONICS": [
+    "MD",
+    "Medical Electronics"
+  ],
+  "Mechanical Engineering (Automobile)": [
+    "MB",
+    "MECH",
+    "Mechanical",
+    "Automobile"
+  ],
+  "Bachelor of Design": [
+    "DA",
+    "Design",
+    "Bachelor of Design"
+  ],
+  "Electronic Instrumentation and Control Engineering": [
+    "IX",
+    "Electronics",
+    "Instrumentation",
+    "Control"
+  ],
+  "Electrical and Computer Engineering": [
+    "EF",
+    "Electrical",
+    "Computer"
+  ],
+  "Electronics and Computer Engineering": [
+    "EX",
+    "Electronics",
+    "Computer"
+  ],
+  "Civil Engineering (Environmental Engineering)": [
+    "CK",
+    "Civil",
+    "Environmental"
+  ],
+  "Mechanical and Smart Manufacturing": [
+    "MJ",
+    "Mechanical",
+    "Smart Manufacturing"
+  ],
+  "Interior Design (SS)": [
+    "ID",
+    "Interior Design",
+    "SS",
+    "self sustain"
+  ],
+  "ENVIRONMENTAL SCIENCE & TECHNOLOGY": [
+    "ER",
+    "Environmental Science"
+  ],
+  "ROBOTICS AND ARTIFICIAL INTELLIGENCE": [
+    "RI",
+    "Robotics",
+    "AI"
+  ],
+  "COMPUTER SCIENCE AND ENGINEERING(ARTIFICIAL INTELLIGENCE)": [
+    "CA",
+    "CSE",
+    "AI"
+  ],
+  "Interior Design": [
+    "IF",
+    "Interior Design"
+  ],
+  "CHEMICAL AND ELECTRO CHEMICAL ENGINEERING": [
+    "CX",
+    "Chemical",
+    "Electro Chemical"
+  ]
+}

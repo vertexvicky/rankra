@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colleges | Rankra - TNEA</title>
+  <meta name="description" content="Search all 430+ TNEA engineering colleges with cutoff ranges and projections.">
+  <link rel="icon" type="image/png" href="../../assets/rankra_favicon30.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../../shared/css/tokens.css">
+  <link rel="stylesheet" href="../../shared/css/reset.css">
+  <link rel="stylesheet" href="../../shared/css/animations.css">
+  <link rel="stylesheet" href="../../shared/css/components.css">
+  <link rel="stylesheet" href="../../shared/css/layout.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body class="light">
+
+  <header class="site-header" role="banner"></header>
+
+  <!-- Sticky search bar — same pattern as filter-bar -->
+  <!-- Sticky search bar — stacked layout -->
+  <div class="college-filter-bar">
+    <div class="college-filter-container">
+      
+      <div class="filter-row">
+        <div class="filter-label">Search by your cutoff</div>
+        <div class="search-box-wrap">
+          <input type="number" id="cutoffSearch" class="search-input" placeholder="enter your cutoff" step="0.5" min="0" max="200">
+          <button class="search-action-btn" id="cutoffBtn">Search</button>
+        </div>
+      </div>
+
+      <div class="filter-row">
+        <div class="search-box-wrap full-width">
+          <input type="text" id="collegeSearch" class="search-input" placeholder="search by college name, code, district" autocomplete="off">
+        </div>
+        
+        <div class="district-wrap" id="district-wrap">
+          <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="district-label">District (all)</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <main class="college-main">
+    <div id="collegeList" class="college-list"></div>
+  </main>
+
+  <script type="module" src="college.js"></script>
+
+  <script type="module" src="../../shared/components/auth/auth.js"></script>
+</body>
+</html>

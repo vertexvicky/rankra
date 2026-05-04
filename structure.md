@@ -83,7 +83,7 @@ rankra/
 │   │   ├── rankra_favicon30.png    ← Browser tab favicon (30px)
 │   │   ├── rankra_logo.png         ← Full-size logo for portal page
 │   │   └── rankra_logo50.png       ← 50px logo used in app headers
-│   ├── colleges/               ← College information pages
+│   ├── college/                ← College information pages
 │   │   └── sample/             ← Sample college implementation
 │   │       ├── college-config.js ← JSON configuration for sample college
 │   │       ├── index.html      ← Sample college entry point

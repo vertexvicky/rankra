@@ -247,6 +247,25 @@
   }
 }
 
+.highlight {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.sheet-suggestion-header {
+  padding: 12px 18px 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-style: italic;
+  opacity: 0.9;
+}
+
 .search-box {
   position: relative;
   display: flex;

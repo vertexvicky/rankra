@@ -1,0 +1,128 @@
+body {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.course-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.course-header-section {
+  text-align: center;
+  margin: 20px 0 30px;
+  animation: fadeDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.4;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.course-rect {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 15px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  min-height: 110px;
+  justify-content: center;
+}
+
+.course-rect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.course-rect:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--accent);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+.course-rect:hover::before {
+  opacity: 1;
+}
+
+.course-code {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 4px 12px;
+  border-radius: 8px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.course-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+body.dark .course-rect {
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .course-rect:hover {
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 640px) {
+  .page-title {
+    font-size: 1.5rem;
+  }
+  .course-name {
+    font-size: 1rem;
+  }
+  .course-rect {
+    padding: 12px 10px;
+    min-height: 90px;
+  }
+}

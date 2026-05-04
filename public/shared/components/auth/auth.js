@@ -72,6 +72,13 @@ const onboardingFieldsHTML = `
     </div>
   </div>
 
+  <div id="auth-section-cutoff">
+    <div class="auth-label">Cutoff Mark</div>
+    <div class="auth-input-group">
+      <input type="number" class="auth-input auth-cutoff-input" placeholder="e.g. 185.5" step="0.5" min="0" max="200" />
+    </div>
+  </div>
+
   <div class="auth-label">Gender</div>
   <div class="auth-chips" data-field="gender">
     <button type="button" class="auth-chip" data-value="Male">Male</button>
@@ -203,11 +210,11 @@ function initChips() {
 
       // Handle Teacher toggle: Gray only community
       if (container.dataset.field === 'role') {
-        const commSection = document.querySelectorAll('#auth-section-community');
+        const sections = document.querySelectorAll('#auth-section-community, #auth-section-cutoff');
         if (chip.dataset.value === 'Teacher') {
-          commSection.forEach(f => f.classList.add('auth-section-disabled'));
+          sections.forEach(f => f.classList.add('auth-section-disabled'));
         } else {
-          commSection.forEach(f => f.classList.remove('auth-section-disabled'));
+          sections.forEach(f => f.classList.remove('auth-section-disabled'));
         }
       }
     });
@@ -255,6 +262,13 @@ function setView(view) {
     subtitleEl.textContent = 'Please fill these things then use rankra enhance and give titles etc..';
     googleSec.classList.add('hidden');
     backTopBtn.classList.add('hidden');
+
+    // Pre-fill cutoff from localStorage if available
+    const localCutoff = localStorage.getItem('rankra_cutoff');
+    if (localCutoff) {
+      const cutoffInp = document.querySelector('.auth-view:not(.hidden) .auth-cutoff-input');
+      if (cutoffInp) cutoffInp.value = localCutoff;
+    }
   }
 }
 
@@ -313,6 +327,7 @@ async function saveUserProfile(user, data) {
     gender: data.gender || '',
     role: data.role || 'Student',
     community: data.role === 'Teacher' ? null : data.community,
+    cutoff: data.role === 'Teacher' ? null : data.cutoff,
     schoolType: data.role === 'Teacher' ? null : data.schoolType,
     medium: data.role === 'Teacher' ? null : data.medium,
     onboardingComplete: true,
@@ -393,9 +408,14 @@ form.addEventListener('submit', async (e) => {
       if (!schoolType) missing.push('school type');
 
       let community = null;
+      let cutoff = null;
       if (role === 'Student') {
         community = getChipValue('community');
         if (!community) missing.push('community');
+
+        const cutoffInp = document.querySelector('.auth-view:not(.hidden) .auth-cutoff-input');
+        cutoff = cutoffInp ? parseFloat(cutoffInp.value) : null;
+        if (!cutoff || isNaN(cutoff)) missing.push('cutoff mark');
       }
 
       if (!gender) missing.push('gender');
@@ -417,12 +437,12 @@ form.addEventListener('submit', async (e) => {
         if (password.length < 6) throw new Error('Password must be 6 characters.');
         const cred = await createUserWithEmailAndPassword(auth, email, password);
         user = cred.user;
-        await saveUserProfile(user, { name, gender, role, community, schoolType, medium });
+        await saveUserProfile(user, { name, gender, role, community, schoolType, medium, cutoff });
         await sendEmailVerification(user);
         setView('email');
         showMessage('Check your email for the verification link!');
       } else {
-        await saveUserProfile(user, { gender, role, community, schoolType, medium });
+        await saveUserProfile(user, { gender, role, community, schoolType, medium, cutoff });
         modal.classList.add('hidden');
         if (authCallback) authCallback(user, currentProfile);
       }
@@ -465,6 +485,21 @@ const authReadyPromise = new Promise((resolve) => {
       if (user) {
         try {
           currentProfile = await getCachedProfile(user.uid);
+
+          // Detect missing cutoff in existing profile and sync from rankra_cutoff
+          if (currentProfile && currentProfile.cutoff === undefined && currentProfile.role === 'Student') {
+            const localCutoff = localStorage.getItem('rankra_cutoff');
+            if (localCutoff) {
+              const val = parseFloat(localCutoff);
+              if (!isNaN(val)) {
+                // Background update to Firestore and local cache
+                const updated = { ...currentProfile, cutoff: val, updatedAt: new Date() };
+                setDoc(doc(db, 'users', user.uid), updated).catch(console.error);
+                localStorage.setItem(CACHE_KEY_PREFIX + user.uid, JSON.stringify(updated));
+                currentProfile = updated;
+              }
+            }
+          }
         } catch (e) {
           console.error("Profile fetch failed:", e);
         }
@@ -522,6 +557,11 @@ window.RankraAuth = {
   },
   async updateProfile(data) {
     if (!currentUser) throw new Error('Not authenticated');
+
+    // Also update standalone localStorage keys for backward compatibility with tnea.js
+    if (data.cutoff !== undefined) localStorage.setItem('rankra_cutoff', data.cutoff);
+    if (data.community !== undefined) localStorage.setItem('rankra_comm', data.community);
+
     const updated = { ...currentProfile, ...data, updatedAt: new Date() };
     await setDoc(doc(db, 'users', currentUser.uid), updated);
     localStorage.setItem(CACHE_KEY_PREFIX + currentUser.uid, JSON.stringify(updated));
@@ -530,7 +570,13 @@ window.RankraAuth = {
     return updated;
   },
   async logout() {
-    if (currentUser) localStorage.removeItem(CACHE_KEY_PREFIX + currentUser.uid);
+    if (currentUser) {
+      localStorage.removeItem(CACHE_KEY_PREFIX + currentUser.uid);
+    }
+    // Clear global preferences on logout
+    localStorage.removeItem('rankra_comm');
+    localStorage.removeItem('rankra_cutoff');
+    
     await signOut(auth);
     window.location.reload();
   },

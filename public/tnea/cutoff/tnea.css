@@ -166,16 +166,17 @@
 }
 
 .cutoff-input {
-  width: 40px;
-  padding: 2px 5px;
+  width: 50px;
+  padding: 4px 6px;
   text-align: center;
   background: var(--bg-primary);
   border: 1.5px solid var(--border);
-  border-radius: 6px;
-  font-size: .8125rem;
+  border-radius: 8px;
+  font-size: .875rem;
   font-weight: 700;
   outline: none;
-  transition: border-color var(--t);
+  transition: all var(--t);
+  color: var(--accent);
 }
 
 .cutoff-input:focus {

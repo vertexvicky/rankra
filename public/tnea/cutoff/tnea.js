@@ -8,8 +8,7 @@ import { SiteHeader } from '../../shared/js/SiteHeader.js';
 
 import { requestJSON, getYearFromURL, initBackgroundCache } from '../../shared/js/caching.js';
 
-const _v1 = "rank";
-const ENABLE_GUEST_LIMIT = false; // Master switch for sign-in wall and limits
+const ENABLE_GUEST_LIMIT = false; 
 
 const S = {
   data: [],
@@ -214,6 +213,7 @@ function initCutoffModal() {
         </div>
 
         <h3 class="calc-section-title" style="margin-bottom: 8px; text-align: center; opacity: 0.8;">Enter your cutoff mark</h3>
+        <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Range: <span id="modal-cutoff-display">---</span> to 0</p>
         <div class="calc-section" style="margin-bottom: 24px; display: flex; justify-content: center;">
           <div class="calc-field" style="width: 140px;">
             <input type="number" id="calc-direct" placeholder="e.g. 185" min="0" max="200" step="0.5" 
@@ -234,6 +234,7 @@ function initCutoffModal() {
     }
     if (savedCutoff) {
       modal.querySelector('#calc-direct').value = savedCutoff;
+      modal.querySelector('#modal-cutoff-display').textContent = savedCutoff;
     }
     chips.forEach(chip => {
       chip.addEventListener('click', () => {
@@ -242,6 +243,12 @@ function initCutoffModal() {
         selectedComm = chip.dataset.value;
         $('modal-comm-chips').style.animation = 'none';
       });
+    });
+
+    const calcDirect = modal.querySelector('#calc-direct');
+    calcDirect.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      modal.querySelector('#modal-cutoff-display').textContent = isNaN(val) ? '---' : val;
     });
 
     const close = () => {
@@ -283,8 +290,8 @@ function initCutoffModal() {
       }
       setCommUI(S.cutoffComm);
 
-      S.rangeMin = Math.max(0, Math.round(cutoff - 10));
-      S.rangeMax = Math.min(200, Math.round(cutoff + 10));
+      S.rangeMin = 0;
+      S.rangeMax = cutoff;
 
       if ($('target-cutoff')) $('target-cutoff').value = S.targetCutoff;
       if ($('range-min')) $('range-min').value = S.rangeMin;
@@ -295,8 +302,6 @@ function initCutoffModal() {
     });
   });
 }
-
-const _v2 = "vicky";
 
 function initFromURL() {
   const params = new URLSearchParams(window.location.search);
@@ -437,13 +442,24 @@ async function init() {
           const dataMap = await requestJSON([path]);
           const raw = dataMap[path];
           
-          S.data = raw.map(r => {
-            const d = TNEA_CONFIG.districtNorm[r.district] || r.district || 'Unknown';
-            const conClean = r.con ? r.con.split('\n')[0].trim() : '';
-            const abbrMatch = r.con ? r.con.match(/\(([^)]+)\)/g) : null;
-            const abbrs = abbrMatch ? abbrMatch.map(m => m.slice(1, -1).toLowerCase()) : [];
-            return { ...r, district: d, _conClean: conClean, _abbrs: abbrs };
-          });
+      S.data = raw.map(r => {
+        const d = TNEA_CONFIG.districtNorm[r.district] || r.district || 'Unknown';
+        
+        let conClean = '';
+        if (r.con) {
+          const parts = r.con.split('\n');
+          const namePart = parts[0] ? parts[0].trim() : '';
+          let dPart = '';
+          if (parts.length > 1) {
+            dPart = parts[1].split('-')[0].trim();
+          }
+          conClean = dPart ? `${namePart} ${dPart}` : namePart;
+        }
+
+        const abbrMatch = r.con ? r.con.match(/\(([^)]+)\)/g) : null;
+        const abbrs = abbrMatch ? abbrMatch.map(m => m.slice(1, -1).toLowerCase()) : [];
+        return { ...r, district: d, _conClean: conClean, _abbrs: abbrs };
+      });
           buildSearchIndex();
         } catch (e) {
           console.error("[Year Switch] Failed to load year data:", e);
@@ -467,16 +483,32 @@ async function boot() {
   
   // Use centralized caching
   try {
+    const csearchPath = '/assets/db/tnea/college/csearch.json';
     const distPath = '/assets/db/tndistricts.json';
     const cutoffPath = `/assets/db/tnea/cutoff/${S.year.split('').reverse().join('')}.gzip`;
     
-    const dataMap = await requestJSON([cutoffPath, distPath]);
+    const v = Date.now();
+    const dataMap = await requestJSON([
+      cutoffPath, 
+      distPath, 
+      `${csearchPath}?v=${v}`
+    ]);
     const raw = dataMap[cutoffPath];
     S.allDistricts = dataMap[distPath];
+    S.csearch = dataMap[`${csearchPath}?v=${v}`];
 
     S.data = raw.map(r => {
       const d = TNEA_CONFIG.districtNorm[r.district] || r.district || 'Unknown';
-      const conClean = r.con ? r.con.split('\n')[0].trim() : '';
+      let conClean = '';
+      if (r.con) {
+        const parts = r.con.split('\n');
+        const namePart = parts[0] ? parts[0].trim() : '';
+        let dPart = '';
+        if (parts.length > 1) {
+          dPart = parts[1].split('-')[0].trim();
+        }
+        conClean = dPart ? `${namePart} ${dPart}` : namePart;
+      }
       const abbrMatch = r.con ? r.con.match(/\(([^)]+)\)/g) : null;
       const abbrs = abbrMatch ? abbrMatch.map(m => m.slice(1, -1).toLowerCase()) : [];
       return { ...r, district: d, _conClean: conClean, _abbrs: abbrs };
@@ -497,11 +529,6 @@ async function boot() {
 }
 
 
-const _v3 = "1611";
-
-const BR_CACHE_KEY = 'tnea_db_cutoffmark_cached';
-
-
 function buildSearchIndex() {
   const t = new Trie();
   S.data.forEach((r, i) => {
@@ -515,6 +542,16 @@ function buildSearchIndex() {
     if (r.brc) t.add(r.brc.toLowerCase(), i);
     t.add(String(r.coc), i);
     t.add(String(r.coc).padStart(4, '0'), i);
+
+    // Add csearch aliases
+    if (S.csearch && r.con) {
+      const aliases = S.csearch[r.con] || [];
+      aliases.forEach(alias => {
+        tok(alias).forEach(w => t.add(w, i));
+        const sq = alias.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (sq) t.add(sq, i);
+      });
+    }
   });
   S.trie = t;
 }
@@ -644,6 +681,8 @@ function render() {
   resultsBody.innerHTML = '';
   window.scrollTo({ top: 0 });
   applyFilters();
+  const totalSeatsSum = S.filtered.reduce((sum, r) => sum + tSeats(r), 0);
+  console.log(`Total seats across all results: ${totalSeatsSum}`);
   syncURL();
   S.rendered = 0;
 
@@ -1132,6 +1171,8 @@ function bindEvents() {
       } else {
         S.targetCutoff = Math.max(0, Math.min(200, v));
         e.target.value = S.targetCutoff;
+        S.rangeMin = 0;
+        S.rangeMax = S.targetCutoff;
       }
       render();
     });

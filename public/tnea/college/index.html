@@ -17,17 +17,32 @@
 <body class="light">
 
   <header class="site-header" role="banner"></header>
-
-  <!-- Sticky search bar — same pattern as filter-bar -->
-  <!-- Sticky search bar — stacked layout -->
   <div class="college-filter-bar">
     <div class="college-filter-container">
       
       <div class="filter-row">
-        <div class="filter-label">Search by your cutoff</div>
-        <div class="search-box-wrap">
-          <input type="number" id="cutoffSearch" class="search-input" placeholder="enter your cutoff" step="0.5" min="0" max="200">
-          <button class="search-action-btn" id="cutoffBtn">Search</button>
+        <span class="filter-label">Search by your cutoff</span>
+        <div class="search-box-wrap" style="width: 72px; flex: none;">
+          <input type="number" id="cutoffSearch" class="search-input" placeholder="00.0" step="0.5" min="0" max="200" style="padding: 8px 4px; text-align: center;">
+        </div>
+        
+        <span class="filter-label">& community</span>
+        <div class="district-wrap" id="comm-wrap">
+          <button class="pill-btn" id="comm-btn" aria-haspopup="true" aria-expanded="false" style="min-width: 80px; height: 100%; border-radius: 8px;">
+            <span id="comm-btn-text">OC</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="sort-dropdown" id="comm-dropdown" hidden style="min-width: 100px;">
+            <div class="sort-option active" data-value="OC">OC</div>
+            <div class="sort-option" data-value="BC">BC</div>
+            <div class="sort-option" data-value="BCM">BCM</div>
+            <div class="sort-option" data-value="MBC">MBC</div>
+            <div class="sort-option" data-value="SC">SC</div>
+            <div class="sort-option" data-value="SCA">SCA</div>
+            <div class="sort-option" data-value="ST">ST</div>
+          </div>
         </div>
       </div>
 

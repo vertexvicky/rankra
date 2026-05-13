@@ -99,6 +99,7 @@
   background: var(--accent-hover);
 }
 
+
 .college-main {
   max-width: 1400px;
   margin: 0 auto;
@@ -404,4 +405,28 @@
 .empty-sub {
   font-size: .875rem;
   color: var(--text-secondary);
+}
+
+.possibility-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+.possibility-badge[data-sentiment="positive"] {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.possibility-badge[data-sentiment="warning"] {
+  background: var(--yellow-soft);
+  color: var(--yellow);
+}
+
+.possibility-badge[data-sentiment="negative"] {
+  background: var(--red-soft);
+  color: var(--red);
 }

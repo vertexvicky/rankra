@@ -16,10 +16,6 @@ function normalizeDistrict(d) {
 }
 
 let shDistrict = null;
-const S = {
-  districts: new Set(),
-  districtMode: 'include'
-};
 
 document.addEventListener('DOMContentLoaded', () => {
   new SiteHeader({
@@ -33,13 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let cocs = {}, searchIndex = {}, ranges = {}, allCodes = [];
 
+const S = {
+  districts: new Set(),
+  districtMode: 'include',
+  community: 'OC'
+};
+
 async function init() {
   try {
+    const v = Date.now(); // Cache-buster
     const paths = [
-      '/assets/db/tnea/college/cocs.json',
-      '/assets/db/tnea/college/csearch.json',
-      '/assets/db/tnea/college/cutrange.json',
-      '/assets/db/tndistricts.json'
+      `/assets/db/tnea/college/cocs.json?v=${v}`,
+      `/assets/db/tnea/college/csearch.json?v=${v}`,
+      `/assets/db/tnea/college/cutrange.json?v=${v}`,
+      `/assets/db/tndistricts.json?v=${v}`
     ];
     const data = await requestJSON(paths);
     
@@ -48,14 +51,10 @@ async function init() {
     ranges      = data[paths[2]];
     const districts = data[paths[3]];
     
-    // Sort allCodes by max cutoff 2025 (descending)
-    allCodes = Object.keys(cocs).sort((a, b) => {
-      const maxA = (ranges[a] && ranges[a][0]) || 0;
-      const maxB = (ranges[b] && ranges[b][0]) || 0;
-      return maxB - maxA;
-    });
+    // Sort allCodes by max cutoff 2025 (descending) for the current community
+    updateSort();
 
-    // Initialize district filter using the new JSON
+    // Initialize district filter
     shDistrict = new FilterSheet('district-sheet', {
       title: 'Select Districts',
       items: districts,
@@ -82,17 +81,82 @@ async function init() {
     const distBtn = document.getElementById('district-btn');
     if (distBtn) distBtn.addEventListener('click', () => shDistrict.open());
 
+    // Custom Community Dropdown Logic
+    const commBtn = document.getElementById('comm-btn');
+    const commDropdown = document.getElementById('comm-dropdown');
+    const commBtnText = document.getElementById('comm-btn-text');
+
+    if (commBtn && commDropdown) {
+      commBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willBeOpen = commDropdown.hidden;
+        commDropdown.hidden = !willBeOpen;
+        commBtn.setAttribute('aria-expanded', String(willBeOpen));
+      });
+
+      commDropdown.querySelectorAll('.sort-option').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const val = opt.dataset.value;
+          S.community = val;
+          commBtnText.textContent = val;
+          
+          // Update active state in UI
+          commDropdown.querySelectorAll('.sort-option').forEach(o => o.classList.toggle('active', o === opt));
+          
+          commDropdown.hidden = true;
+          commBtn.setAttribute('aria-expanded', 'false');
+          
+          updateSort();
+          runSearch();
+        });
+      });
+
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!commBtn.contains(e.target) && !commDropdown.contains(e.target)) {
+          commDropdown.hidden = true;
+          commBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
     render(allCodes);
   } catch (e) {
+    console.error(e);
     const list = document.getElementById('collegeList');
     if (list) list.innerHTML = `<div class="empty-state">Failed to load registry: ${e.message}</div>`;
   }
 }
 
+function updateSort() {
+  allCodes = Object.keys(cocs).sort((a, b) => {
+    let rA = [0, 0], rB = [0, 0];
+    const rawA = ranges[a], rawB = ranges[b];
+    
+    if (rawA) {
+      if (Array.isArray(rawA)) rA = rawA;
+      else if (rawA[S.community]) rA = rawA[S.community];
+    }
+    if (rawB) {
+      if (Array.isArray(rawB)) rB = rawB;
+      else if (rawB[S.community]) rB = rawB[S.community];
+    }
+    
+    return rB[0] - rA[0];
+  });
+}
+
 function parse(str) {
-  const [name, loc = ''] = str.split('\n');
-  const d = loc.split('-')[0] || '';
-  return { name, district: normalizeDistrict(d) };
+  if (!str) return { name: '', district: '' };
+  const parts = str.split('\n');
+  const namePart = parts[0] ? parts[0].trim() : '';
+  let d = '';
+  if (parts.length > 1) {
+    d = parts[1].split('-')[0].trim();
+  }
+  const fullName = d ? `${namePart} ${d}` : namePart;
+  return { name: fullName, district: normalizeDistrict(d) };
 }
 
 function getEditDistance(a, b) {
@@ -122,6 +186,7 @@ function highlight(text, query) {
 function render(codes) {
   const list  = document.getElementById('collegeList');
   const tq = textInput?.value || '';
+  const cq = parseFloat(cutoffInput?.value);
 
   if (!codes.length) {
     list.innerHTML = `
@@ -131,17 +196,33 @@ function render(codes) {
           <line x1="8" y1="11" x2="14" y2="11"/>
         </svg>
         <p class="empty-title">No colleges found</p>
-        <p class="empty-sub">Try a different name, code or cutoff</p>
+        <p class="empty-sub">Try a different name, code or community</p>
       </div>`;
     return;
   }
 
   list.innerHTML = codes.map(code => {
     const { name, district } = parse(cocs[code]);
-    const r = ranges[code] || [];
-    const max25 = r[0] || 0;
-    const min25 = r[1] || 0;
-    const min24 = r[5] || 0;
+    
+    // SMART RANGE PARSING: Handle both old array format and new community object format
+    let r = [0, 0, 0, 0, 0, 0];
+    const rawRange = ranges[code];
+    if (rawRange) {
+      if (Array.isArray(rawRange)) {
+        r = rawRange; // Fallback to old format
+      } else if (typeof rawRange === 'object' && rawRange[S.community]) {
+        r = rawRange[S.community]; // Use new community format
+      }
+    }
+    
+    const [max25, min25, max_cagr, min_cagr, max_proj, min_proj] = r;
+
+    let possibilityBadge = '';
+    if (!isNaN(cq) && cq > 0 && max25 > 0) {
+      if (cq < min25 - 2) {
+        possibilityBadge = `<span class="possibility-badge" data-sentiment="negative">Low Possibility</span>`;
+      }
+    }
 
     return `
       <a class="clg-card result-card" href="view?code=${code}">
@@ -150,13 +231,14 @@ function render(codes) {
             <div class="clg-meta">
               <span class="clg-code">Code ${highlight(code, tq)}</span>
               <span class="clg-district">${highlight(district, tq)}</span>
+              ${possibilityBadge}
             </div>
             <div class="clg-name">${highlight(name, tq)}</div>
           </div>
           <div class="clg-right">
-            <span class="clg-range-low">${min25.toFixed(1)}</span>
+            <span class="clg-range-low">${min25 > 0 ? min25.toFixed(1) : '—'}</span>
             <span class="clg-range-sep">to</span>
-            <span class="clg-range-high">${max25.toFixed(1)}</span>
+            <span class="clg-range-high">${max25 > 0 ? max25.toFixed(1) : '—'}</span>
           </div>
         </div>
         <div class="clg-row-3">
@@ -174,14 +256,37 @@ const runSearch = () => {
   const tq = textInput.value.toLowerCase().trim();
   
   let filtered = allCodes.filter(code => {
-    const r = ranges[code] || [];
-    return (r[0] || 0) > 0 || (r[1] || 0) > 0;
+    const raw = cocs[code] || '';
+    const r = (ranges[code] && ranges[code][S.community]) || [0, 0, 0, 0, 0, 0];
+    const exists = r[0] > 0 || r[1] > 0;
+    if (!exists) return false;
+
+    if (tq) {
+      const q = tq.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (q) {
+        const { name, district } = parse(raw);
+        const kws = searchIndex[code] || [];
+        
+        const normCode = code.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const normName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const normDist = district.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const normKws  = kws.map(k => k.toLowerCase().replace(/[^a-z0-9]/g, ''));
+
+        const match = normCode.includes(q) || 
+                      normName.includes(q) || 
+                      normDist.includes(q) || 
+                      normKws.some(k => k.includes(q));
+        return match;
+      }
+    }
+    return true;
   });
 
   if (!isNaN(cq) && cq > 0) {
     filtered = filtered.filter(code => {
-      const [max = 0, min = 0] = ranges[code] || [];
-      return cq >= min - 5; 
+      const r = (ranges[code] && ranges[code][S.community]) || [0, 0, 0, 0, 0, 0];
+      const min = r[1] || 0;
+      return cq >= min; // Absolute filter
     });
   }
 
@@ -199,16 +304,14 @@ const runSearch = () => {
     const scored = filtered.map(code => {
       const full = cocs[code];
       const { name, district } = parse(full);
-      const kws  = searchIndex[full] || [];
+      const kws  = searchIndex[code] || []; // Use code for index lookup
       const normName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
       const normDist = district.toLowerCase().replace(/[^a-z0-9]/g, '');
       
-      // Case 1: Exact or substring match (Highest priority)
       if (code.includes(rq) || normName.includes(rq) || normDist.includes(rq) || kws.some(k => k.toLowerCase().includes(rq))) {
         return { code, score: 0 };
       }
       
-      // Case 2: Fuzzy match (Typo tolerance)
       if (rq.length > 3) {
         const words = normName.split(/\s+/).concat(normDist.split(/\s+/));
         let bestDist = 3; 
@@ -231,5 +334,3 @@ const runSearch = () => {
 
 if (cutoffInput) cutoffInput.addEventListener('input', runSearch);
 if (textInput) textInput.addEventListener('input', runSearch);
-const cutoffBtn = document.getElementById('cutoffBtn');
-if (cutoffBtn) cutoffBtn.addEventListener('click', runSearch);

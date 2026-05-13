@@ -180,12 +180,24 @@ const normalize = (raw = {}) => {
   const communities = normalizeCommunities(raw, cutoffs);
   const courses = normalizeCourses(raw, communities);
   const website = String(raw.website||'').trim();
+  let rawName = toText(raw.name, 'College name');
+  let d = toText(raw.district || raw.location, '—');
+  if (rawName.includes('\n')) {
+    const parts = rawName.split('\n');
+    rawName = parts[0].trim();
+    if (parts.length > 1) {
+      const parsedLoc = parts[1].split('-')[0].trim();
+      if (parsedLoc) d = parsedLoc;
+    }
+  }
+  const fullName = (d !== '—' && !rawName.toLowerCase().includes(d.toLowerCase())) ? `${rawName} ${d}` : rawName;
+
   return {
     code: raw['college code'] ?? raw.code ?? null,
     logoPath: resolveLogoPath(raw['college logo'] || raw.logoPath),
-    name: toText(raw.name, 'College name'),
+    name: fullName,
     type: toText(raw.type, 'College'),
-    district: toText(raw.district || raw.location, '—'),
+    district: d,
     estd: toText(raw.estd || raw.establishedIn, '—'),
     quote: String(raw['college quote'] || raw.quote || '').trim(),
     overview: String(raw.overview || '').trim(),

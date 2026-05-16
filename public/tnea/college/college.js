@@ -26,11 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
     logoPath: '../../assets/rankra_logo50.png'
   });
   initTheme();
-  initBackgroundCache(); 
+  initBackgroundCache();
   init();
 });
 
 let cocs = {}, searchIndex = {}, ranges = {}, globalMaxMap = {}, courseCodesMap = {}, branchRecordsMap = {}, allCodes = [];
+let cutoffInput, textInput;
 
 const S = {
   districts: new Set(),
@@ -44,7 +45,22 @@ const S = {
 
 async function init() {
   try {
-    const cutoffPath = `/assets/db/tnea/cutoff/5202.gzip`;
+    cutoffInput = document.getElementById('cutoffSearch');
+    textInput = document.getElementById('collegeSearch');
+
+    if (cutoffInput) cutoffInput.addEventListener('input', runSearch);
+    if (textInput) textInput.addEventListener('input', runSearch);
+
+    const params = new URLSearchParams(window.location.search);
+    const initialYear = params.get('year') || '2025';
+    const yearReversed = initialYear.split('').reverse().join('');
+    const cutoffPath = `/assets/db/tnea/cutoff/${yearReversed}.gzip`;
+    
+    const yearBtnText = document.getElementById('year-btn-text');
+    if (yearBtnText) yearBtnText.textContent = initialYear;
+
+    loadStateFromURL();
+
     const paths = [
       `/assets/db/tnea/college/cocs.json`,
       `/assets/db/tnea/college/csearch.json`,
@@ -53,8 +69,8 @@ async function init() {
       `/assets/db/tnea/college/type.json`
     ];
     const data = await requestJSON(paths);
-    
-    cocs        = data[paths[0]];
+
+    cocs = data[paths[0]];
     searchIndex = data[paths[1]];
     const rawCutoff = data[cutoffPath];
     const districts = data[paths[3]];
@@ -74,7 +90,7 @@ async function init() {
       if (gMax[code] === undefined) gMax[code] = 0;
       if (!cCodes[code]) cCodes[code] = new Set();
       if (!bRecords[code]) bRecords[code] = [];
-      
+
       bRecords[code].push(r);
       if (r.brc) {
         cCodes[code].add(r.brc);
@@ -99,7 +115,7 @@ async function init() {
     globalMaxMap = gMax;
     Object.keys(cCodes).forEach(k => { courseCodesMap[k] = [...cCodes[k]].sort(); });
     branchRecordsMap = bRecords;
-    
+
     // Sort allCodes by max cutoff 2025 (descending) for the current community
     updateSort();
 
@@ -108,21 +124,17 @@ async function init() {
       title: 'Select Districts',
       items: districts,
       showModeToggle: true,
+      selected: Array.from(S.districts),
+      mode: S.districtMode,
       onApply: (selected, mode) => {
         S.districts = selected;
         S.districtMode = mode;
-        const label = document.getElementById('district-label');
-        const btn = document.getElementById('district-btn');
-        if (label) label.textContent = selected.size > 0 ? `Districts (${selected.size})` : 'District (all)';
-        if (btn) btn.classList.toggle('active', selected.size > 0);
+        syncFilterUI();
         runSearch();
       },
       onClear: () => {
         S.districts.clear();
-        const label = document.getElementById('district-label');
-        const btn = document.getElementById('district-btn');
-        if (label) label.textContent = 'District (all)';
-        if (btn) btn.classList.remove('active');
+        syncFilterUI();
         runSearch();
       }
     });
@@ -140,21 +152,17 @@ async function init() {
       title: 'Select Courses',
       items: courseList,
       showModeToggle: true,
+      selected: Array.from(S.courses),
+      mode: S.courseMode,
       onApply: (selected, mode) => {
         S.courses = selected;
         S.courseMode = mode;
-        const label = document.getElementById('course-label');
-        const btn = document.getElementById('course-btn');
-        if (label) label.textContent = selected.size > 0 ? `Courses (${selected.size})` : 'Course (all)';
-        if (btn) btn.classList.toggle('active', selected.size > 0);
+        syncFilterUI();
         runSearch();
       },
       onClear: () => {
         S.courses.clear();
-        const label = document.getElementById('course-label');
-        const btn = document.getElementById('course-btn');
-        if (label) label.textContent = 'Course (all)';
-        if (btn) btn.classList.remove('active');
+        syncFilterUI();
         runSearch();
       }
     });
@@ -175,33 +183,30 @@ async function init() {
     // Initialize type filter
     const typeList = typesData ? Object.keys(typesData).map(t => t.toUpperCase()).sort() : [];
 
-    const updateTypeUI = (selected) => {
-      const label   = document.getElementById('type-label');
-      const btn     = document.getElementById('type-btn');
-      const hasSelection = selected && selected.size > 0;
-      if (label)   label.textContent = hasSelection ? `College Type (${selected.size})` : 'College Type';
-      if (btn)     btn.classList.toggle('active', hasSelection);
-    };
-
     shType = new FilterSheet('type-sheet', {
       title: 'Select College Types',
       items: typeList,
       showModeToggle: true,
+      selected: Array.from(S.types),
+      mode: S.typeMode,
       onApply: (selected, mode) => {
         S.types = selected;
         S.typeMode = mode;
-        updateTypeUI(selected);
+        syncFilterUI();
         runSearch();
       },
       onClear: () => {
         S.types.clear();
-        updateTypeUI(S.types);
+        syncFilterUI();
         runSearch();
       }
     });
 
     const typeBtn = document.getElementById('type-btn');
     if (typeBtn) typeBtn.addEventListener('click', () => shType.open());
+
+    // Sync UI after state is loaded
+    syncFilterUI();
 
 
     // Custom Community Dropdown Logic
@@ -218,18 +223,21 @@ async function init() {
       });
 
       commDropdown.querySelectorAll('.sort-option').forEach(opt => {
+        if (opt.dataset.value === S.community) opt.classList.add('active');
+        else opt.classList.remove('active');
+        
         opt.addEventListener('click', (e) => {
           e.stopPropagation();
           const val = opt.dataset.value;
           S.community = val;
           commBtnText.textContent = val;
-          
+
           // Update active state in UI
           commDropdown.querySelectorAll('.sort-option').forEach(o => o.classList.toggle('active', o === opt));
-          
+
           commDropdown.hidden = true;
           commBtn.setAttribute('aria-expanded', 'false');
-          
+
           updateSort();
           runSearch();
         });
@@ -245,9 +253,8 @@ async function init() {
     }
 
     // Year switcher
-    const yearBtn      = document.getElementById('year-btn');
+    const yearBtn = document.getElementById('year-btn');
     const yearDropdown = document.getElementById('year-dropdown');
-    const yearBtnText  = document.getElementById('year-btn-text');
 
     if (yearBtn && yearDropdown) {
       yearBtn.addEventListener('click', (e) => {
@@ -258,6 +265,9 @@ async function init() {
       });
 
       yearDropdown.querySelectorAll('.sort-option').forEach(opt => {
+        const currentYear = document.getElementById('year-btn-text')?.textContent || '2025';
+        opt.classList.toggle('active', opt.dataset.value === currentYear);
+
         opt.addEventListener('click', async (e) => {
           e.stopPropagation();
           const year = opt.dataset.value;
@@ -288,7 +298,7 @@ async function init() {
               if (!bRecords[code]) bRecords[code] = [];
               bRecords[code].push(r);
               if (r.brc) cCodes[code].add(r.brc);
-              ['OC','BC','BCM','MBC','SC','SCA','ST'].forEach(comm => {
+              ['OC', 'BC', 'BCM', 'MBC', 'SC', 'SCA', 'ST'].forEach(comm => {
                 if (!processedRanges[code][comm]) processedRanges[code][comm] = [0, 200, 0, 0, 0, 0];
                 const val = parseFloat(r[comm]);
                 if (!isNaN(val) && val > 0) {
@@ -307,7 +317,7 @@ async function init() {
             branchRecordsMap = bRecords;
             updateSort();
             runSearch();
-          } catch(err) {
+          } catch (err) {
             if (list) list.innerHTML = '<div class="empty-state">Failed to load ' + year + ' data.</div>';
           }
         });
@@ -322,6 +332,7 @@ async function init() {
     }
 
     render(allCodes);
+    runSearch(); // Apply initial URL filters
   } catch (e) {
     console.error(e);
     const list = document.getElementById('collegeList');
@@ -333,7 +344,7 @@ function updateSort() {
   allCodes = Object.keys(cocs).sort((a, b) => {
     const rA = ranges[a]?.[S.community] || [0, 0];
     const rB = ranges[b]?.[S.community] || [0, 0];
-    
+
     const hasA = rA[0] > 0;
     const hasB = rB[0] > 0;
 
@@ -349,7 +360,7 @@ function updateSort() {
       const gA = globalMaxMap[a] || 0;
       const gB = globalMaxMap[b] || 0;
       if (gB !== gA) return gB - gA;
-      
+
       const { name: nA } = parse(cocs[a]);
       const { name: nB } = parse(cocs[b]);
       return nA.localeCompare(nB);
@@ -367,6 +378,90 @@ function parse(str) {
   }
   const fullName = d ? `${namePart} ${d}` : namePart;
   return { name: fullName, district: normalizeDistrict(d) };
+}
+
+function updateURL() {
+  const params = new URLSearchParams();
+
+  // Year
+  const yearBtnText = document.getElementById('year-btn-text');
+  if (yearBtnText && yearBtnText.textContent !== '2025') {
+    params.set('year', yearBtnText.textContent);
+  }
+
+  // Community
+  if (S.community !== 'OC') params.set('comm', S.community);
+
+  // Search queries
+  const tq = textInput?.value?.trim();
+  if (tq) params.set('q', tq);
+
+  const cq = cutoffInput?.value;
+  if (cq && !isNaN(parseFloat(cq)) && parseFloat(cq) > 0) params.set('cutoff', cq);
+
+  // Filter Sets
+  if (S.districts.size > 0) {
+    params.set('dist', Array.from(S.districts).join(','));
+    if (S.districtMode !== 'include') params.set('dm', S.districtMode);
+  }
+  if (S.courses.size > 0) {
+    params.set('crs', Array.from(S.courses).join(','));
+    if (S.courseMode !== 'include') params.set('cm', S.courseMode);
+  }
+  if (S.types.size > 0) {
+    params.set('typ', Array.from(S.types).join(','));
+    if (S.typeMode !== 'include') params.set('tm', S.typeMode);
+  }
+
+  const queryString = params.toString();
+  const newURL = window.location.pathname + (queryString ? '?' + queryString : '');
+  window.history.replaceState(null, '', newURL);
+}
+
+function loadStateFromURL() {
+  const params = new URLSearchParams(window.location.search);
+
+  if (params.has('comm')) S.community = params.get('comm').toUpperCase();
+  if (params.has('q') && textInput) textInput.value = params.get('q');
+  if (params.has('cutoff') && cutoffInput) cutoffInput.value = params.get('cutoff');
+
+  if (params.has('dist')) {
+    S.districts = new Set(params.get('dist').split(','));
+    S.districtMode = params.get('dm') || 'include';
+  }
+  if (params.has('crs')) {
+    S.courses = new Set(params.get('crs').split(','));
+    S.courseMode = params.get('cm') || 'include';
+  }
+  if (params.has('typ')) {
+    S.types = new Set(params.get('typ').split(','));
+    S.typeMode = params.get('tm') || 'include';
+  }
+}
+
+function syncFilterUI() {
+  const pList = [
+    { id: 'district', set: S.districts, singular: 'District' },
+    { id: 'course', set: S.courses, singular: 'Course' },
+    { id: 'type', set: S.types, label: 'College Type' }
+  ];
+
+  pList.forEach(p => {
+    const label = document.getElementById(`${p.id}-label`);
+    const btn = document.getElementById(`${p.id}-btn`);
+    const hasSelection = p.set.size > 0;
+    if (label) {
+      if (p.id === 'type') {
+        label.textContent = hasSelection ? `College Type (${p.set.size})` : 'College Type';
+      } else {
+        label.textContent = hasSelection ? `${p.singular}s (${p.set.size})` : `${p.singular} (all)`;
+      }
+    }
+    if (btn) btn.classList.toggle('active', hasSelection);
+  });
+
+  const commBtnText = document.getElementById('comm-btn-text');
+  if (commBtnText) commBtnText.textContent = S.community;
 }
 
 function getEditDistance(a, b) {
@@ -396,7 +491,7 @@ function highlight(text, query) {
 window.toggleCourses = (e, code) => {
   e.preventDefault();
   e.stopPropagation();
-  
+
   const targetEl = document.getElementById(`courses-${code}`);
   if (!targetEl) return;
 
@@ -421,7 +516,7 @@ window.toggleCourses = (e, code) => {
   const card = document.querySelector(`.clg-card[data-code="${code}"]`);
   const icon = document.getElementById(`icon-${code}`);
   const label = card?.querySelector('.clg-stats');
-  
+
   const isActive = targetEl.classList.toggle('active');
   if (icon) icon.classList.toggle('active', isActive);
   if (label) {
@@ -442,7 +537,7 @@ window.toggleCourses = (e, code) => {
 };
 
 function render(codes) {
-  const list  = document.getElementById('collegeList');
+  const list = document.getElementById('collegeList');
   const tq = textInput?.value || '';
   const cq = parseFloat(cutoffInput?.value);
 
@@ -464,7 +559,7 @@ function render(codes) {
     const displayBranchRecords = branchRecordsMap[code] || [];
     const currentComm = S.community;
     let min25 = 0, max25 = 0;
-    
+
     displayBranchRecords.forEach(r => {
       const val = parseFloat(r[currentComm]);
       if (val > 0) {
@@ -536,7 +631,7 @@ function render(codes) {
         if (c.cutoff <= cq) colorStyle = 'color: var(--green); font-weight: 800;';
         else colorStyle = 'color: var(--red); font-weight: 800;';
       }
-      
+
       return `
         <div class="course-cutoff-item">
           <span class="ecc-name">${c.name.toUpperCase()}</span>
@@ -580,8 +675,6 @@ function render(codes) {
   }).join('');
 }
 
-const cutoffInput = document.getElementById('cutoffSearch');
-const textInput   = document.getElementById('collegeSearch');
 
 const runSearch = () => {
   let cq = parseFloat(cutoffInput.value);
@@ -590,7 +683,7 @@ const runSearch = () => {
     cutoffInput.value = 200;
   }
   const tq = textInput.value.toLowerCase().trim();
-  
+
   let filtered = allCodes.filter(code => {
     const raw = cocs[code] || '';
     // Include if it has any data or is in search index
@@ -599,16 +692,16 @@ const runSearch = () => {
       if (q) {
         const { name, district } = parse(raw);
         const kws = searchIndex[code] || [];
-        
+
         const normCode = code.toLowerCase().replace(/[^a-z0-9]/g, '');
         const normName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
         const normDist = district.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const normKws  = kws.map(k => k.toLowerCase().replace(/[^a-z0-9]/g, ''));
+        const normKws = kws.map(k => k.toLowerCase().replace(/[^a-z0-9]/g, ''));
 
-        return normCode.includes(q) || 
-               normName.includes(q) || 
-               normDist.includes(q) || 
-               normKws.some(k => k.includes(q));
+        return normCode.includes(q) ||
+          normName.includes(q) ||
+          normDist.includes(q) ||
+          normKws.some(k => k.includes(q));
       }
       return false;
     }
@@ -635,7 +728,7 @@ const runSearch = () => {
     filtered = filtered.filter(code => {
       const branchRecords = branchRecordsMap[code] || [];
       const matches = branchRecords.filter(r => S.courses.has(r.brc));
-      
+
       if (S.courseMode === 'include') {
         if (matches.length === 0) return false;
         // If cutoff is entered, check if eligible for ANY of the selected matches
@@ -669,17 +762,17 @@ const runSearch = () => {
     const scored = filtered.map(code => {
       const full = cocs[code];
       const { name, district } = parse(full);
-      const kws  = searchIndex[code] || []; // FIXED: Use code, not full string
+      const kws = searchIndex[code] || []; // FIXED: Use code, not full string
       const normName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
       const normDist = district.toLowerCase().replace(/[^a-z0-9]/g, '');
-      
+
       if (code.includes(rq) || normName.includes(rq) || normDist.includes(rq) || kws.some(k => k.toLowerCase().includes(rq))) {
         return { code, score: 0 };
       }
-      
+
       if (rq.length > 3) {
         const words = normName.split(/\s+/).concat(normDist.split(/\s+/));
-        let bestDist = 3; 
+        let bestDist = 3;
         for (const w of words) {
           if (w.length < 3) continue;
           const dist = getEditDistance(rq, w.substring(0, rq.length + 1));
@@ -694,8 +787,6 @@ const runSearch = () => {
     filtered = scored.map(r => r.code);
   }
 
+  updateURL();
   render(filtered);
 };
-
-if (cutoffInput) cutoffInput.addEventListener('input', runSearch);
-if (textInput) textInput.addEventListener('input', runSearch);

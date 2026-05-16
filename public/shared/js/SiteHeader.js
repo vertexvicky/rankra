@@ -83,7 +83,9 @@ export class SiteHeader {
         <div class="hmenu-body">
           <div class="hmenu-section">
             <a href="/" class="hmenu-item ${isActive('/') ? 'active' : ''}"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="/tnea/cutoff/" class="hmenu-item ${isActive('/tnea/cutoff/') ? 'active' : ''}"><i class="fa-solid fa-certificate"></i> TNEA Cutoffs</a>
             <a href="/tnea/college/" class="hmenu-item ${isActive('/tnea/college/') ? 'active' : ''}"><i class="fa-solid fa-building-columns"></i> Colleges</a>
+            <a href="/course/" class="hmenu-item ${isActive('/course/') ? 'active' : ''}"><i class="fa-solid fa-graduation-cap"></i> Courses</a>
           </div>
         </div>
         <div class="hmenu-footer">

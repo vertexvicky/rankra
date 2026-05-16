@@ -175,10 +175,36 @@ const normalizeCourses = (raw, commOrder) => {
   });
 };
 
-const normalize = (raw = {}) => {
-  const cutoffs = normalizeCutoffs(raw);
+const normalize = (raw = {}, cutoffRows = []) => {
+  // 1. Build Cutoff object from 5202.gzip rows
+  const overrideCutoff = {};
+  const overrideSeats = {};
+
+  cutoffRows.forEach(r => {
+    const brc = r.brc;
+    const brn = r.brn || brc;
+    
+    // Cutoff
+    overrideCutoff[brc] = {
+      name: brn,
+      // We only have 2025 data here
+      '2025': {
+        OC: [r.OC, 0], BC: [r.BC, 0], BCM: [r.BCM, 0], MBC: [r.MBC, 0],
+        SC: [r.SC, 0], SCA: [r.SCA, 0], ST: [r.ST, 0]
+      }
+    };
+
+    // Seats
+    overrideSeats[brc] = {
+      name: brn,
+      OC: r.octl, BC: r.bctl, BCM: r.bcmtl, MBC: r.mbctl,
+      SC: r.sctl, SCA: r.scatl, ST: r.sttl
+    };
+  });
+
+  const cutoffs = normalizeCutoffs({ Cutoff: overrideCutoff });
   const communities = normalizeCommunities(raw, cutoffs);
-  const courses = normalizeCourses(raw, communities);
+  const courses = normalizeCourses({ coursenseats: overrideSeats }, communities);
   const website = String(raw.website||'').trim();
   let rawName = toText(raw.name, 'College name');
   let d = toText(raw.district || raw.location, '—');
@@ -478,13 +504,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!code) throw new Error('No college code provided');
 
     const clgPath = '/assets/db/tnea/college/clgs.gzip';
-    const dataMap = await requestJSON([clgPath]);
+    const cutoff25Path = '/assets/db/tnea/cutoff/5202.gzip';
+    const dataMap = await requestJSON([clgPath, cutoff25Path]);
+    
     const allColleges = dataMap[clgPath];
     const rawData = Array.isArray(allColleges) ? allColleges.find(c => String(c['college code']) === code) : allColleges[code];
-    
     if (!rawData) throw new Error(`College ${code} not found`);
 
-    const c = normalize(rawData);
+    const cutoff25 = dataMap[cutoff25Path] || [];
+    const collegeCutoffRows = cutoff25.filter(r => String(r.coc) === code);
+
+    const c = normalize(rawData, collegeCutoffRows);
     mount.innerHTML = '';
 
     // Update Nav items if related exists

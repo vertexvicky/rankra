@@ -16,6 +16,9 @@ function normalizeDistrict(d) {
 }
 
 let shDistrict = null;
+let shCourse = null;
+let shType = null;
+let codeToType = {};
 
 document.addEventListener('DOMContentLoaded', () => {
   new SiteHeader({
@@ -27,29 +30,75 @@ document.addEventListener('DOMContentLoaded', () => {
   init();
 });
 
-let cocs = {}, searchIndex = {}, ranges = {}, allCodes = [];
+let cocs = {}, searchIndex = {}, ranges = {}, globalMaxMap = {}, courseCodesMap = {}, branchRecordsMap = {}, allCodes = [];
 
 const S = {
   districts: new Set(),
   districtMode: 'include',
+  courses: new Set(),
+  courseMode: 'include',
+  types: new Set(),
+  typeMode: 'include',
   community: 'OC'
 };
 
 async function init() {
   try {
-    const v = Date.now(); // Cache-buster
+    const cutoffPath = `/assets/db/tnea/cutoff/5202.gzip`;
     const paths = [
-      `/assets/db/tnea/college/cocs.json?v=${v}`,
-      `/assets/db/tnea/college/csearch.json?v=${v}`,
-      `/assets/db/tnea/college/cutrange.json?v=${v}`,
-      `/assets/db/tndistricts.json?v=${v}`
+      `/assets/db/tnea/college/cocs.json`,
+      `/assets/db/tnea/college/csearch.json`,
+      cutoffPath,
+      `/assets/db/tndistricts.json`,
+      `/assets/db/tnea/college/type.json`
     ];
     const data = await requestJSON(paths);
     
     cocs        = data[paths[0]];
     searchIndex = data[paths[1]];
-    ranges      = data[paths[2]];
+    const rawCutoff = data[cutoffPath];
     const districts = data[paths[3]];
+    const typesData = data[paths[4]];
+
+    // Group raw cutoff data by college
+    const processedRanges = {};
+    const gMax = {};
+    const cCodes = {};
+    const bRecords = {};
+    const allCourseSet = new Set();
+    const courseLabels = {};
+
+    rawCutoff.forEach(r => {
+      const code = String(r.coc);
+      if (!processedRanges[code]) processedRanges[code] = {};
+      if (gMax[code] === undefined) gMax[code] = 0;
+      if (!cCodes[code]) cCodes[code] = new Set();
+      if (!bRecords[code]) bRecords[code] = [];
+      
+      bRecords[code].push(r);
+      if (r.brc) {
+        cCodes[code].add(r.brc);
+        allCourseSet.add(r.brc);
+        if (r.brn) courseLabels[r.brc] = r.brn.toUpperCase();
+      }
+
+      ['OC', 'BC', 'BCM', 'MBC', 'SC', 'SCA', 'ST'].forEach(comm => {
+        if (!processedRanges[code][comm]) processedRanges[code][comm] = [0, 200, 0, 0, 0, 0];
+        const val = parseFloat(r[comm]);
+        if (!isNaN(val) && val > 0) {
+          processedRanges[code][comm][0] = Math.max(processedRanges[code][comm][0], val);
+          processedRanges[code][comm][1] = Math.min(processedRanges[code][comm][1], val);
+          gMax[code] = Math.max(gMax[code], val);
+        }
+      });
+    });
+    Object.values(processedRanges).forEach(commObj => {
+      Object.values(commObj).forEach(arr => { if (arr[1] === 200) arr[1] = 0; });
+    });
+    ranges = processedRanges;
+    globalMaxMap = gMax;
+    Object.keys(cCodes).forEach(k => { courseCodesMap[k] = [...cCodes[k]].sort(); });
+    branchRecordsMap = bRecords;
     
     // Sort allCodes by max cutoff 2025 (descending) for the current community
     updateSort();
@@ -80,6 +129,80 @@ async function init() {
 
     const distBtn = document.getElementById('district-btn');
     if (distBtn) distBtn.addEventListener('click', () => shDistrict.open());
+
+    // Initialize course filter
+    const courseList = [...allCourseSet].sort().map(c => ({
+      value: c,
+      label: `${c} - ${courseLabels[c] || c}`
+    }));
+
+    shCourse = new FilterSheet('course-sheet', {
+      title: 'Select Courses',
+      items: courseList,
+      showModeToggle: true,
+      onApply: (selected, mode) => {
+        S.courses = selected;
+        S.courseMode = mode;
+        const label = document.getElementById('course-label');
+        const btn = document.getElementById('course-btn');
+        if (label) label.textContent = selected.size > 0 ? `Courses (${selected.size})` : 'Course (all)';
+        if (btn) btn.classList.toggle('active', selected.size > 0);
+        runSearch();
+      },
+      onClear: () => {
+        S.courses.clear();
+        const label = document.getElementById('course-label');
+        const btn = document.getElementById('course-btn');
+        if (label) label.textContent = 'Course (all)';
+        if (btn) btn.classList.remove('active');
+        runSearch();
+      }
+    });
+
+    const courseBtn = document.getElementById('course-btn');
+    if (courseBtn) courseBtn.addEventListener('click', () => shCourse.open());
+
+    // Build reverse map for fast type lookup
+    codeToType = {};
+    if (typesData) {
+      for (const [cat, ids] of Object.entries(typesData)) {
+        for (const id of ids) {
+          codeToType[String(id)] = cat.toUpperCase();
+        }
+      }
+    }
+
+    // Initialize type filter
+    const typeList = typesData ? Object.keys(typesData).map(t => t.toUpperCase()).sort() : [];
+
+    const updateTypeUI = (selected) => {
+      const label   = document.getElementById('type-label');
+      const btn     = document.getElementById('type-btn');
+      const hasSelection = selected && selected.size > 0;
+      if (label)   label.textContent = hasSelection ? `College Type (${selected.size})` : 'College Type';
+      if (btn)     btn.classList.toggle('active', hasSelection);
+    };
+
+    shType = new FilterSheet('type-sheet', {
+      title: 'Select College Types',
+      items: typeList,
+      showModeToggle: true,
+      onApply: (selected, mode) => {
+        S.types = selected;
+        S.typeMode = mode;
+        updateTypeUI(selected);
+        runSearch();
+      },
+      onClear: () => {
+        S.types.clear();
+        updateTypeUI(S.types);
+        runSearch();
+      }
+    });
+
+    const typeBtn = document.getElementById('type-btn');
+    if (typeBtn) typeBtn.addEventListener('click', () => shType.open());
+
 
     // Custom Community Dropdown Logic
     const commBtn = document.getElementById('comm-btn');
@@ -121,6 +244,83 @@ async function init() {
       });
     }
 
+    // Year switcher
+    const yearBtn      = document.getElementById('year-btn');
+    const yearDropdown = document.getElementById('year-dropdown');
+    const yearBtnText  = document.getElementById('year-btn-text');
+
+    if (yearBtn && yearDropdown) {
+      yearBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willBeOpen = yearDropdown.hidden;
+        yearDropdown.hidden = !willBeOpen;
+        yearBtn.setAttribute('aria-expanded', String(willBeOpen));
+      });
+
+      yearDropdown.querySelectorAll('.sort-option').forEach(opt => {
+        opt.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const year = opt.dataset.value;
+          // e.g. "2025" -> "5202"
+          const reversed = year.split('').reverse().join('');
+          const newCutoffPath = `/assets/db/tnea/cutoff/${reversed}.gzip`;
+
+          yearBtnText.textContent = year;
+          yearDropdown.querySelectorAll('.sort-option').forEach(o => o.classList.toggle('active', o === opt));
+          yearDropdown.hidden = true;
+          yearBtn.setAttribute('aria-expanded', 'false');
+
+          // Reload cutoff data for the selected year
+          const list = document.getElementById('collegeList');
+          if (list) list.innerHTML = '<div class="empty-state" style="padding:40px;"><p>Loading ' + year + ' data…</p></div>';
+          try {
+            const newData = await requestJSON([newCutoffPath]);
+            const rawCutoff = newData[newCutoffPath];
+            const processedRanges = {};
+            const gMax = {};
+            const cCodes = {};
+            const bRecords = {};
+            rawCutoff.forEach(r => {
+              const code = String(r.coc);
+              if (!processedRanges[code]) processedRanges[code] = {};
+              if (gMax[code] === undefined) gMax[code] = 0;
+              if (!cCodes[code]) cCodes[code] = new Set();
+              if (!bRecords[code]) bRecords[code] = [];
+              bRecords[code].push(r);
+              if (r.brc) cCodes[code].add(r.brc);
+              ['OC','BC','BCM','MBC','SC','SCA','ST'].forEach(comm => {
+                if (!processedRanges[code][comm]) processedRanges[code][comm] = [0, 200, 0, 0, 0, 0];
+                const val = parseFloat(r[comm]);
+                if (!isNaN(val) && val > 0) {
+                  processedRanges[code][comm][0] = Math.max(processedRanges[code][comm][0], val);
+                  processedRanges[code][comm][1] = Math.min(processedRanges[code][comm][1], val);
+                  gMax[code] = Math.max(gMax[code], val);
+                }
+              });
+            });
+            Object.values(processedRanges).forEach(commObj => {
+              Object.values(commObj).forEach(arr => { if (arr[1] === 200) arr[1] = 0; });
+            });
+            ranges = processedRanges;
+            globalMaxMap = gMax;
+            Object.keys(cCodes).forEach(k => { courseCodesMap[k] = [...cCodes[k]].sort(); });
+            branchRecordsMap = bRecords;
+            updateSort();
+            runSearch();
+          } catch(err) {
+            if (list) list.innerHTML = '<div class="empty-state">Failed to load ' + year + ' data.</div>';
+          }
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!yearBtn.contains(e.target) && !yearDropdown.contains(e.target)) {
+          yearDropdown.hidden = true;
+          yearBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
     render(allCodes);
   } catch (e) {
     console.error(e);
@@ -131,19 +331,29 @@ async function init() {
 
 function updateSort() {
   allCodes = Object.keys(cocs).sort((a, b) => {
-    let rA = [0, 0], rB = [0, 0];
-    const rawA = ranges[a], rawB = ranges[b];
+    const rA = ranges[a]?.[S.community] || [0, 0];
+    const rB = ranges[b]?.[S.community] || [0, 0];
     
-    if (rawA) {
-      if (Array.isArray(rawA)) rA = rawA;
-      else if (rawA[S.community]) rA = rawA[S.community];
+    const hasA = rA[0] > 0;
+    const hasB = rB[0] > 0;
+
+    // 1. Cutoff colleges first
+    if (hasA !== hasB) return hasB ? 1 : -1;
+
+    if (hasA) {
+      // 2. Sort Cutoff colleges: Max desc, then Min desc
+      if (rB[0] !== rA[0]) return rB[0] - rA[0];
+      return rB[1] - rA[1];
+    } else {
+      // 3. Sort Non-cutoff colleges: Global Max desc, then Name asc
+      const gA = globalMaxMap[a] || 0;
+      const gB = globalMaxMap[b] || 0;
+      if (gB !== gA) return gB - gA;
+      
+      const { name: nA } = parse(cocs[a]);
+      const { name: nB } = parse(cocs[b]);
+      return nA.localeCompare(nB);
     }
-    if (rawB) {
-      if (Array.isArray(rawB)) rB = rawB;
-      else if (rawB[S.community]) rB = rawB[S.community];
-    }
-    
-    return rB[0] - rA[0];
   });
 }
 
@@ -183,6 +393,54 @@ function highlight(text, query) {
   return text.replace(regex, '<span class="highlight">$1</span>');
 }
 
+window.toggleCourses = (e, code) => {
+  e.preventDefault();
+  e.stopPropagation();
+  
+  const targetEl = document.getElementById(`courses-${code}`);
+  if (!targetEl) return;
+
+  const isOpening = !targetEl.classList.contains('active');
+
+  if (isOpening) {
+    // Close all other active cards
+    document.querySelectorAll('.clg-expanded-courses.active').forEach(openEl => {
+      const openCode = openEl.id.replace('courses-', '');
+      if (openCode !== code) {
+        openEl.classList.remove('active');
+        const icon = document.getElementById(`icon-${openCode}`);
+        if (icon) icon.classList.remove('active');
+        const card = document.querySelector(`.clg-card[data-code="${openCode}"]`);
+        const label = card?.querySelector('.clg-stats');
+        if (label) label.textContent = 'Show Branches & Cutoffs';
+      }
+    });
+  }
+
+  // Toggle the current card
+  const card = document.querySelector(`.clg-card[data-code="${code}"]`);
+  const icon = document.getElementById(`icon-${code}`);
+  const label = card?.querySelector('.clg-stats');
+  
+  const isActive = targetEl.classList.toggle('active');
+  if (icon) icon.classList.toggle('active', isActive);
+  if (label) {
+    label.textContent = isActive ? 'Hide Branches & Cutoffs' : 'Show Branches & Cutoffs';
+  }
+
+  // Auto-scroll if opened
+  if (isActive && card) {
+    requestAnimationFrame(() => {
+      const filterBar = document.querySelector('.college-filter-bar');
+      const header = document.querySelector('.site-header');
+      const headerH = header ? header.offsetHeight : 50;
+      const filterH = filterBar ? filterBar.offsetHeight : 0;
+      card.style.scrollMarginTop = (headerH + filterH + 10) + 'px';
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+};
+
 function render(codes) {
   const list  = document.getElementById('collegeList');
   const tq = textInput?.value || '';
@@ -203,48 +461,122 @@ function render(codes) {
 
   list.innerHTML = codes.map(code => {
     const { name, district } = parse(cocs[code]);
+    const displayBranchRecords = branchRecordsMap[code] || [];
+    const currentComm = S.community;
+    let min25 = 0, max25 = 0;
     
-    // SMART RANGE PARSING: Handle both old array format and new community object format
-    let r = [0, 0, 0, 0, 0, 0];
-    const rawRange = ranges[code];
-    if (rawRange) {
-      if (Array.isArray(rawRange)) {
-        r = rawRange; // Fallback to old format
-      } else if (typeof rawRange === 'object' && rawRange[S.community]) {
-        r = rawRange[S.community]; // Use new community format
+    displayBranchRecords.forEach(r => {
+      const val = parseFloat(r[currentComm]);
+      if (val > 0) {
+        if (max25 === 0 || val > max25) max25 = val;
+        if (min25 === 0 || val < min25) min25 = val;
       }
-    }
-    
-    const [max25, min25, max_cagr, min_cagr, max_proj, min_proj] = r;
+    });
 
-    let possibilityBadge = '';
-    if (!isNaN(cq) && cq > 0 && max25 > 0) {
-      if (cq < min25 - 2) {
-        possibilityBadge = `<span class="possibility-badge" data-sentiment="negative">Low Possibility</span>`;
+    const type = codeToType[code] || "";
+    const typeClass = (ut) => {
+      if (ut.startsWith("GOVT ANNA")) return "type-au";
+      if (ut.startsWith("GOVT AIDED")) return "type-aided";
+      if (ut.startsWith("GOVT")) return "type-govt";
+      if (ut.startsWith("CENTRAL")) return "type-central";
+      if (ut.startsWith("PRIVATE AUTONOMOUS")) return "type-pvt-auto";
+      if (ut.startsWith("PRIVATE")) return "type-pvt";
+      return "type-other";
+    };
+
+    const typeBadge = type ? `<span class="clg-type-badge ${typeClass(type.toUpperCase())}">${type}</span>` : "";
+
+    const pBadge = (!isNaN(cq) && cq > 0 && max25 > 0 && cq < min25 - 2)
+      ? `<span class="possibility-badge" data-sentiment="negative">Low Possibility</span>`
+      : '';
+
+    const rangeHtml = max25 > 0 ? `
+      <div class="clg-range-wrap">
+        <div class="clg-cutoff-box">
+          <span class="clg-cutoff-label">MIN</span>
+          <span class="clg-range-low">${min25.toFixed(1)}</span>
+        </div>
+        <span class="clg-range-sep">—</span>
+        <div class="clg-cutoff-box">
+          <span class="clg-cutoff-label">MAX</span>
+          <span class="clg-range-high">${max25.toFixed(1)}</span>
+        </div>
+      </div>
+    ` : `<span class="clg-vacant">No Data / Fully Vacant</span>`;
+
+    const courses = displayBranchRecords.map(r => ({
+      name: r.brn || r.brc,
+      cutoff: parseFloat(r[currentComm]) || 0,
+      isFiltered: S.courses.size > 0 && S.courses.has(r.brc)
+    })).sort((a, b) => {
+      // Priority 1: Filtered matches first
+      if (a.isFiltered !== b.isFiltered) return a.isFiltered ? -1 : 1;
+
+      // Priority 2: Eligible first
+      const vA = a.cutoff;
+      const vB = b.cutoff;
+      const target = isNaN(cq) ? 0 : cq;
+
+      const getGroup = (v) => {
+        if (v > 0 && v <= target) return 1;
+        if (v === 0) return 2;
+        return 3;
+      };
+
+      const gA = getGroup(vA);
+      const gB = getGroup(vB);
+
+      if (gA !== gB) return gA - gB;
+      return vA - vB;
+    });
+
+    const courseItems = courses.map(c => {
+      let colorStyle = '';
+      if (cq > 0 && c.cutoff > 0) {
+        if (c.cutoff <= cq) colorStyle = 'color: var(--green); font-weight: 800;';
+        else colorStyle = 'color: var(--red); font-weight: 800;';
       }
-    }
+      
+      return `
+        <div class="course-cutoff-item">
+          <span class="ecc-name">${c.name.toUpperCase()}</span>
+          <span class="ecc-cutoff" style="${colorStyle}">${c.cutoff > 0 ? c.cutoff.toFixed(1) : '-'}</span>
+        </div>
+      `;
+    }).join('');
 
     return `
-      <a class="clg-card result-card" href="view?code=${code}">
+      <div class="clg-card result-card" data-code="${code}" onclick="toggleCourses(event, '${code}')" style="cursor:pointer;">
         <div class="clg-card-inner">
-          <div class="clg-left">
-            <div class="clg-meta">
-              <span class="clg-code">Code ${highlight(code, tq)}</span>
+          <div class="clg-top-row">
+            <div class="clg-identifiers">
+              <span class="clg-code">${highlight(code, tq)}</span>
               <span class="clg-district">${highlight(district, tq)}</span>
-              ${possibilityBadge}
             </div>
-            <div class="clg-name">${highlight(name, tq)}</div>
+            <a href="view?code=${code}" class="know-clg-link" onclick="event.stopPropagation()">View College <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.55rem;"></i></a>
           </div>
-          <div class="clg-right">
-            <span class="clg-range-low">${min25 > 0 ? min25.toFixed(1) : '—'}</span>
-            <span class="clg-range-sep">to</span>
-            <span class="clg-range-high">${max25 > 0 ? max25.toFixed(1) : '—'}</span>
+
+          <div class="clg-name">${highlight(name, tq)}</div>
+
+          <div class="clg-tags-row">
+            ${typeBadge}
+            ${pBadge}
+          </div>
+
+          <div class="clg-cutoff-row">
+            ${rangeHtml}
+            <button class="clg-expand-btn" onclick="event.stopPropagation(); toggleCourses(event, '${code}')">
+              <span>Branches &amp; Cutoffs</span>
+              <i class="fa-solid fa-angle-down clg-expand-icon" id="icon-${code}"></i>
+            </button>
           </div>
         </div>
-        <div class="clg-row-3">
-          <span class="clg-stats">Show more about this college</span>
+        
+        <div class="clg-expanded-courses" id="courses-${code}">
+          <div class="clg-branch-header">Branches &amp; Cutoffs <span>(${S.community})</span></div>
+          ${courseItems || '<div class="clg-no-data">No cutoff data for this community.</div>'}
         </div>
-      </a>`;
+      </div>`;
   }).join('');
 }
 
@@ -252,15 +584,16 @@ const cutoffInput = document.getElementById('cutoffSearch');
 const textInput   = document.getElementById('collegeSearch');
 
 const runSearch = () => {
-  const cq = parseFloat(cutoffInput.value);
+  let cq = parseFloat(cutoffInput.value);
+  if (cq > 200) {
+    cq = 200;
+    cutoffInput.value = 200;
+  }
   const tq = textInput.value.toLowerCase().trim();
   
   let filtered = allCodes.filter(code => {
     const raw = cocs[code] || '';
-    const r = (ranges[code] && ranges[code][S.community]) || [0, 0, 0, 0, 0, 0];
-    const exists = r[0] > 0 || r[1] > 0;
-    if (!exists) return false;
-
+    // Include if it has any data or is in search index
     if (tq) {
       const q = tq.toLowerCase().replace(/[^a-z0-9]/g, '');
       if (q) {
@@ -272,12 +605,12 @@ const runSearch = () => {
         const normDist = district.toLowerCase().replace(/[^a-z0-9]/g, '');
         const normKws  = kws.map(k => k.toLowerCase().replace(/[^a-z0-9]/g, ''));
 
-        const match = normCode.includes(q) || 
-                      normName.includes(q) || 
-                      normDist.includes(q) || 
-                      normKws.some(k => k.includes(q));
-        return match;
+        return normCode.includes(q) || 
+               normName.includes(q) || 
+               normDist.includes(q) || 
+               normKws.some(k => k.includes(q));
       }
+      return false;
     }
     return true;
   });
@@ -298,13 +631,45 @@ const runSearch = () => {
     });
   }
 
+  if (S.courses.size > 0) {
+    filtered = filtered.filter(code => {
+      const branchRecords = branchRecordsMap[code] || [];
+      const matches = branchRecords.filter(r => S.courses.has(r.brc));
+      
+      if (S.courseMode === 'include') {
+        if (matches.length === 0) return false;
+        // If cutoff is entered, check if eligible for ANY of the selected matches
+        if (!isNaN(cq) && cq > 0) {
+          return matches.some(r => {
+            const val = parseFloat(r[S.community]);
+            return val > 0 && cq >= val;
+          });
+        }
+        return true;
+      } else {
+        // Exclude mode: return true if NONE of the branches the college has are in the exclude list
+        const hasExcluded = branchRecords.some(r => S.courses.has(r.brc));
+        return !hasExcluded;
+      }
+    });
+  }
+
+  if (S.types.size > 0) {
+    filtered = filtered.filter(code => {
+      const type = codeToType[code];
+      if (!type) return S.typeMode === 'exclude';
+      const has = S.types.has(type);
+      return S.typeMode === 'include' ? has : !has;
+    });
+  }
+
   // 3. Text filter
   if (tq) {
     const rq = tq.toLowerCase().replace(/[^a-z0-9]/g, '');
     const scored = filtered.map(code => {
       const full = cocs[code];
       const { name, district } = parse(full);
-      const kws  = searchIndex[code] || []; // Use code for index lookup
+      const kws  = searchIndex[code] || []; // FIXED: Use code, not full string
       const normName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
       const normDist = district.toLowerCase().replace(/[^a-z0-9]/g, '');
       

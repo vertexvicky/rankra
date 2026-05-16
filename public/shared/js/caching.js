@@ -5,14 +5,17 @@
 
 // Manifest with individual versions per path
 export const CACHE_MANIFEST = {
-    '/assets/db/tnea/cutoff/0202.gzip': '1.0.0',
-    '/assets/db/tnea/cutoff/1202.gzip': '1.0.0',
-    '/assets/db/tnea/cutoff/2202.gzip': '1.0.0',
-    '/assets/db/tnea/cutoff/3202.gzip': '1.0.0',
-    '/assets/db/tnea/cutoff/4202.gzip': '1.0.0',
-    '/assets/db/tnea/cutoff/5202.gzip': '1.0.0',
-    '/assets/db/tnea/college/clgs.gzip': '1.0.0',
-    '/assets/db/tnea/college/brnc.json': '1.0.0',
+    '/assets/db/tnea/cutoff/0202.gzip': '1.0.1',
+    '/assets/db/tnea/cutoff/1202.gzip': '1.0.1',
+    '/assets/db/tnea/cutoff/2202.gzip': '1.0.1',
+    '/assets/db/tnea/cutoff/3202.gzip': '1.0.1',
+    '/assets/db/tnea/cutoff/4202.gzip': '1.0.1',
+    '/assets/db/tnea/cutoff/5202.gzip': '1.0.1',
+    '/assets/db/tnea/college/clgs.gzip': '1.0.1',
+    '/assets/db/tnea/college/cocs.json': '1.0.1',
+    '/assets/db/tnea/college/csearch.json': '1.0.1',
+    '/assets/db/tnea/college/brnc.json': '1.0.1',
+    '/assets/db/tnea/college/type.json': '1.0.1',
     '/assets/db/tndistricts.json': '1.0.1'
 };
 

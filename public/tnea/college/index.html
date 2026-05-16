@@ -14,27 +14,25 @@
   <link rel="stylesheet" href="../../shared/css/layout.css">
   <link rel="stylesheet" href="index.css">
 </head>
-<body class="light">
+<body class="dark">
 
   <header class="site-header" role="banner"></header>
   <div class="college-filter-bar">
     <div class="college-filter-container">
-      
+
+      <!-- Row 1: Cutoff + Community -->
       <div class="filter-row">
-        <span class="filter-label">Search by your cutoff</span>
-        <div class="search-box-wrap" style="width: 72px; flex: none;">
-          <input type="number" id="cutoffSearch" class="search-input" placeholder="00.0" step="0.5" min="0" max="200" style="padding: 8px 4px; text-align: center;">
+        <span class="filter-label">Your cutoff</span>
+        <div class="search-box-wrap" style="width:72px;flex:none;">
+          <input type="number" id="cutoffSearch" class="search-input" placeholder="200.0" step="0.5" min="0" max="200" value="200" style="padding:8px 4px;text-align:center;">
         </div>
-        
-        <span class="filter-label">& community</span>
+        <span class="filter-label">community</span>
         <div class="district-wrap" id="comm-wrap">
-          <button class="pill-btn" id="comm-btn" aria-haspopup="true" aria-expanded="false" style="min-width: 80px; height: 100%; border-radius: 8px;">
+          <button class="pill-btn" id="comm-btn" aria-haspopup="true" aria-expanded="false">
             <span id="comm-btn-text">OC</span>
-            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
-          <div class="sort-dropdown" id="comm-dropdown" hidden style="min-width: 100px;">
+          <div class="sort-dropdown" id="comm-dropdown" hidden style="min-width:100px;">
             <div class="sort-option active" data-value="OC">OC</div>
             <div class="sort-option" data-value="BC">BC</div>
             <div class="sort-option" data-value="BCM">BCM</div>
@@ -46,17 +44,47 @@
         </div>
       </div>
 
+      <!-- Row 2: Year | Course | Type -->
+      <div class="filter-row filter-row-chips">
+        <div class="district-wrap" id="year-wrap">
+          <button class="pill-btn" id="year-btn" aria-haspopup="true" aria-expanded="false">
+            <span id="year-btn-text">2025</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="sort-dropdown" id="year-dropdown" hidden style="min-width:110px;">
+            <div class="sort-option" data-value="2020">2020</div>
+            <div class="sort-option" data-value="2021">2021</div>
+            <div class="sort-option" data-value="2022">2022</div>
+            <div class="sort-option" data-value="2023">2023</div>
+            <div class="sort-option" data-value="2024">2024</div>
+            <div class="sort-option active" data-value="2025">2025</div>
+          </div>
+        </div>
+
+        <div class="district-wrap" id="course-wrap">
+          <button class="pill-btn" id="course-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="course-label">Course (all)</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+
+        <div class="district-wrap" id="type-wrap">
+          <button class="pill-btn" id="type-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="type-label">College Type</span>
+            <svg class="chevron" id="type-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Row 3: Search Bar + District -->
       <div class="filter-row">
         <div class="search-box-wrap full-width">
-          <input type="text" id="collegeSearch" class="search-input" placeholder="search by college name, code, district" autocomplete="off">
+          <input type="text" id="collegeSearch" class="search-input" placeholder="Search by college name, code or district…" autocomplete="off">
         </div>
-        
         <div class="district-wrap" id="district-wrap">
           <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
             <span id="district-label">District (all)</span>
-            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
       </div>
@@ -69,7 +97,6 @@
   </main>
 
   <script type="module" src="college.js"></script>
-
   <script type="module" src="../../shared/components/auth/auth.js"></script>
 </body>
 </html>

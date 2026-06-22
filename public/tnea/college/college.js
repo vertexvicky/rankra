@@ -181,7 +181,14 @@ async function init() {
     }
 
     // Initialize type filter
-    const typeList = typesData ? Object.keys(typesData).map(t => t.toUpperCase()).sort() : [];
+    const typeList = typesData ? Object.keys(typesData).map(t => {
+      const uType = t.toUpperCase();
+      const count = typesData[t].length;
+      return {
+        value: uType,
+        label: `${uType} (${count})`
+      };
+    }).sort((a, b) => a.value.localeCompare(b.value)) : [];
 
     shType = new FilterSheet('type-sheet', {
       title: 'Select College Types',

@@ -520,7 +520,14 @@ async function boot() {
         }
       }
       if (shType) {
-        const typeItems = Object.keys(typesData).map(t => t.toUpperCase()).sort();
+        const typeItems = Object.keys(typesData).map(t => {
+          const uType = t.toUpperCase();
+          const count = typesData[t].length;
+          return {
+            value: uType,
+            label: `${uType} (${count})`
+          };
+        }).sort((a, b) => a.value.localeCompare(b.value));
         shType.updateItems(typeItems, S.types, S.typeMode);
       }
     }

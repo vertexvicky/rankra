@@ -15,7 +15,7 @@ export const CACHE_MANIFEST = {
     '/assets/db/tnea/college/cocs.json': '1.0.1',
     '/assets/db/tnea/college/csearch.json': '1.0.1',
     '/assets/db/tnea/college/brnc.json': '1.0.1',
-    '/assets/db/tnea/college/type.json': '1.0.1',
+    '/assets/db/tnea/college/type.json': '1.0.2',
     '/assets/db/tndistricts.json': '1.0.1'
 };
 

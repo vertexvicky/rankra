@@ -175,31 +175,54 @@ const normalizeCourses = (raw, commOrder) => {
   });
 };
 
-const normalize = (raw = {}, cutoffRows = []) => {
-  // 1. Build Cutoff object from 5202.gzip rows
+const normalize = (raw = {}, cutoff24Rows = [], cutoff25Rows = []) => {
   const overrideCutoff = {};
   const overrideSeats = {};
 
-  cutoffRows.forEach(r => {
+  // Process 2024
+  cutoff24Rows.forEach(r => {
     const brc = r.brc;
     const brn = r.brn || brc;
-    
-    // Cutoff
-    overrideCutoff[brc] = {
-      name: brn,
-      // We only have 2025 data here
-      '2025': {
-        OC: [r.OC, 0], BC: [r.BC, 0], BCM: [r.BCM, 0], MBC: [r.MBC, 0],
-        SC: [r.SC, 0], SCA: [r.SCA, 0], ST: [r.ST, 0]
-      }
+    if (!overrideCutoff[brc]) {
+      overrideCutoff[brc] = { name: brn };
+    }
+    overrideCutoff[brc]['2024'] = {
+      OC: [r.OC, 0], BC: [r.BC, 0], BCM: [r.BCM, 0], MBC: [r.MBC, 0],
+      SC: [r.SC, 0], SCA: [r.SCA, 0], ST: [r.ST, 0]
+    };
+  });
+
+  // Process 2025
+  cutoff25Rows.forEach(r => {
+    const brc = r.brc;
+    const brn = r.brn || brc;
+    if (!overrideCutoff[brc]) {
+      overrideCutoff[brc] = { name: brn };
+    }
+    overrideCutoff[brc]['2025'] = {
+      OC: [r.OC, 0], BC: [r.BC, 0], BCM: [r.BCM, 0], MBC: [r.MBC, 0],
+      SC: [r.SC, 0], SCA: [r.SCA, 0], ST: [r.ST, 0]
     };
 
-    // Seats
+    // Seats (keep the latest year 2025 for seats)
     overrideSeats[brc] = {
       name: brn,
       OC: r.octl, BC: r.bctl, BCM: r.bcmtl, MBC: r.mbctl,
       SC: r.sctl, SCA: r.scatl, ST: r.sttl
     };
+  });
+
+  // Fallback seats if a course was only active in 2024
+  cutoff24Rows.forEach(r => {
+    const brc = r.brc;
+    const brn = r.brn || brc;
+    if (!overrideSeats[brc]) {
+      overrideSeats[brc] = {
+        name: brn,
+        OC: r.octl, BC: r.bctl, BCM: r.bcmtl, MBC: r.mbctl,
+        SC: r.sctl, SCA: r.scatl, ST: r.sttl
+      };
+    }
   });
 
   const cutoffs = normalizeCutoffs({ Cutoff: overrideCutoff });
@@ -504,17 +527,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!code) throw new Error('No college code provided');
 
     const clgPath = '/assets/db/tnea/college/clgs.gzip';
+    const cutoff24Path = '/assets/db/tnea/cutoff/4202.gzip';
     const cutoff25Path = '/assets/db/tnea/cutoff/5202.gzip';
-    const dataMap = await requestJSON([clgPath, cutoff25Path]);
+    const dataMap = await requestJSON([clgPath, cutoff24Path, cutoff25Path]);
     
     const allColleges = dataMap[clgPath];
     const rawData = Array.isArray(allColleges) ? allColleges.find(c => String(c['college code']) === code) : allColleges[code];
     if (!rawData) throw new Error(`College ${code} not found`);
 
+    const cutoff24 = dataMap[cutoff24Path] || [];
     const cutoff25 = dataMap[cutoff25Path] || [];
-    const collegeCutoffRows = cutoff25.filter(r => String(r.coc) === code);
+    const collegeCutoff24Rows = cutoff24.filter(r => String(r.coc) === code);
+    const collegeCutoff25Rows = cutoff25.filter(r => String(r.coc) === code);
 
-    const c = normalize(rawData, collegeCutoffRows);
+    const c = normalize(rawData, collegeCutoff24Rows, collegeCutoff25Rows);
     mount.innerHTML = '';
 
     // Update Nav items if related exists

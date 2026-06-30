@@ -2,7 +2,7 @@ export const TNEA_CONFIG = {
   id: 'tnea',
   name: 'TNEA Cutoff',
   description: 'Explore TNEA cutoff scores for TN engineering colleges',
-  years: ['2020', '2021', '2022', '2023', '2024', '2025'],
+  years: ['2024', '2025'],
   communities: ['OC', 'BC', 'BCM', 'MBC', 'SC', 'SCA', 'ST'],
   seatKeys: {
     OC: { tl: 'octl', al: 'ocal' },

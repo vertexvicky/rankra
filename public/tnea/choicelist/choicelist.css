@@ -1,0 +1,633 @@
+/* ===== Choice-List Page Styles ===== */
+
+/* ---------- Main layout ---------- */
+.cl-main {
+  padding: 10px 10px 40px;
+}
+
+/* Editor view: full-height flex layout */
+#editor-view.cl-main {
+  padding: 10px 10px 0;
+  height: calc(100vh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---------- Dashboard top bar ---------- */
+.cl-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cl-page-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* ---------- Dashboard grid ---------- */
+.cl-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cl-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: background var(--t), box-shadow var(--t);
+  position: relative;
+}
+
+.cl-card:hover {
+  background: var(--bg-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.cl-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.cl-card-title {
+  font-weight: 600;
+  font-size: .9375rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cl-card-meta {
+  font-size: .75rem;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+/* three-dot button */
+.cl-more-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition: background var(--t);
+}
+
+.cl-more-btn:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+/* popup menu */
+.cl-menu {
+  position: absolute;
+  top: 44px;
+  right: 10px;
+  min-width: 110px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  z-index: 20;
+  overflow: hidden;
+  animation: fadeDown .12s ease;
+}
+
+.cl-menu-item {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: .8125rem;
+  font-weight: 500;
+  text-align: left;
+  color: var(--red);
+  transition: background var(--t);
+}
+
+.cl-menu-item:hover {
+  background: var(--red-bg);
+}
+
+/* ---------- Editor ---------- */
+.cl-editor-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cl-name-input {
+  flex: 1;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 8px;
+  transition: border-color var(--t), background var(--t);
+}
+
+.cl-name-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--bg-card);
+}
+
+.cl-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 0;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: 4px;
+}
+
+.cl-choice-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn .2s ease;
+}
+
+.cl-choice-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.875rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  flex-shrink: 0;
+}
+
+.cl-choice-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cl-choice-college {
+  font-weight: 600;
+  font-size: .875rem;
+  line-height: 1.4;
+}
+
+.cl-code-badge {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.cl-district-lbl {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.cl-college-name {
+  color: var(--text-primary);
+}
+
+.cl-choice-course {
+  font-size: .8125rem;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.cl-branch-code {
+  display: inline-block;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 0.725rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+.cl-course-name {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.cl-choice-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.cl-choice-replace,
+.cl-choice-del {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all var(--t);
+  cursor: pointer;
+}
+
+.cl-choice-replace {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.cl-choice-replace:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.cl-choice-del {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+}
+
+.cl-choice-del:hover {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+/* Inline Add button divider style */
+.cl-choices-divider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 0;
+  margin: -4px 0;
+  z-index: 10;
+}
+
+.cl-choices-divider::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: var(--border);
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.cl-choices-divider-btn {
+  position: absolute;
+  z-index: 2;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.775rem;
+  font-weight: 700;
+  background: var(--accent-soft);
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  transition: all var(--t);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.cl-choices-divider-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* ---------- Filter sheet ---------- */
+.cl-filter-row {
+  position: relative;
+  display: flex;
+  gap: 6px;
+  padding: 6px 14px 4px;
+  flex-wrap: wrap;
+}
+
+/* Make the dropdowns full-width within the sheet to prevent overflow */
+.cl-filter-row .district-wrap {
+  position: static;
+}
+
+.cl-filter-row .district-dropdown {
+  top: calc(100% + 4px);
+  left: 14px;
+  right: 14px;
+  width: auto;
+  max-width: none;
+}
+
+.cl-results-info {
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 6px 18px 2px;
+}
+
+/* result item inside sheet-list */
+.cl-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+
+.cl-result:last-child {
+  border-bottom: none;
+}
+
+.cl-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cl-result-college {
+  font-weight: 600;
+  font-size: .8125rem;
+  line-height: 1.4;
+}
+
+.cl-result-course {
+  font-size: .8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+.cl-btn-add {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: .75rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  flex-shrink: 0;
+  transition: opacity var(--t);
+}
+
+.cl-btn-add:hover {
+  opacity: .85;
+}
+
+.cl-btn-add.added {
+  background: var(--green);
+  pointer-events: none;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Responsive ---------- */
+@media (min-width: 600px) {
+  .cl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+}
+
+/* ---------- Static Search & Add Panel ---------- */
+.cl-static-search {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom: none;
+  padding: 10px;
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.static-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.static-search-wrap::before {
+  content: '\f002';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.static-search-wrap input,
+#college-search {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--t), box-shadow var(--t);
+}
+
+.static-search-wrap input:focus,
+#college-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.static-search-wrap input::placeholder,
+#college-search::placeholder {
+  color: var(--text-muted);
+}
+
+.cl-static-search .sheet-list {
+  height: 220px;
+  flex: none;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-primary);
+}
+
+.cl-no-choices .cl-static-search {
+  flex: 1;
+  min-height: 0;
+}
+
+.cl-no-choices .cl-static-search .sheet-list {
+  flex: 1;
+  height: auto;
+}
+
+@keyframes highlightPulse {
+  0% { background-color: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent); }
+  100% { background-color: var(--bg-card); box-shadow: none; }
+}
+
+.cl-choice-item.cl-highlight-pulse {
+  animation: highlightPulse 1.5s ease-out;
+}
+
+.cl-search-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  animation: fadeIn 0.2s ease;
+}
+
+.btn-cancel-action {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all var(--t);
+}
+
+.btn-cancel-action:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+/* ---------- Choices Search Bar (Ctrl+F style) ---------- */
+.cl-choices-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  animation: fadeIn 0.15s ease;
+}
+
+.choices-search-input-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.choices-search-input-wrap::before {
+  content: '\f002';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+#choices-search-input {
+  width: 100%;
+  padding: 6px 60px 6px 28px;
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.825rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--t);
+}
+
+#choices-search-input:focus {
+  border-color: var(--accent);
+}
+
+.search-counter {
+  position: absolute;
+  right: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  user-select: none;
+  pointer-events: none;
+}
+
+.search-counter.no-matches {
+  color: var(--red);
+}
+
+.choices-search-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-search-nav {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--t);
+}
+
+.btn-search-nav:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* Highlight for search active match choice item */
+.cl-choice-item.cl-search-active-match {
+  outline: 2px solid var(--accent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  transition: all 0.2s ease;
+}

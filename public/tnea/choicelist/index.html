@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choice List | Rankra - TNEA</title>
+  <meta name="description"
+    content="Create and manage your TNEA choice list. Filter by college, district, course, and college type." />
+  <link rel="icon" type="image/png" href="../../assets/rankra_favicon30.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../../shared/css/tokens.css" />
+  <link rel="stylesheet" href="../../shared/css/reset.css" />
+  <link rel="stylesheet" href="../../shared/css/animations.css" />
+  <link rel="stylesheet" href="../../shared/css/components.css" />
+  <link rel="stylesheet" href="../../shared/css/layout.css" />
+  <link rel="stylesheet" href="choicelist.css" />
+</head>
+
+<body class="dark">
+
+  <header class="site-header" role="banner"></header>
+
+  <!-- ===== DASHBOARD VIEW ===== -->
+  <main id="dashboard-view" class="cl-main">
+    <div class="cl-top-bar">
+      <h1 class="cl-page-title">My Choice Lists</h1>
+      <button class="btn-primary" id="btn-create-list">
+        <i class="fa-solid fa-plus"></i> Create choice list
+      </button>
+    </div>
+
+    <div id="lists-grid" class="cl-grid">
+      <!-- Cards rendered by JS -->
+    </div>
+
+    <div id="dashboard-empty" class="empty-state hidden">
+      <i class="fa-regular fa-clipboard" style="font-size:2.5rem;color:var(--text-secondary);opacity:.5"></i>
+      <p class="empty-title">No choice lists yet</p>
+      <p class="empty-sub">Tap "Create choice list" to get started.</p>
+    </div>
+  </main>
+
+  <!-- ===== EDITOR VIEW ===== -->
+  <main id="editor-view" class="cl-main hidden">
+    <div class="cl-editor-bar">
+      <button class="btn-ghost-sm" id="btn-back"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <input type="text" id="list-name" class="cl-name-input" value="My Choice List" />
+    </div>
+
+    <!-- ===== CHOICES SEARCH & NAVIGATION (CTRL+F) ===== -->
+    <div class="cl-choices-search-bar hidden" id="choices-search-container">
+      <div class="choices-search-input-wrap">
+        <input type="text" id="choices-search-input" placeholder="Search in your choices list…" autocomplete="off" />
+        <span id="choices-search-counter" class="search-counter">0/0</span>
+      </div>
+      <div class="choices-search-nav">
+        <button class="btn-search-nav" id="btn-choices-search-prev" title="Previous match"><i class="fa-solid fa-chevron-up"></i></button>
+        <button class="btn-search-nav" id="btn-choices-search-next" title="Next match"><i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+    </div>
+
+     <div id="editor-empty" class="empty-state hidden">
+       <i class="fa-regular fa-rectangle-list" style="font-size:2.5rem;color:var(--text-secondary);opacity:.5"></i>
+       <p class="empty-title">No choices added</p>
+     </div>
+
+      <div id="choices-container" class="cl-choices"></div>
+
+      <!-- ===== STATIC SEARCH & ADD PANEL ===== -->
+      <div id="static-search-panel" class="cl-static-search">
+        <div class="cl-search-status hidden" id="search-status-bar">
+          <span id="search-status-text">Inserting choice...</span>
+          <button class="btn-cancel-action" id="btn-cancel-action"><i class="fa-solid fa-xmark"></i> Cancel</button>
+        </div>
+        <div class="static-search-wrap">
+          <input type="text" id="college-search" placeholder="Search college name or code…" autocomplete="off" />
+        </div>
+        <div class="sheet-list" id="results-list">
+          <!-- result items rendered by JS -->
+        </div>
+      </div>
+    </main>
+
+   <script type="module" src="choicelist.js"></script>
+ </body>
+ </html>

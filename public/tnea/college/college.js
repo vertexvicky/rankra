@@ -40,8 +40,45 @@ const S = {
   courseMode: 'include',
   types: new Set(),
   typeMode: 'include',
-  community: 'OC'
+  community: 'OC',
+  filterType: 'cutoff'
 };
+
+function setFilterType(type) {
+  S.filterType = type;
+  const input = document.getElementById('cutoffSearch');
+  const toggleButtons = document.querySelectorAll('#filter-type-toggle .toggle-btn');
+  
+  toggleButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.type === type);
+  });
+  
+  if (type === 'rank') {
+    if (input) {
+      input.placeholder = 'e.g. 5000';
+      input.min = '1';
+      input.max = '999999';
+      input.step = '1';
+      input.value = '';
+    }
+  } else {
+    if (input) {
+      input.placeholder = '200.0';
+      input.min = '0';
+      input.max = '200';
+      input.step = '0.5';
+      input.value = '200';
+    }
+  }
+  
+  localStorage.setItem('rankra_filter_type_clg', type);
+  
+  if (Object.keys(ranges).length > 0) {
+    updateSort();
+    runSearch();
+  }
+}
+window.setFilterType = setFilterType;
 
 async function init() {
   try {
@@ -58,6 +95,16 @@ async function init() {
     
     const yearBtnText = document.getElementById('year-btn-text');
     if (yearBtnText) yearBtnText.textContent = initialYear;
+
+    const toggleButtons = document.querySelectorAll('#filter-type-toggle .toggle-btn');
+    toggleButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        setFilterType(e.target.dataset.type);
+      });
+    });
+
+    const savedType = localStorage.getItem('rankra_filter_type_clg') || 'cutoff';
+    setFilterType(savedType);
 
     loadStateFromURL();
 
@@ -99,17 +146,27 @@ async function init() {
       }
 
       ['OC', 'BC', 'BCM', 'MBC', 'SC', 'SCA', 'ST'].forEach(comm => {
-        if (!processedRanges[code][comm]) processedRanges[code][comm] = [0, 200, 0, 0, 0, 0];
+        if (!processedRanges[code][comm]) processedRanges[code][comm] = [0, 200, 0, 999999, 0, 0];
         const val = parseFloat(r[comm]);
+        const rankVal = parseInt(r[comm.toLowerCase() + 'r'], 10);
+        
         if (!isNaN(val) && val > 0) {
           processedRanges[code][comm][0] = Math.max(processedRanges[code][comm][0], val);
           processedRanges[code][comm][1] = Math.min(processedRanges[code][comm][1], val);
           gMax[code] = Math.max(gMax[code], val);
         }
+
+        if (!isNaN(rankVal) && rankVal > 0) {
+          processedRanges[code][comm][2] = Math.max(processedRanges[code][comm][2], rankVal);
+          processedRanges[code][comm][3] = Math.min(processedRanges[code][comm][3], rankVal);
+        }
       });
     });
     Object.values(processedRanges).forEach(commObj => {
-      Object.values(commObj).forEach(arr => { if (arr[1] === 200) arr[1] = 0; });
+      Object.values(commObj).forEach(arr => { 
+        if (arr[1] === 200) arr[1] = 0; 
+        if (arr[3] === 999999) arr[3] = 0;
+      });
     });
     ranges = processedRanges;
     globalMaxMap = gMax;
@@ -306,17 +363,27 @@ async function init() {
               bRecords[code].push(r);
               if (r.brc) cCodes[code].add(r.brc);
               ['OC', 'BC', 'BCM', 'MBC', 'SC', 'SCA', 'ST'].forEach(comm => {
-                if (!processedRanges[code][comm]) processedRanges[code][comm] = [0, 200, 0, 0, 0, 0];
+                if (!processedRanges[code][comm]) processedRanges[code][comm] = [0, 200, 0, 999999, 0, 0];
                 const val = parseFloat(r[comm]);
+                const rankVal = parseInt(r[comm.toLowerCase() + 'r'], 10);
+                
                 if (!isNaN(val) && val > 0) {
                   processedRanges[code][comm][0] = Math.max(processedRanges[code][comm][0], val);
                   processedRanges[code][comm][1] = Math.min(processedRanges[code][comm][1], val);
                   gMax[code] = Math.max(gMax[code], val);
                 }
+                
+                if (!isNaN(rankVal) && rankVal > 0) {
+                  processedRanges[code][comm][2] = Math.max(processedRanges[code][comm][2], rankVal);
+                  processedRanges[code][comm][3] = Math.min(processedRanges[code][comm][3], rankVal);
+                }
               });
             });
             Object.values(processedRanges).forEach(commObj => {
-              Object.values(commObj).forEach(arr => { if (arr[1] === 200) arr[1] = 0; });
+              Object.values(commObj).forEach(arr => { 
+                if (arr[1] === 200) arr[1] = 0; 
+                if (arr[3] === 999999) arr[3] = 0;
+              });
             });
             ranges = processedRanges;
             globalMaxMap = gMax;
@@ -359,9 +426,16 @@ function updateSort() {
     if (hasA !== hasB) return hasB ? 1 : -1;
 
     if (hasA) {
-      // 2. Sort Cutoff colleges: Max desc, then Min desc
-      if (rB[0] !== rA[0]) return rB[0] - rA[0];
-      return rB[1] - rA[1];
+      if (S.filterType === 'rank') {
+        const minRankA = rA[3] || 0;
+        const minRankB = rB[3] || 0;
+        if (minRankA !== minRankB) return minRankA - minRankB; // Ascending for rank (best rank first)
+        return rA[2] - rB[2];
+      } else {
+        // 2. Sort Cutoff colleges: Max desc, then Min desc
+        if (rB[0] !== rA[0]) return rB[0] - rA[0];
+        return rB[1] - rA[1];
+      }
     } else {
       // 3. Sort Non-cutoff colleges: Global Max desc, then Name asc
       const gA = globalMaxMap[a] || 0;
@@ -568,10 +642,18 @@ function render(codes) {
     let min25 = 0, max25 = 0;
 
     displayBranchRecords.forEach(r => {
-      const val = parseFloat(r[currentComm]);
-      if (val > 0) {
-        if (max25 === 0 || val > max25) max25 = val;
-        if (min25 === 0 || val < min25) min25 = val;
+      if (S.filterType === 'rank') {
+        const val = parseInt(r[currentComm.toLowerCase() + 'r'], 10);
+        if (val > 0) {
+          if (max25 === 0 || val > max25) max25 = val; // Worst rank
+          if (min25 === 0 || val < min25) min25 = val; // Best rank
+        }
+      } else {
+        const val = parseFloat(r[currentComm]);
+        if (val > 0) {
+          if (max25 === 0 || val > max25) max25 = val;
+          if (min25 === 0 || val < min25) min25 = val;
+        }
       }
     });
 
@@ -588,7 +670,8 @@ function render(codes) {
 
     const typeBadge = type ? `<span class="clg-type-badge ${typeClass(type.toUpperCase())}">${type}</span>` : "";
 
-    const pBadge = (!isNaN(cq) && cq > 0 && max25 > 0 && cq < min25 - 2)
+    const pBadge = (!isNaN(cq) && cq > 0 && max25 > 0 && 
+      (S.filterType === 'rank' ? cq > max25 + 500 : cq < min25 - 2))
       ? `<span class="possibility-badge" data-sentiment="negative">Low Possibility</span>`
       : '';
 
@@ -596,21 +679,24 @@ function render(codes) {
       <div class="clg-range-wrap">
         <div class="clg-cutoff-box">
           <span class="clg-cutoff-label">MIN</span>
-          <span class="clg-range-low">${min25.toFixed(1)}</span>
+          <span class="clg-range-low">${S.filterType === 'rank' ? min25 : min25.toFixed(1)}</span>
         </div>
         <span class="clg-range-sep">—</span>
         <div class="clg-cutoff-box">
           <span class="clg-cutoff-label">MAX</span>
-          <span class="clg-range-high">${max25.toFixed(1)}</span>
+          <span class="clg-range-high">${S.filterType === 'rank' ? max25 : max25.toFixed(1)}</span>
         </div>
       </div>
     ` : `<span class="clg-vacant">No Data / Fully Vacant</span>`;
 
-    const courses = displayBranchRecords.map(r => ({
-      name: r.brn || r.brc,
-      cutoff: parseFloat(r[currentComm]) || 0,
-      isFiltered: S.courses.size > 0 && S.courses.has(r.brc)
-    })).sort((a, b) => {
+    const courses = displayBranchRecords.map(r => {
+      const isRank = S.filterType === 'rank';
+      return {
+        name: r.brn || r.brc,
+        cutoff: isRank ? (parseInt(r[currentComm.toLowerCase() + 'r'], 10) || 0) : (parseFloat(r[currentComm]) || 0),
+        isFiltered: S.courses.size > 0 && S.courses.has(r.brc)
+      };
+    }).sort((a, b) => {
       // Priority 1: Filtered matches first
       if (a.isFiltered !== b.isFiltered) return a.isFiltered ? -1 : 1;
 
@@ -620,9 +706,15 @@ function render(codes) {
       const target = isNaN(cq) ? 0 : cq;
 
       const getGroup = (v) => {
-        if (v > 0 && v <= target) return 1;
-        if (v === 0) return 2;
-        return 3;
+        if (S.filterType === 'rank') {
+          if (v > 0 && v >= target) return 1;
+          if (v === 0) return 2;
+          return 3;
+        } else {
+          if (v > 0 && v <= target) return 1;
+          if (v === 0) return 2;
+          return 3;
+        }
       };
 
       const gA = getGroup(vA);
@@ -635,14 +727,20 @@ function render(codes) {
     const courseItems = courses.map(c => {
       let colorStyle = '';
       if (cq > 0 && c.cutoff > 0) {
-        if (c.cutoff <= cq) colorStyle = 'color: var(--green); font-weight: 800;';
-        else colorStyle = 'color: var(--red); font-weight: 800;';
+        if (S.filterType === 'rank') {
+          if (c.cutoff >= cq) colorStyle = 'color: var(--green); font-weight: 800;';
+          else colorStyle = 'color: var(--red); font-weight: 800;';
+        } else {
+          if (c.cutoff <= cq) colorStyle = 'color: var(--green); font-weight: 800;';
+          else colorStyle = 'color: var(--red); font-weight: 800;';
+        }
       }
 
+      const displayCutoff = S.filterType === 'rank' ? c.cutoff : (c.cutoff > 0 ? c.cutoff.toFixed(1) : '-');
       return `
         <div class="course-cutoff-item">
           <span class="ecc-name">${c.name.toUpperCase()}</span>
-          <span class="ecc-cutoff" style="${colorStyle}">${c.cutoff > 0 ? c.cutoff.toFixed(1) : '-'}</span>
+          <span class="ecc-cutoff" style="${colorStyle}">${displayCutoff}</span>
         </div>
       `;
     }).join('');
@@ -685,7 +783,7 @@ function render(codes) {
 
 const runSearch = () => {
   let cq = parseFloat(cutoffInput.value);
-  if (cq > 200) {
+  if (S.filterType === 'cutoff' && cq > 200) {
     cq = 200;
     cutoffInput.value = 200;
   }
@@ -718,8 +816,13 @@ const runSearch = () => {
   if (!isNaN(cq) && cq > 0) {
     filtered = filtered.filter(code => {
       const r = (ranges[code] && ranges[code][S.community]) || [0, 0, 0, 0, 0, 0];
-      const min = r[1] || 0;
-      return cq >= min; // Absolute filter
+      if (S.filterType === 'rank') {
+        const maxRank = r[2] || 0; // Worst rank accepted
+        return cq <= maxRank;
+      } else {
+        const min = r[1] || 0;
+        return cq >= min; // Absolute filter
+      }
     });
   }
 
@@ -741,8 +844,13 @@ const runSearch = () => {
         // If cutoff is entered, check if eligible for ANY of the selected matches
         if (!isNaN(cq) && cq > 0) {
           return matches.some(r => {
-            const val = parseFloat(r[S.community]);
-            return val > 0 && cq >= val;
+            if (S.filterType === 'rank') {
+              const val = parseInt(r[S.community.toLowerCase() + 'r'], 10);
+              return val > 0 && cq <= val;
+            } else {
+              const val = parseFloat(r[S.community]);
+              return val > 0 && cq >= val;
+            }
           });
         }
         return true;

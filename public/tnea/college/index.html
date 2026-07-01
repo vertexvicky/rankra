@@ -22,9 +22,12 @@
 
       <!-- Row 1: Cutoff + Community -->
       <div class="filter-row">
-        <span class="filter-label">Your cutoff</span>
+        <div class="toggle-group" id="filter-type-toggle">
+          <button class="toggle-btn active" data-type="cutoff">Mark</button>
+          <button class="toggle-btn" data-type="rank">Rank</button>
+        </div>
         <div class="search-box-wrap" style="width:72px;flex:none;">
-          <input type="number" id="cutoffSearch" class="search-input" placeholder="200.0" step="0.5" min="0" max="200" value="200" style="padding:8px 4px;text-align:center;">
+          <input type="number" id="cutoffSearch" class="search-input cutoff-input" placeholder="200.0" step="0.5" min="0" max="200" value="200" style="padding:8px 4px;text-align:center;">
         </div>
         <span class="filter-label">community</span>
         <div class="district-wrap" id="comm-wrap">

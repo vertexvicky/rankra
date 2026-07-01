@@ -475,6 +475,7 @@ body.dark .custom-select {
 .frow-district>#college-wrap,
 .frow-district>#course-wrap,
 .frow-district>#district-wrap,
+.frow-district>#type-wrap,
 .frow-district>#year-wrap,
 .frow-district>.sort-group {
   flex: 1;
@@ -488,8 +489,8 @@ body.dark .custom-select {
   box-sizing: border-box;
 }
 
-.frow-district > .district-wrap > .pill-btn,
-.frow-district > .sort-group > .district-wrap > .pill-btn {
+.frow-district .district-wrap > .pill-btn,
+.frow-district .sort-group .district-wrap > .pill-btn {
   background: var(--bg-card);
   border: 1.5px solid var(--border);
   border-radius: 10px;
@@ -497,14 +498,14 @@ body.dark .custom-select {
   transition: border-color var(--t), box-shadow var(--t), background var(--t);
 }
 
-.frow-district > .district-wrap > .pill-btn:hover,
-.frow-district > .sort-group > .district-wrap > .pill-btn:hover {
+.frow-district .district-wrap > .pill-btn:hover,
+.frow-district .sort-group .district-wrap > .pill-btn:hover {
   border-color: var(--accent);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.frow-district > .district-wrap > .pill-btn.active,
-.frow-district > .sort-group > .district-wrap > .pill-btn.active {
+.frow-district .district-wrap > .pill-btn.active,
+.frow-district .sort-group .district-wrap > .pill-btn.active {
   border-color: var(--accent);
   background: var(--accent-soft);
   box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 20%, transparent);
@@ -527,7 +528,8 @@ body.dark .custom-select {
 
 @media (max-width: 520px) {
   .frow-district {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 5px;
     padding: 6px 12px;
   }
@@ -535,10 +537,11 @@ body.dark .custom-select {
   .frow-district>#college-wrap,
   .frow-district>#course-wrap,
   .frow-district>#district-wrap,
+  .frow-district>#type-wrap,
   .frow-district>#year-wrap,
   .frow-district>.sort-group {
-    flex: 1 1 calc(33.333% - 6px) !important;
-    width: calc(33.333% - 6px) !important;
+    flex: 1 1 0 !important;
+    width: auto !important;
     box-sizing: border-box;
     min-width: 0;
     display: flex;
@@ -555,13 +558,7 @@ body.dark .custom-select {
     margin-left: 0 !important;
   }
 
-  .frow-district>#clear-wrap {
-    flex: 0 0 auto !important;
-    width: max-content !important;
-    margin-left: auto !important;
-    display: flex;
-    align-items: center;
-  }
+
 
   .frow-district .pill-btn {
     width: 100%;
@@ -975,4 +972,177 @@ body.dark .clg-type-badge.type-pvt {
   background: var(--bg-primary);
   color: var(--text-secondary);
   border-color: var(--border);
+}
+
+/* Cutoff Page Custom Header & Year Styling */
+.site-header .header-title {
+  display: none !important;
+}
+
+.site-header .header-export-btn {
+  display: none !important;
+}
+
+/* Boxy Toggle Group Styling */
+.toggle-group {
+  display: flex;
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+
+.toggle-btn {
+  padding: 4px 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--t);
+}
+
+.toggle-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.toggle-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* Input Width Overrides for Rank Mode */
+.cutoff-input {
+  width: 75px !important;
+}
+
+@media (max-width: 767px) {
+  .cutoff-input {
+    width: 65px !important;
+    font-size: .85rem !important;
+  }
+}
+
+/* Desktop Reordering Overrides */
+@media (min-width: 1000px) {
+  #college-wrap {
+    order: 1 !important;
+  }
+
+  #district-wrap {
+    order: 2 !important;
+  }
+
+  #course-wrap {
+    order: 3 !important;
+  }
+
+  #type-wrap {
+    order: 4 !important;
+  }
+
+  #year-wrap {
+    order: 5 !important;
+  }
+
+  .sort-group {
+    order: 6 !important;
+  }
+
+  .cutoff-group {
+    order: 7 !important;
+  }
+
+  #clear-wrap {
+    order: 8 !important;
+  }
+}
+
+.filter-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  margin: 6px 12px;
+  opacity: 0.8;
+}
+.filter-divider::before, .filter-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1.5px dashed var(--border);
+}
+.filter-divider::before {
+  margin-right: 12px;
+}
+.filter-divider::after {
+  margin-left: 12px;
+}
+
+/* Prominent Row (Row 1) Sizing */
+.prominent-row {
+  padding: 16px 12px !important;
+}
+.prominent-row .toggle-group {
+  height: 38px;
+}
+.prominent-row .toggle-btn {
+  font-size: 0.9rem !important;
+  padding: 0 14px !important;
+}
+.prominent-row .cutoff-input {
+  font-size: 1.1rem !important;
+  width: 72px !important;
+  height: 38px !important;
+  padding: 4px 6px !important;
+}
+.prominent-row .cutoff-label {
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+}
+.prominent-row .pill-btn {
+  font-size: 0.9rem !important;
+  height: 38px !important;
+  min-width: 82px !important;
+  padding: 0 12px !important;
+}
+
+/* Bigger Dropdowns (Rows 2 & 3) */
+.select-row .pill-btn {
+  height: 38px !important;
+  font-size: 0.95rem !important;
+  border-radius: 10px !important;
+  padding: 4px 12px !important;
+}
+
+.select-label {
+  flex: 0 0 64px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: lowercase;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.dropdowns-container {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+  min-width: 0;
+}
+
+.dropdowns-container .district-wrap {
+  flex: 1 1 0 !important;
+  width: auto !important;
+  min-width: 0;
+  display: flex;
 }

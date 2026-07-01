@@ -74,107 +74,15 @@
 
   <div class="filter-bar" id="filter-bar" role="search" aria-label="Filters">
 
-    <div class="frow frow-district">
-      <div class="district-wrap" id="college-wrap">
-        <button class="pill-btn" id="college-btn" aria-haspopup="listbox" aria-expanded="false">
-          <span id="college-label">College (all)</span>
-          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.5">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
-        <div class="district-dropdown" id="college-dropdown" hidden>
-          <div class="dd-search"><input type="text" id="college-dd-search" placeholder="Search college…"
-              autocomplete="off" /></div>
-          <div class="dd-list" id="college-dd-list"></div>
-          <div class="dd-footer">
-            <div class="mode-toggle-btns">
-              <button class="sheet-mode-btn active" data-mode="include" data-target="college">Include</button>
-              <button class="sheet-mode-btn" data-mode="exclude" data-target="college">Exclude</button>
-            </div>
-            <button class="btn-ghost-sm" id="college-dd-clear">Clear all</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="district-wrap" id="course-wrap">
-        <button class="pill-btn" id="course-btn" aria-haspopup="listbox" aria-expanded="false">
-          <span id="course-label">Course (all)</span>
-          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.5">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
-        <div class="district-dropdown" id="course-dropdown" hidden>
-          <div class="dd-search"><input type="text" id="course-dd-search" placeholder="Search course…"
-              autocomplete="off" /></div>
-          <div class="dd-list" id="course-dd-list"></div>
-          <div class="dd-footer">
-            <div class="mode-toggle-btns">
-              <button class="sheet-mode-btn active" data-mode="include" data-target="course">Include</button>
-              <button class="sheet-mode-btn" data-mode="exclude" data-target="course">Exclude</button>
-            </div>
-            <button class="btn-ghost-sm" id="course-dd-clear">Clear all</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="district-wrap" id="district-wrap">
-        <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
-          <span id="district-label">District (all)</span>
-          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.5">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
-        <div class="district-dropdown" id="district-dropdown" hidden>
-          <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search district…"
-              autocomplete="off" /></div>
-          <div class="dd-list" id="dd-list"></div>
-          <div class="dd-footer">
-            <div class="mode-toggle-btns">
-              <button class="sheet-mode-btn active" data-mode="include" data-target="district">Include</button>
-              <button class="sheet-mode-btn" data-mode="exclude" data-target="district">Exclude</button>
-            </div>
-            <button class="btn-ghost-sm" id="dd-clear">Clear all</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="district-wrap" id="year-wrap">
-        <button class="pill-btn" id="year-btn" aria-haspopup="true" aria-expanded="false">
-          <span id="year-btn-text">Year: 2025</span>
-          <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor"
-            stroke-width="1.5">
-            <path d="M1 1l4 4 4-4" />
-          </svg>
-        </button>
-        <div class="sort-dropdown" id="year-dropdown" hidden>
-        </div>
-      </div>
-
-      <div class="district-wrap" id="type-wrap">
-        <button class="pill-btn" id="type-btn" aria-haspopup="listbox" aria-expanded="false">
-          <span id="type-label">College Type</span>
-          <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </button>
-      </div>
-
-      <div class="district-wrap" id="clear-wrap" style="flex: 0 0 auto;">
-        <button class="pill-btn" id="header-reset"
-          style="width: auto; justify-content: center; background: transparent; color: var(--text-secondary); font-weight: 600; border: none; padding-left: 0; padding-right: 0;">
-          Clear filters
-        </button>
-      </div>
-    </div>
-
-
-    <div class="frow frow-bottom">
+    <!-- Row 1: Prominent Cutoff/Rank and Community -->
+    <div class="frow frow-bottom prominent-row">
       <div class="cutoff-group">
-        <span class="cutoff-label">YOUR CUTOFF</span>
-        <input type="number" class="cutoff-input" id="target-cutoff" placeholder="e.g. 150" min="0" max="200" step="0.5" aria-label="Target cutoff" />
+        <div class="toggle-group" id="filter-type-toggle">
+          <button class="toggle-btn active" data-type="cutoff">Mark</button>
+          <button class="toggle-btn" data-type="rank">Rank</button>
+        </div>
+        <input type="number" class="cutoff-input" id="target-cutoff" placeholder="e.g. 150" min="0" max="200" step="0.5" aria-label="Target value" />
+        <span class="cutoff-label" style="margin-left: 4px;">community:</span>
         <div class="district-wrap" id="comm-wrap">
           <button class="pill-btn" id="comm-btn" aria-haspopup="true" aria-expanded="false"
             style="min-width: 72px; padding: 4px 10px;">
@@ -195,7 +103,108 @@
           </div>
         </div>
       </div>
-      <div id="results-count" class="result-count"></div>
+    </div>
+
+    <!-- Divider -->
+    <div class="filter-divider">
+      <span>FILTER BY FOLLOWING</span>
+    </div>
+
+    <!-- Row 2: College and Type -->
+    <div class="frow frow-district select-row">
+      <div class="dropdowns-container">
+        <div class="district-wrap" id="college-wrap">
+          <button class="pill-btn" id="college-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="college-label">College (all)</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="district-dropdown" id="college-dropdown" hidden>
+            <div class="dd-search"><input type="text" id="college-dd-search" placeholder="Search college…"
+                autocomplete="off" /></div>
+            <div class="dd-list" id="college-dd-list"></div>
+            <div class="dd-footer">
+              <div class="mode-toggle-btns">
+                <button class="sheet-mode-btn active" data-mode="include" data-target="college">Include</button>
+                <button class="sheet-mode-btn" data-mode="exclude" data-target="college">Exclude</button>
+              </div>
+              <button class="btn-ghost-sm" id="college-dd-clear">Clear all</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="district-wrap" id="type-wrap">
+          <button class="pill-btn" id="type-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="type-label">College Type</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: Course and Year -->
+    <div class="frow frow-district select-row">
+      <div class="dropdowns-container">
+        <div class="district-wrap" id="course-wrap">
+          <button class="pill-btn" id="course-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="course-label">Course (all)</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="district-dropdown" id="course-dropdown" hidden>
+            <div class="dd-search"><input type="text" id="course-dd-search" placeholder="Search course…"
+                autocomplete="off" /></div>
+            <div class="dd-list" id="course-dd-list"></div>
+            <div class="dd-footer">
+              <div class="mode-toggle-btns">
+                <button class="sheet-mode-btn active" data-mode="include" data-target="course">Include</button>
+                <button class="sheet-mode-btn" data-mode="exclude" data-target="course">Exclude</button>
+              </div>
+              <button class="btn-ghost-sm" id="course-dd-clear">Clear all</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="district-wrap" id="district-wrap">
+          <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="district-label">District (all)</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+          <div class="district-dropdown" id="district-dropdown" hidden>
+            <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search district…"
+                autocomplete="off" /></div>
+            <div class="dd-list" id="dd-list"></div>
+            <div class="dd-footer">
+              <div class="mode-toggle-btns">
+                <button class="sheet-mode-btn active" data-mode="include" data-target="district">Include</button>
+                <button class="sheet-mode-btn" data-mode="exclude" data-target="district">Exclude</button>
+              </div>
+              <button class="btn-ghost-sm" id="dd-clear">Clear all</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="district-wrap" id="year-wrap" style="display: none;">
+          <button class="pill-btn" id="year-btn" aria-haspopup="true" aria-expanded="false">
+            <span id="year-btn-text">Year: 2025</span>
+            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor"
+              stroke-width="1.5">
+              <path d="M1 1l4 4 4-4" />
+            </svg>
+          </button>
+          <div class="sort-dropdown" id="year-dropdown" hidden>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="chance-summary-row" id="chance-summary" hidden></div>
   </div>

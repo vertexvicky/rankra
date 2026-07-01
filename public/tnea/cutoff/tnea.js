@@ -25,7 +25,9 @@ const S = {
   typeMode: 'include',
   year: '2025',
   search: '',
+  filterType: 'cutoff',
   targetCutoff: 0,
+  targetRank: 1,
   sortBy: 'cutoff-desc',
   currentPage: 1,
   pageSize: 20,
@@ -36,6 +38,37 @@ const S = {
   hiddenMediumCount: 0,
   allDistricts: []
 };
+
+function setFilterType(type) {
+  S.filterType = type;
+  const input = $('target-cutoff');
+  const toggleButtons = $$('#filter-type-toggle .toggle-btn');
+  
+  toggleButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.type === type);
+  });
+  
+  if (type === 'rank') {
+    if (input) {
+      input.placeholder = 'e.g. 5000';
+      input.min = '1';
+      input.max = '999999';
+      input.step = '1';
+      input.value = S.targetRank > 0 ? S.targetRank : '';
+    }
+  } else {
+    if (input) {
+      input.placeholder = 'e.g. 150';
+      input.min = '0';
+      input.max = '200';
+      input.step = '0.5';
+      input.value = S.targetCutoff > 0 ? S.targetCutoff : '';
+    }
+  }
+  
+  localStorage.setItem('rankra_filter_type', type);
+}
+window.setFilterType = setFilterType;
 
 let shDistrict, shCollege, shCourse, shType, siteHeader;
 let codeToType = {};
@@ -88,7 +121,9 @@ function syncURL() {
   }
   if (S.cutoffComm) params.set('c', S.cutoffComm);
   if (S.sortBy !== 'cutoff-desc') params.set('sort', S.sortBy);
+  if (S.filterType !== 'cutoff') params.set('type', S.filterType);
   if (S.targetCutoff > 0) params.set('cutoff', S.targetCutoff);
+  if (S.targetRank > 0) params.set('rank', S.targetRank);
   if (S.search) params.set('q', S.search);
 
   const qs = params.toString();
@@ -333,13 +368,22 @@ function initFromURL() {
   }
   if (S.cutoffComm) setCommUI(S.cutoffComm);
 
+  S.filterType = params.get('type') || localStorage.getItem('rankra_filter_type') || 'cutoff';
+
   if (params.has('cutoff')) {
     S.targetCutoff = parseFloat(params.get('cutoff'));
   } else {
     const localCutoff = localStorage.getItem('rankra_cutoff');
     if (localCutoff) S.targetCutoff = parseFloat(localCutoff);
   }
-  if ($('target-cutoff')) $('target-cutoff').value = S.targetCutoff || '';
+
+  if (params.has('rank')) {
+    S.targetRank = parseInt(params.get('rank'), 10);
+  } else {
+    const localRank = localStorage.getItem('rankra_rank');
+    if (localRank) S.targetRank = parseInt(localRank, 10);
+  }
+
   if (params.has('sort')) {
     S.sortBy = params.get('sort');
     $$('#sort-dropdown .sort-option').forEach(opt => {
@@ -554,6 +598,7 @@ async function boot() {
     console.error("[Boot] Cache initialization failed:", e);
   }
 
+  setFilterType(S.filterType);
   buildDistrictList();
   bindEvents(); // bind after data is ready
   render();
@@ -604,23 +649,42 @@ function applyFilters() {
   const csk = TNEA_CONFIG.seatKeys[comm] || { tl: 'octl' };
   res = res.filter(r => (parseInt(r[csk.tl], 10) || 0) > 0);
 
-  // If user has a cutoff, filter results to within +3.5 mark
+  // If user has a cutoff/rank, filter results to within reasonable ranges
   S.hiddenMediumCount = 0;
-  if (S.targetCutoff > 0) {
-    res = res.filter(r => {
-      const v = r[comm];
-      const n = parseFloat(v);
-      if (v === '' || v === null || isNaN(n)) return true; 
+  if (S.filterType === 'rank') {
+    if (S.targetRank > 0) {
+      res = res.filter(r => {
+        const rValStr = r[comm.toLowerCase() + 'r'];
+        const n = parseInt(rValStr, 10);
+        if (rValStr === '' || rValStr === null || isNaN(n)) return true;
 
-      const chance = getChance(r);
-      if (chance.text === 'Medium') {
-        if (!S.showMedium) {
-          S.hiddenMediumCount++;
-          return false;
+        const chance = getChance(r);
+        if (chance.text === 'Medium') {
+          if (!S.showMedium) {
+            S.hiddenMediumCount++;
+            return false;
+          }
         }
-      }
-      return n <= S.targetCutoff + 3.5;
-    });
+        return S.targetRank <= n + 10000; // only show if rank is within medium/high/very high chance
+      });
+    }
+  } else {
+    if (S.targetCutoff > 0) {
+      res = res.filter(r => {
+        const v = r[comm];
+        const n = parseFloat(v);
+        if (v === '' || v === null || isNaN(n)) return true; 
+
+        const chance = getChance(r);
+        if (chance.text === 'Medium') {
+          if (!S.showMedium) {
+            S.hiddenMediumCount++;
+            return false;
+          }
+        }
+        return n <= S.targetCutoff + 4.5;
+      });
+    }
   }
 
   if (S.districts.size > 0) {
@@ -675,8 +739,13 @@ function sortArr(arr) {
     if (S.sortBy === 'cutoff-desc' || S.sortBy === 'cutoff-asc') {
       const isDesc = S.sortBy === 'cutoff-desc';
       
-      // 1. Cutoff
-      if (vA !== vB) return isDesc ? vB - vA : vA - vB;
+      if (S.filterType === 'rank') {
+        const rA = parseInt(a[comm.toLowerCase() + 'r'], 10) || 999999;
+        const rB = parseInt(b[comm.toLowerCase() + 'r'], 10) || 999999;
+        if (rA !== rB) return isDesc ? rA - rB : rB - rA; // Descending (best first) means smaller rank first
+      } else {
+        if (vA !== vB) return isDesc ? vB - vA : vA - vB;
+      }
 
       // 2. Filled Ratio
       const mA = getMetrics(a);
@@ -700,8 +769,14 @@ function sortArr(arr) {
       if (vacA !== vacB) return vacB - vacA;
       // 2. Total Seats
       if (mA.tl !== mB.tl) return mB.tl - mA.tl;
-      // 3. Cutoff
-      if (vA !== vB) return vB - vA;
+      // 3. Cutoff / Rank
+      if (S.filterType === 'rank') {
+        const rA = parseInt(a[comm.toLowerCase() + 'r'], 10) || 999999;
+        const rB = parseInt(b[comm.toLowerCase() + 'r'], 10) || 999999;
+        if (rA !== rB) return rA - rB; // smaller rank first (better)
+      } else {
+        if (vA !== vB) return vB - vA;
+      }
       // 4. College Code
       return mA.coc - mB.coc;
     }
@@ -755,7 +830,8 @@ function render() {
       console.log(`${key}: ${summary[key].count} results, ${summary[key].seats} total seats`);
     });
 
-    const hasSummary = S.targetCutoff > 0 && S.hiddenMediumCount > 0;
+    const targetValueActive = S.filterType === 'rank' ? S.targetRank > 0 : S.targetCutoff > 0;
+    const hasSummary = targetValueActive && S.hiddenMediumCount > 0;
     const el = $('chance-summary');
     el.hidden = !hasSummary;
     if (hasSummary) {
@@ -884,23 +960,42 @@ function renderSkeletons() {
 
 function getChance(r) {
   const cc = S.cutoffComm || S.primaryComm || 'OC';
-  const v = r[cc]; const n = parseFloat(v); const has = v !== '' && v !== null && !isNaN(n);
   const csk = TNEA_CONFIG.seatKeys[cc] || { tl: 'octl', al: 'ocal' };
   const ctl = parseInt(r[csk.tl], 10) || 0;
   const cal = parseInt(r[csk.al], 10) || 0;
   const cvac = ctl - cal;
 
-  if (S.targetCutoff <= 0) return { text: '—', class: '' };
+  if (S.filterType === 'rank') {
+    if (S.targetRank <= 0) return { text: '—', class: '' };
+    const rValStr = r[cc.toLowerCase() + 'r'];
+    const n = parseInt(rValStr, 10);
+    const has = rValStr !== '' && rValStr !== null && !isNaN(n);
 
-  if (has) {
-    if (n < S.targetCutoff - 11) return { text: 'Very High', class: 'poss-vhigh' };
-    if (n <= S.targetCutoff) return { text: 'High', class: 'poss-high' };
-    if (n <= S.targetCutoff + 3.5) return { text: 'Medium', class: 'poss-medium' };
+    if (has) {
+      if (S.targetRank <= n * 0.8) return { text: 'Very High', class: 'poss-vhigh' };
+      if (S.targetRank <= n) return { text: 'High', class: 'poss-high' };
+      if (S.targetRank <= n + 10000) return { text: 'Medium', class: 'poss-medium' };
+    } else {
+      const ratio = ctl > 0 ? cal / ctl : 0;
+      if (cvac >= 20 || (ctl > 0 && ratio < 0.6)) return { text: 'Very High', class: 'poss-vhigh' };
+      if (cvac >= 5 || ctl > 30) return { text: 'High', class: 'poss-high' };
+      return { text: 'Medium', class: 'poss-medium' };
+    }
   } else {
-    const ratio = ctl > 0 ? cal / ctl : 0;
-    if (cvac >= 20 || (ctl > 0 && ratio < 0.6)) return { text: 'Very High', class: 'poss-vhigh' };
-    if (cvac >= 5 || ctl > 30) return { text: 'High', class: 'poss-high' };
-    return { text: 'Medium', class: 'poss-medium' };
+    // Cutoff mode
+    if (S.targetCutoff <= 0) return { text: '—', class: '' };
+    const v = r[cc]; const n = parseFloat(v); const has = v !== '' && v !== null && !isNaN(n);
+
+    if (has) {
+      if (n < S.targetCutoff - 11) return { text: 'Very High', class: 'poss-vhigh' };
+      if (n <= S.targetCutoff) return { text: 'High', class: 'poss-high' };
+      if (n <= S.targetCutoff + 4.5) return { text: 'Medium', class: 'poss-medium' };
+    } else {
+      const ratio = ctl > 0 ? cal / ctl : 0;
+      if (cvac >= 20 || (ctl > 0 && ratio < 0.6)) return { text: 'Very High', class: 'poss-vhigh' };
+      if (cvac >= 5 || ctl > 30) return { text: 'High', class: 'poss-high' };
+      return { text: 'Medium', class: 'poss-medium' };
+    }
   }
   return { text: '—', class: '' };
 }
@@ -911,6 +1006,12 @@ function mkResultCard(r, idx) {
 
   const v = r[cc]; const n = parseFloat(v); const has = v !== '' && v !== null && !isNaN(n);
   const cutoffVal = has ? (n % 1 === 0 ? n : n.toFixed(1)) : '—';
+  
+  const rankValStr = r[cc.toLowerCase() + 'r'];
+  const rankVal = rankValStr ? rankValStr : '—';
+
+  const displayVal = S.filterType === 'rank' ? rankVal : cutoffVal;
+  const colHeader = S.filterType === 'rank' ? 'Rank' : 'Cutoff';
 
   const csk = TNEA_CONFIG.seatKeys[cc] || { tl: 'octl', al: 'ocal' };
   const ctl = parseInt(r[csk.tl], 10) || 0;
@@ -921,13 +1022,14 @@ function mkResultCard(r, idx) {
   const possText = chance.text;
   const possClass = chance.class;
 
-  const hasPoss = S.targetCutoff > 0 && possText !== '—';
+  const targetValueActive = S.filterType === 'rank' ? S.targetRank > 0 : S.targetCutoff > 0;
+  const hasPoss = targetValueActive && possText !== '—';
   const gridStyle = hasPoss ? ` style="grid-template-columns: minmax(max-content, 0.8fr) repeat(4, minmax(max-content, 1fr));"` : '';
 
   const communityRow = `
     <div class="ct-row ct-primary-row"${gridStyle}>
       <div class="ct-label primary">${esc(cc)}</div>
-      <div class="ct-td${has ? '' : ' nd'}">${cutoffVal}</div>
+      <div class="ct-td${(S.filterType === 'rank' ? rankValStr : v) ? '' : ' nd'}">${displayVal}</div>
       <div class="ct-td">${ctl || '—'}</div>
       <div class="ct-td">${cal || '—'}</div>
       <div class="ct-td">${ctl > 0 ? cvac : '—'}</div>
@@ -965,7 +1067,7 @@ function mkResultCard(r, idx) {
     <div class="comm-table">
       <div class="ct-row ct-head"${gridStyle}>
         <div class="ct-th">Community</div>
-        <div class="ct-th">Cutoff</div>
+        <div class="ct-th">${colHeader}</div>
         <div class="ct-th">Total seats</div>
         <div class="ct-th">Filled</div>
         <div class="ct-th">Unfilled</div>
@@ -973,8 +1075,6 @@ function mkResultCard(r, idx) {
       ${communityRow}
     </div>
   `;
-
-
 
   return card;
 }
@@ -1231,16 +1331,34 @@ function bindEvents() {
     if (shType) shType.open();
   });
 
+  // Bind Rank / Cutoff Toggle buttons
+  const toggleBtns = $$('#filter-type-toggle .toggle-btn');
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.type;
+      setFilterType(type);
+      render();
+    });
+  });
+
   if ($('target-cutoff')) {
-    $('target-cutoff').addEventListener('change', e => {
+    $('target-cutoff').addEventListener('input', e => {
       let v = parseFloat(e.target.value);
       S.showMedium = false;
-      if (isNaN(v) || v <= 0) {
-        S.targetCutoff = 0;
-        e.target.value = '';
+      if (S.filterType === 'rank') {
+        if (isNaN(v) || v <= 0) {
+          S.targetRank = 1;
+        } else {
+          S.targetRank = Math.round(v);
+        }
+        localStorage.setItem('rankra_rank', S.targetRank);
       } else {
-        S.targetCutoff = Math.max(0, Math.min(200, v));
-        e.target.value = S.targetCutoff;
+        if (isNaN(v) || v <= 0) {
+          S.targetCutoff = 0;
+        } else {
+          S.targetCutoff = Math.max(0, Math.min(200, v));
+        }
+        localStorage.setItem('rankra_cutoff', S.targetCutoff);
       }
       render();
     });

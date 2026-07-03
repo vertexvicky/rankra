@@ -16,16 +16,16 @@
     content="Explore TNEA cutoff scores for all Tamil Nadu engineering colleges from 2020 to 2025. Filter by district, community, branch, and cutoff range." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="icon" type="image/png" href="../../assets/rankra_favicon30.png" />
+  <link rel="icon" type="image/jpeg" href="../../assets/rankra_favicon30.jpg" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../shared/css/tokens.css" />
-  <link rel="stylesheet" href="../../shared/css/reset.css" />
+  <link rel="stylesheet" href="../../shared/css/reset.css?v=2" />
   <link rel="stylesheet" href="../../shared/css/animations.css" />
   <link rel="stylesheet" href="../../shared/css/components.css" />
   <link rel="stylesheet" href="../../shared/css/layout.css" />
   <link rel="stylesheet" href="../../shared/components/dummy-ad/dummy-ad.css" />
-  <link rel="stylesheet" href="tnea.css?v=2" />
+  <link rel="stylesheet" href="cutoff.css?v=7" />
   <script type="text/javascript">
     (function (c, l, a, r, i, t, y) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -75,7 +75,7 @@
   <div class="filter-bar" id="filter-bar" role="search" aria-label="Filters">
 
     <!-- Row 1: Prominent Cutoff/Rank and Community -->
-    <div class="frow frow-bottom prominent-row">
+    <div class="frow frow-bottom prominent-row" style="justify-content: space-between; width: 100%; display: flex; align-items: center;">
       <div class="cutoff-group">
         <div class="toggle-group" id="filter-type-toggle">
           <button class="toggle-btn active" data-type="cutoff">Mark</button>
@@ -103,38 +103,17 @@
           </div>
         </div>
       </div>
+      <button class="icon-btn hamburger-btn" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
     </div>
 
-    <!-- Divider -->
-    <div class="filter-divider">
-      <span>FILTER BY FOLLOWING</span>
-    </div>
 
-    <!-- Row 2: College and Type -->
+    <!-- Row 2: Select Filters (Combined) -->
     <div class="frow frow-district select-row">
-      <div class="dropdowns-container">
-        <div class="district-wrap" id="college-wrap">
-          <button class="pill-btn" id="college-btn" aria-haspopup="listbox" aria-expanded="false">
-            <span id="college-label">College (all)</span>
-            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2.5">
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </button>
-          <div class="district-dropdown" id="college-dropdown" hidden>
-            <div class="dd-search"><input type="text" id="college-dd-search" placeholder="Search college…"
-                autocomplete="off" /></div>
-            <div class="dd-list" id="college-dd-list"></div>
-            <div class="dd-footer">
-              <div class="mode-toggle-btns">
-                <button class="sheet-mode-btn active" data-mode="include" data-target="college">Include</button>
-                <button class="sheet-mode-btn" data-mode="exclude" data-target="college">Exclude</button>
-              </div>
-              <button class="btn-ghost-sm" id="college-dd-clear">Clear all</button>
-            </div>
-          </div>
-        </div>
-
+      <div class="dropdowns-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%;">
         <div class="district-wrap" id="type-wrap">
           <button class="pill-btn" id="type-btn" aria-haspopup="listbox" aria-expanded="false">
             <span id="type-label">College Type</span>
@@ -143,23 +122,16 @@
             </svg>
           </button>
         </div>
-      </div>
-    </div>
 
-    <!-- Row 3: Course and Year -->
-    <div class="frow frow-district select-row">
-      <div class="dropdowns-container">
         <div class="district-wrap" id="course-wrap">
           <button class="pill-btn" id="course-btn" aria-haspopup="listbox" aria-expanded="false">
             <span id="course-label">Course (all)</span>
-            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2.5">
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
           <div class="district-dropdown" id="course-dropdown" hidden>
-            <div class="dd-search"><input type="text" id="course-dd-search" placeholder="Search course…"
-                autocomplete="off" /></div>
+            <div class="dd-search"><input type="text" id="course-dd-search" placeholder="Search course…" autocomplete="off" /></div>
             <div class="dd-list" id="course-dd-list"></div>
             <div class="dd-footer">
               <div class="mode-toggle-btns">
@@ -171,17 +143,37 @@
           </div>
         </div>
 
-        <div class="district-wrap" id="district-wrap">
-          <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+        <div class="district-wrap" id="year-wrap">
+          <button class="pill-btn" id="year-btn" aria-haspopup="true" aria-expanded="false">
+            <span id="year-btn-text">Year: 2025</span>
+            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M1 1l4 4 4-4" />
+            </svg>
+          </button>
+          <div class="sort-dropdown" id="year-dropdown" hidden>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 3: College Search Bar -->
+    <div class="frow college-search-row" style="position: relative; padding: 4px 12px; display: flex; flex-direction: column; gap: 6px; width: 100%; box-sizing: border-box;">
+      <div style="position: relative; display: flex; width: 100%; align-items: center; gap: 6px;">
+        <span class="cutoff-label" style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); white-space: nowrap;">college:</span>
+        <div style="position: relative; flex-grow: 1; display: flex; align-items: center;">
+          <input type="text" id="college-search-input" placeholder="Search college by code or name..." style="width: 100%; height: 32px; padding: 6px 28px 6px 12px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-primary); font-family: inherit; font-size: 0.9rem; outline: none; box-shadow: 0 1px 3px rgba(0,0,0,0.05); box-sizing: border-box;" />
+          <button id="college-search-clear" class="hidden" style="position: absolute; right: 8px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; padding: 4px; line-height: 1; display: flex; align-items: center; justify-content: center;" type="button" aria-label="Clear search">✕</button>
+        </div>
+
+        <div class="district-wrap" id="district-wrap" style="position: relative;">
+          <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false" style="height: 32px; border-radius: 8px; font-size: 0.9rem; white-space: nowrap;">
             <span id="district-label">District (all)</span>
-            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2.5">
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </button>
-          <div class="district-dropdown" id="district-dropdown" hidden>
-            <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search district…"
-                autocomplete="off" /></div>
+          <div class="district-dropdown" id="district-dropdown" hidden style="position: absolute; right: 0; left: auto; top: 36px; width: 280px; z-index: 1000;">
+            <div class="dd-search"><input type="text" id="dd-search-input" placeholder="Search district…" autocomplete="off" /></div>
             <div class="dd-list" id="dd-list"></div>
             <div class="dd-footer">
               <div class="mode-toggle-btns">
@@ -192,20 +184,12 @@
             </div>
           </div>
         </div>
-
-        <div class="district-wrap" id="year-wrap" style="display: none;">
-          <button class="pill-btn" id="year-btn" aria-haspopup="true" aria-expanded="false">
-            <span id="year-btn-text">Year: 2025</span>
-            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor"
-              stroke-width="1.5">
-              <path d="M1 1l4 4 4-4" />
-            </svg>
-          </button>
-          <div class="sort-dropdown" id="year-dropdown" hidden>
-          </div>
-        </div>
+      </div>
+      <!-- Suggestion list (the extra layer) -->
+      <div id="college-search-suggestions" class="dropdown-suggestions hidden" style="position: absolute; top: 40px; left: 12px; right: 12px; max-height: 250px; overflow-y: auto; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 999; display: flex; flex-direction: column;">
       </div>
     </div>
+
     <div class="chance-summary-row" id="chance-summary" hidden></div>
   </div>
 
@@ -257,8 +241,32 @@
     </div>
   </div>
 
+
+
   <div id="info-box-container" class="info-box-container"></div>
 
+  <!-- Scroll Tutorial Hint -->
+  <div id="scroll-tutorial" class="scroll-tutorial" aria-hidden="true">
+    <div class="scroll-tutorial-inner">
+      <div class="scroll-tutorial-icon">
+        <div class="scroll-hand">
+          <svg viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Phone/scroll outline -->
+            <rect x="8" y="2" width="24" height="40" rx="5" stroke="currentColor" stroke-width="2.5" fill="none"/>
+            <!-- Scroll wheel dot -->
+            <circle cx="20" cy="14" r="3" fill="currentColor" class="scroll-dot"/>
+          </svg>
+        </div>
+        <div class="scroll-arrow-stack">
+          <div class="scroll-arrow sa1">&#8595;</div>
+          <div class="scroll-arrow sa2">&#8595;</div>
+          <div class="scroll-arrow sa3">&#8595;</div>
+        </div>
+      </div>
+      <p class="scroll-tutorial-text">Scroll down to view low chance choices</p>
+    </div>
+  </div>
+
   <script type="module" src="../../shared/components/auth/auth.js"></script>
-  <script type="module" src="tnea.js?v=2"></script>
+  <script type="module" src="cutoff.js?v=11"></script>
 </body>

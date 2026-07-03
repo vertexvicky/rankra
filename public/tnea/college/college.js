@@ -44,7 +44,7 @@ const S = {
   filterType: 'cutoff'
 };
 
-function setFilterType(type) {
+function setFilterType(type, { skipModal = false } = {}) {
   S.filterType = type;
   const input = document.getElementById('cutoffSearch');
   const toggleButtons = document.querySelectorAll('#filter-type-toggle .toggle-btn');
@@ -54,20 +54,25 @@ function setFilterType(type) {
   });
   
   if (type === 'rank') {
+    const savedRank = localStorage.getItem('rankra_rank');
     if (input) {
       input.placeholder = 'e.g. 5000';
       input.min = '1';
       input.max = '999999';
       input.step = '1';
-      input.value = '';
+      input.value = savedRank ? savedRank : '';
+    }
+    if (!savedRank || parseInt(savedRank, 10) <= 0) {
+      if (!skipModal) initRankModal();
     }
   } else {
+    const savedCutoff = localStorage.getItem('rankra_cutoff');
     if (input) {
       input.placeholder = '200.0';
       input.min = '0';
       input.max = '200';
       input.step = '0.5';
-      input.value = '200';
+      input.value = savedCutoff ? savedCutoff : '200';
     }
   }
   
@@ -80,12 +85,284 @@ function setFilterType(type) {
 }
 window.setFilterType = setFilterType;
 
+function initCutoffModal() {
+  return new Promise(resolve => {
+    const params = new URLSearchParams(window.location.search);
+    const savedComm = localStorage.getItem('rankra_comm');
+    const isRankMode = S.filterType === 'rank';
+    const savedValue = isRankMode ? localStorage.getItem('rankra_rank') : localStorage.getItem('rankra_cutoff');
+
+    const finalComm = params.get('comm') || savedComm;
+    const finalValue = isRankMode ? (params.get('rank') || savedValue) : (params.get('cutoff') || savedValue);
+
+    if (finalComm && finalValue) return resolve();
+
+    const hideComm = !!finalComm;
+
+    const modal = document.createElement('div');
+    modal.className = 'overlay-full cutoff-calc-overlay';
+
+    const inputTitle = isRankMode ? "Enter your Rank" : "Enter your cutoff mark";
+    const inputPlaceholder = isRankMode ? "e.g. 5000" : "e.g. 185";
+    const inputMin = isRankMode ? "1" : "0";
+    const inputMax = isRankMode ? "999999" : "200";
+    const inputStep = isRankMode ? "1" : "0.5";
+
+    modal.innerHTML = `
+      <style>
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          50% { transform: translateX(5px); }
+          75% { transform: translateX(-5px); }
+        }
+      </style>
+      <div class="overlay-backdrop"></div>
+      <div class="gate-sheet cutoff-calc-sheet" style="max-width: 320px;">
+        <div id="modal-comm-section" ${hideComm ? 'style="display:none;"' : ''}>
+          <h3 class="calc-section-title" id="modal-comm-title" style="margin-bottom: 12px; text-align: left; opacity: 0.8; font-size: 0.9rem; font-weight: 700; color: var(--text-primary);">Select your community</h3>
+          <div class="gate-chips chips-sm" id="modal-comm-chips" style="margin-bottom: 24px; justify-content: flex-start; gap: 8px; display: flex; flex-wrap: wrap;">
+            <button class="gate-chip gate-chip-sm" data-value="OC">OC</button>
+            <button class="gate-chip gate-chip-sm" data-value="BC">BC</button>
+            <button class="gate-chip gate-chip-sm" data-value="BCM">BCM</button>
+            <button class="gate-chip gate-chip-sm" data-value="MBC">MBC</button>
+            <button class="gate-chip gate-chip-sm" data-value="SC">SC</button>
+            <button class="gate-chip gate-chip-sm" data-value="SCA">SCA</button>
+            <button class="gate-chip gate-chip-sm" data-value="ST">ST</button>
+          </div>
+        </div>
+
+        <h3 class="calc-section-title" style="margin-bottom: 8px; text-align: center; opacity: 0.8; font-size: 0.9rem; font-weight: 700; color: var(--text-primary);">${inputTitle}</h3>
+        <div class="calc-section" style="margin-bottom: 24px; display: flex; justify-content: center;">
+          <div class="calc-field" style="width: 140px; display: flex; flex-direction: column; gap: 6px;">
+            <input type="number" id="calc-direct" placeholder="${inputPlaceholder}" min="${inputMin}" max="${inputMax}" step="${inputStep}" 
+                   style="font-size: 1.1rem; font-weight: 700; padding: 10px; border-radius: 8px; width: 100%; text-align: center; border: 1.5px solid var(--border); background: var(--bg-primary); color: var(--text-primary); outline: none;">
+          </div>
+        </div>
+
+        <button class="gate-continue" id="calc-apply" style="margin-top: 10px; background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%;">Continue →</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    const chips = modal.querySelectorAll('.gate-chip');
+    let selectedComm = finalComm || '';
+
+    if (selectedComm) {
+      modal.querySelectorAll(`.gate-chip[data-value="${selectedComm}"]`).forEach(c => c.classList.add('selected'));
+    }
+    if (savedValue) {
+      modal.querySelector('#calc-direct').value = savedValue;
+    }
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        selectedComm = chip.dataset.value;
+        const commChips = document.getElementById('modal-comm-chips');
+        if (commChips) commChips.style.animation = 'none';
+      });
+    });
+
+    const close = () => {
+      modal.classList.add('hidden');
+      setTimeout(() => {
+        modal.remove();
+        resolve();
+      }, 400);
+    };
+
+    document.getElementById('calc-apply').addEventListener('click', () => {
+      const input = document.getElementById('calc-direct');
+      const chipContainer = document.getElementById('modal-comm-chips');
+      let val = parseFloat(input.value);
+      let valid = true;
+
+      if (!selectedComm) {
+        if (chipContainer) {
+          chipContainer.style.animation = 'none';
+          setTimeout(() => chipContainer.style.animation = 'shake 0.4s ease', 10);
+        }
+        valid = false;
+      }
+
+      if (isRankMode) {
+        if (isNaN(val) || val <= 0 || val > 999999) {
+          if (input) {
+            input.style.borderColor = '#ef4444';
+            input.style.animation = 'none';
+            setTimeout(() => input.style.animation = 'shake 0.4s ease', 10);
+          }
+          valid = false;
+        }
+      } else {
+        if (isNaN(val) || val <= 0 || val > 200) {
+          if (input) {
+            input.style.borderColor = '#ef4444';
+            input.style.animation = 'none';
+            setTimeout(() => input.style.animation = 'shake 0.4s ease', 10);
+          }
+          valid = false;
+        }
+      }
+
+      if (!valid) return;
+
+      S.community = selectedComm;
+      localStorage.setItem('rankra_comm', selectedComm);
+      if (isRankMode) {
+        val = Math.round(val);
+        localStorage.setItem('rankra_rank', val);
+      } else {
+        val = Math.max(0, Math.min(200, val));
+        localStorage.setItem('rankra_cutoff', val);
+      }
+      
+      const commBtnText = document.getElementById('comm-btn-text');
+      if (commBtnText) commBtnText.textContent = selectedComm;
+      if (cutoffInput) {
+        cutoffInput.value = val;
+      }
+
+      updateSort();
+      close();
+    });
+  });
+}
+
+function initRankModal() {
+  return new Promise(resolve => {
+    const params = new URLSearchParams(window.location.search);
+    const savedComm = localStorage.getItem('rankra_comm');
+    const finalComm = params.get('comm') || savedComm;
+    const hideComm = !!finalComm;
+
+    const savedRank = localStorage.getItem('rankra_rank');
+
+    const modal = document.createElement('div');
+    modal.className = 'overlay-full rank-calc-overlay';
+
+    modal.innerHTML = `
+      <style>
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25% { transform: translateX(-5px); }
+          50% { transform: translateX(5px); }
+          75% { transform: translateX(-5px); }
+        }
+      </style>
+      <div class="overlay-backdrop"></div>
+      <div class="gate-sheet cutoff-calc-sheet" style="max-width: 320px;">
+        <div id="modal-comm-section" ${hideComm ? 'style="display:none;"' : ''}>
+          <h3 class="calc-section-title" id="modal-comm-title" style="margin-bottom: 12px; text-align: left; opacity: 0.8; font-size: 0.9rem; font-weight: 700; color: var(--text-primary);">Select your community</h3>
+          <div class="gate-chips chips-sm" id="modal-comm-chips" style="margin-bottom: 24px; justify-content: flex-start; gap: 8px; display: flex; flex-wrap: wrap;">
+            <button class="gate-chip gate-chip-sm" data-value="OC">OC</button>
+            <button class="gate-chip gate-chip-sm" data-value="BC">BC</button>
+            <button class="gate-chip gate-chip-sm" data-value="BCM">BCM</button>
+            <button class="gate-chip gate-chip-sm" data-value="MBC">MBC</button>
+            <button class="gate-chip gate-chip-sm" data-value="SC">SC</button>
+            <button class="gate-chip gate-chip-sm" data-value="SCA">SCA</button>
+            <button class="gate-chip gate-chip-sm" data-value="ST">ST</button>
+          </div>
+        </div>
+
+        <h3 class="calc-section-title" style="margin-bottom: 8px; text-align: center; opacity: 0.8; font-size: 0.9rem; font-weight: 700; color: var(--text-primary);">Enter your Rank</h3>
+        <div class="calc-section" style="margin-bottom: 24px; display: flex; justify-content: center;">
+          <div class="calc-field" style="width: 160px; display: flex; flex-direction: column; gap: 6px;">
+            <input type="number" id="rank-direct" placeholder="e.g. 5000" min="1" max="999999" step="1" 
+                   style="font-size: 1.1rem; font-weight: 700; padding: 10px; border-radius: 8px; width: 100%; text-align: center; border: 1.5px solid var(--border); background: var(--bg-primary); color: var(--text-primary); outline: none;">
+          </div>
+        </div>
+        <button class="gate-continue" id="rank-apply" style="margin-top: 10px; background: var(--accent); color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%;">Continue →</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    const chips = modal.querySelectorAll('.gate-chip');
+    let selectedComm = finalComm || '';
+
+    if (selectedComm) {
+      modal.querySelectorAll(`.gate-chip[data-value="${selectedComm}"]`).forEach(c => c.classList.add('selected'));
+    }
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        selectedComm = chip.dataset.value;
+        const commChips = modal.querySelector('#modal-comm-chips');
+        if (commChips) commChips.style.animation = 'none';
+      });
+    });
+
+    const rankDirect = modal.querySelector('#rank-direct');
+    if (savedRank && parseInt(savedRank, 10) > 0) {
+      rankDirect.value = savedRank;
+    }
+
+    const close = () => {
+      modal.classList.add('hidden');
+      setTimeout(() => { modal.remove(); resolve(); }, 400);
+    };
+
+    modal.querySelector('#rank-apply').addEventListener('click', () => {
+      const chipContainer = modal.querySelector('#modal-comm-chips');
+      let rank = parseInt(rankDirect.value, 10);
+      let valid = true;
+
+      if (!selectedComm) {
+        if (chipContainer) {
+          chipContainer.style.animation = 'none';
+          setTimeout(() => chipContainer.style.animation = 'shake 0.4s ease', 10);
+        }
+        valid = false;
+      }
+
+      if (isNaN(rank) || rank <= 0 || rank > 999999) {
+        rankDirect.style.borderColor = '#ef4444';
+        rankDirect.style.animation = 'none';
+        setTimeout(() => rankDirect.style.animation = 'shake 0.4s ease', 10);
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      S.community = selectedComm;
+      localStorage.setItem('rankra_comm', selectedComm);
+      const commBtnText = document.getElementById('comm-btn-text');
+      if (commBtnText) commBtnText.textContent = selectedComm;
+
+      localStorage.setItem('rankra_rank', rank);
+      if (cutoffInput) {
+        cutoffInput.value = rank;
+      }
+      updateSort();
+      runSearch();
+      close();
+    });
+  });
+}
+
 async function init() {
   try {
     cutoffInput = document.getElementById('cutoffSearch');
     textInput = document.getElementById('collegeSearch');
 
-    if (cutoffInput) cutoffInput.addEventListener('input', runSearch);
+    if (cutoffInput) {
+      cutoffInput.addEventListener('input', (e) => {
+        const v = parseFloat(e.target.value);
+        if (S.filterType === 'rank') {
+          if (!isNaN(v) && v > 0) {
+            localStorage.setItem('rankra_rank', Math.round(v));
+          }
+        } else {
+          if (!isNaN(v) && v > 0) {
+            localStorage.setItem('rankra_cutoff', Math.max(0, Math.min(200, v)));
+          }
+        }
+        runSearch();
+      });
+    }
     if (textInput) textInput.addEventListener('input', runSearch);
 
     const params = new URLSearchParams(window.location.search);
@@ -103,10 +380,28 @@ async function init() {
       });
     });
 
-    const savedType = localStorage.getItem('rankra_filter_type_clg') || 'cutoff';
-    setFilterType(savedType);
+    const localCutoff = localStorage.getItem('rankra_cutoff');
+    const localRank = localStorage.getItem('rankra_rank');
+    let savedType = params.get('type') || localStorage.getItem('rankra_filter_type_clg');
+    if (localCutoff && !localRank && !params.has('type')) {
+      savedType = 'cutoff';
+    }
+    if (!savedType) savedType = 'cutoff';
+    setFilterType(savedType, { skipModal: true });
 
     loadStateFromURL();
+
+    // Check if we need to show the popup
+    const finalComm = params.get('comm') || localStorage.getItem('rankra_comm');
+    const isRankMode = S.filterType === 'rank';
+    const finalVal = isRankMode 
+      ? (params.get('rank') || localStorage.getItem('rankra_rank'))
+      : (params.get('cutoff') || localStorage.getItem('rankra_cutoff'));
+
+    let initPromise = Promise.resolve();
+    if (!finalComm || !finalVal) {
+      initPromise = initCutoffModal();
+    }
 
     const paths = [
       `/assets/db/tnea/college/cocs.json`,
@@ -406,6 +701,7 @@ async function init() {
     }
 
     render(allCodes);
+    await initPromise;
     runSearch(); // Apply initial URL filters
   } catch (e) {
     console.error(e);
@@ -470,6 +766,9 @@ function updateURL() {
     params.set('year', yearBtnText.textContent);
   }
 
+  // Type
+  if (S.filterType !== 'cutoff') params.set('type', S.filterType);
+
   // Community
   if (S.community !== 'OC') params.set('comm', S.community);
 
@@ -478,7 +777,13 @@ function updateURL() {
   if (tq) params.set('q', tq);
 
   const cq = cutoffInput?.value;
-  if (cq && !isNaN(parseFloat(cq)) && parseFloat(cq) > 0) params.set('cutoff', cq);
+  if (cq && !isNaN(parseFloat(cq)) && parseFloat(cq) > 0) {
+    if (S.filterType === 'rank') {
+      params.set('rank', cq);
+    } else {
+      params.set('cutoff', cq);
+    }
+  }
 
   // Filter Sets
   if (S.districts.size > 0) {
@@ -502,9 +807,34 @@ function updateURL() {
 function loadStateFromURL() {
   const params = new URLSearchParams(window.location.search);
 
-  if (params.has('comm')) S.community = params.get('comm').toUpperCase();
+  const localComm = localStorage.getItem('rankra_comm');
+  const localCutoff = localStorage.getItem('rankra_cutoff');
+  const localRank = localStorage.getItem('rankra_rank');
+  const localType = localStorage.getItem('rankra_filter_type_clg') || 'cutoff';
+
+  if (params.has('comm')) {
+    S.community = params.get('comm').toUpperCase();
+  } else if (localComm) {
+    S.community = localComm.toUpperCase();
+  }
+
+  if (params.has('type')) {
+    S.filterType = params.get('type');
+  }
+
   if (params.has('q') && textInput) textInput.value = params.get('q');
-  if (params.has('cutoff') && cutoffInput) cutoffInput.value = params.get('cutoff');
+  
+  if (S.filterType === 'rank' && params.has('rank') && cutoffInput) {
+    cutoffInput.value = params.get('rank');
+  } else if (S.filterType === 'cutoff' && params.has('cutoff') && cutoffInput) {
+    cutoffInput.value = params.get('cutoff');
+  } else if (!params.has('cutoff') && !params.has('rank')) {
+    if (localType === 'rank' && localRank) {
+      if (cutoffInput) cutoffInput.value = localRank;
+    } else if (localType === 'cutoff' && localCutoff) {
+      if (cutoffInput) cutoffInput.value = localCutoff;
+    }
+  }
 
   if (params.has('dist')) {
     S.districts = new Set(params.get('dist').split(','));

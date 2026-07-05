@@ -791,7 +791,7 @@ body.dark .custom-select {
 
 .copy-btn {
   padding: 8px 18px;
-  background: #3b82f6;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 6px;

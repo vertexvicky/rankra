@@ -156,7 +156,7 @@
 
 .clg-card:hover {
   border-color: var(--accent);
-  box-shadow: 0 2px 12px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 2px 12px rgba(147, 51, 234, 0.1);
 }
 
 .clg-card-inner {
@@ -254,14 +254,14 @@ body.dark .clg-type-badge.type-aided {
 }
 
 .clg-type-badge.type-au {
-  background: #eff6ff;
-  color: #1d4ed8;
-  border-color: #93c5fd;
+  background: #f3e8ff;
+  color: #7e22ce;
+  border-color: #d8b4fe;
 }
 body.dark .clg-type-badge.type-au {
-  background: rgba(29,78,216,0.15);
-  color: #60a5fa;
-  border-color: rgba(96,165,250,0.3);
+  background: rgba(126, 34, 206, 0.15);
+  color: #c084fc;
+  border-color: rgba(192, 132, 252, 0.3);
 }
 
 .clg-type-badge.type-central {
@@ -762,3 +762,38 @@ body.dark .clg-type-badge.type-pvt {
     font-size: .85rem !important;
   }
 }
+
+/* Bottom Floating Choice List Button */
+.bottom-choice-btn-wrap {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.add-choice-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.add-choice-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.add-choice-btn:active {
+  transform: translateY(0);
+}
+

@@ -218,7 +218,7 @@
   border: 1px solid var(--border);
 }
 
-.section-icon.overview-icon { color: #3b82f6; }
+.section-icon.overview-icon { color: var(--accent); }
 .section-icon.cutoff-icon { color: #f59e0b; }
 .section-icon.courses-icon { color: #10b981; }
 .section-icon.recruiters-icon { color: #ec4899; }

@@ -1,12 +1,12 @@
 :root {
-  --accent: #2563EB;
-  --accent-hover: #1D4ED8;
-  --accent-soft: #EFF6FF;
+  --accent: #9333EA;
+  --accent-hover: #7E22CE;
+  --accent-soft: #F3E8FF;
 
   --bg-primary: #F8F9FB;
   --bg-card: #FFFFFF;
   --bg-elevated: #FFFFFF;
-  --bg-hover: #F1F5FF;
+  --bg-hover: #F5F3FF;
 
   --text-primary: #0f172a;
   --text-secondary: #475569;
@@ -35,13 +35,13 @@
 }
 
 body.dark {
-  --accent: #3B82F6;
-  --accent-hover: #60A5FA;
-  --accent-soft: #1e293b;
+  --accent: #A855F7;
+  --accent-hover: #C084FC;
+  --accent-soft: #2E1065;
   --bg-primary: #0f1115;
   --bg-card: #181a20;
   --bg-elevated: #1e222a;
-  --bg-hover: #21252d;
+  --bg-hover: #211c2a;
   --text-primary: #f1f5f9;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;

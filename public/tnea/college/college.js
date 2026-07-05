@@ -365,6 +365,24 @@ async function init() {
     }
     if (textInput) textInput.addEventListener('input', runSearch);
 
+    const addChoicelistBtn = document.getElementById('college-add-choicelist-btn');
+    if (addChoicelistBtn) {
+      addChoicelistBtn.addEventListener('click', () => {
+        const val = cutoffInput ? cutoffInput.value : '';
+        const comm = S.community;
+        const type = S.filterType;
+        const queryParams = new URLSearchParams();
+        queryParams.set('c', comm);
+        queryParams.set('type', type);
+        if (type === 'rank') {
+          queryParams.set('rank', val);
+        } else {
+          queryParams.set('cutoff', val);
+        }
+        window.location.href = `/tnea/cutoff/?${queryParams.toString()}`;
+      });
+    }
+
     const params = new URLSearchParams(window.location.search);
     const initialYear = params.get('year') || '2025';
     const yearReversed = initialYear.split('').reverse().join('');

@@ -317,6 +317,14 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
+.cl-choices-divider-btn i {
+  font-size: 0.65rem;
+}
+
+#btn-create-list i {
+  font-size: 0.8rem;
+}
+
 .cl-choices-divider-btn:hover {
   background: var(--accent);
   border-color: var(--accent);

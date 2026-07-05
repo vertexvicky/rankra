@@ -359,7 +359,7 @@ function initCutoffModal() {
         S.targetCutoff = val;
         localStorage.setItem('rankra_cutoff', val);
       }
-      
+
       if (window.RankraAuth && !window.RankraAuth.isGuest()) {
         const updatePayload = { community: selectedComm };
         if (isRankMode) {
@@ -369,7 +369,7 @@ function initCutoffModal() {
         }
         window.RankraAuth.updateProfile(updatePayload).catch(console.error);
       }
-      
+
       setCommUI(S.cutoffComm);
       if ($('target-cutoff')) {
         $('target-cutoff').value = val;
@@ -600,7 +600,7 @@ function initCustomScrollbar() {
 }
 
 async function init() {
-  initCustomScrollbar();
+  // initCustomScrollbar();
 
   const waitForAuth = setInterval(() => {
     if (window.RankraAuth) {
@@ -811,7 +811,7 @@ async function boot() {
   awarenessPromise.then(() => {
     const isRankMode = S.filterType === 'rank';
     const finalComm = new URLSearchParams(window.location.search).get('c') || localStorage.getItem('rankra_comm');
-    const finalVal = isRankMode 
+    const finalVal = isRankMode
       ? (new URLSearchParams(window.location.search).get('rank') || localStorage.getItem('rankra_rank'))
       : (new URLSearchParams(window.location.search).get('cutoff') || localStorage.getItem('rankra_cutoff'));
 
@@ -1370,6 +1370,10 @@ function render() {
     $('results-count').innerHTML = total > 0
       ? `<span class="count-text">${total} result${total !== 1 ? 's' : ''}</span>` : '';
   }
+
+  if (window.refreshChoicesContent) {
+    window.refreshChoicesContent();
+  }
 }
 
 function renderSkeletons() {
@@ -1446,6 +1450,51 @@ function getChance(r) {
   return { text: '—', class: '' };
 }
 
+function updateCardPriorities() {
+  const badges = document.querySelectorAll('.card-priority-badge');
+  if (badges.length === 0) return;
+  let activeList = null;
+  try {
+    const storedLists = localStorage.getItem('rankra_choice_lists');
+    const activeId = localStorage.getItem('rankra_active_choice_list_id');
+    const lists = storedLists ? JSON.parse(storedLists) : [];
+    activeList = lists.find(l => String(l.id) === String(activeId));
+  } catch (e) {}
+  badges.forEach(badge => {
+    const coc = badge.dataset.coc;
+    const brc = badge.dataset.brc;
+    let text = '';
+    let isAdded = false;
+    if (activeList && activeList.choices) {
+      const choiceIdx = activeList.choices.findIndex(choice => String(choice[0]) === String(coc) && String(choice[1]) === String(brc));
+      if (choiceIdx !== -1) {
+        text = ` <span style="opacity: 0.4;">•</span> <span>Priority: <span style="color: var(--text-primary); font-weight: 700;">${choiceIdx + 1}</span></span>`;
+        isAdded = true;
+      }
+    }
+    badge.innerHTML = text;
+    const card = badge.closest('.result-card');
+    if (card) {
+      const btn = card.querySelector('.card-add-choice-btn');
+      if (btn) {
+        const isInserting = (typeof window.insertChoiceIndex === 'number');
+        if (isAdded && !isInserting) {
+          btn.textContent = 'Remove Choice';
+          btn.classList.add('added');
+          btn.classList.remove('insert-mode');
+        } else {
+          btn.textContent = isInserting ? 'Insert Choice' : '+ Add Choice';
+          btn.classList.remove('added');
+          btn.classList.toggle('insert-mode', isInserting);
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }
+      }
+    }
+  });
+}
+
 function mkResultCard(r, idx) {
   const cc = S.cutoffComm || S.primaryComm || 'OC';
   const code = String(r.coc).padStart(4, '0');
@@ -1459,6 +1508,25 @@ function mkResultCard(r, idx) {
   const csk = TNEA_CONFIG.seatKeys[cc] || { tl: 'octl', al: 'ocal' };
   const ctl = parseInt(r[csk.tl], 10) || 0;
   const cal = parseInt(r[csk.al], 10) || 0;
+
+  let priorityText = '';
+  let isAdded = false;
+  try {
+    const storedLists = localStorage.getItem('rankra_choice_lists');
+    const activeId = localStorage.getItem('rankra_active_choice_list_id');
+    const lists = storedLists ? JSON.parse(storedLists) : [];
+    const activeList = lists.find(l => String(l.id) === String(activeId));
+    if (activeList && activeList.choices) {
+      const choiceIdx = activeList.choices.findIndex(choice => String(choice[0]) === String(code) && String(choice[1]) === String(r.brc || ''));
+      if (choiceIdx !== -1) {
+        priorityText = ` <span style="opacity: 0.4;">•</span> <span>Priority: <span style="color: var(--text-primary); font-weight: 700;">${choiceIdx + 1}</span></span>`;
+        isAdded = true;
+      }
+    }
+  } catch (e) {}
+
+  const isInserting = (typeof window.insertChoiceIndex === 'number');
+  const initialBtnText = isAdded ? 'Remove Choice' : (isInserting ? 'Insert Choice' : '+ Add Choice');
 
   const chance = getChance(r);
   const possText = chance.text;
@@ -1505,16 +1573,20 @@ function mkResultCard(r, idx) {
       </div>
       
       <!-- Row 4: Stats -->
-      <div class="card-stats-row" style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; white-space: nowrap;">
-        ${S.filterType === 'rank' ? `
-          <span>Rank: <span style="color: var(--text-primary); font-weight: 700;${rankValStr ? '' : ' color: var(--text-muted);'}">${rankVal}</span></span>
-        ` : `
-          <span>Cutoff: <span style="color: var(--text-primary); font-weight: 700;${has ? '' : ' color: var(--text-muted);'}">${cutoffVal}</span></span>
-        `}
-        <span style="opacity: 0.4;">•</span>
-        <span>Seats: <span style="color: var(--text-primary); font-weight: 700;">${ctl || '—'}</span></span>
-        <span style="opacity: 0.4;">•</span>
-        <span>Filled: <span style="color: var(--text-primary); font-weight: 700;">${cal || '—'}</span></span>
+      <div class="card-stats-row" style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; width: 100%; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          ${S.filterType === 'rank' ? `
+            <span>Rank: <span style="color: var(--text-primary); font-weight: 700;${rankValStr ? '' : ' color: var(--text-muted);'}">${rankVal}</span></span>
+          ` : `
+            <span>Cutoff: <span style="color: var(--text-primary); font-weight: 700;${has ? '' : ' color: var(--text-muted);'}">${cutoffVal}</span></span>
+          `}
+          <span style="opacity: 0.4;">•</span>
+          <span>Seats: <span style="color: var(--text-primary); font-weight: 700;">${ctl || '—'}</span></span>
+          <span style="opacity: 0.4;">•</span>
+          <span>Filled: <span style="color: var(--text-primary); font-weight: 700;">${cal || '—'}</span></span>
+          <span class="card-priority-badge" data-coc="${code}" data-brc="${esc(r.brc || '')}">${priorityText}</span>
+        </div>
+        <button class="card-add-choice-btn${isAdded ? ' added' : ''}${(!isAdded && isInserting) ? ' insert-mode' : ''}" data-coc="${esc(code)}" data-brc="${esc(r.brc || '')}">${initialBtnText}</button>
       </div>
     </div>
   `;
@@ -1982,10 +2054,732 @@ function resetAll() {
   if (shDistrict) shDistrict.updateItems(S.allDistricts, S.districts, S.districtMode);
 
   if ($('year-btn-text')) $('year-btn-text').textContent = 'Year: 2025';
-  render();
 }
 
-document.addEventListener('DOMContentLoaded', init);
+function getNameFromInAppModal() {
+  return new Promise(resolve => {
+    const savedName = localStorage.getItem('rankra_user_name');
+    const skipped = localStorage.getItem('rankra_user_name_skipped') === 'true';
+    if (savedName || skipped) {
+      resolve(savedName || null);
+      return;
+    }
+
+    const modal = document.createElement('div');
+    modal.className = 'overlay-full name-prompt-overlay';
+
+    modal.innerHTML = `
+      <div class="overlay-backdrop"></div>
+      <div class="gate-sheet name-prompt-sheet" style="max-width: 320px; text-align: center; border-radius: var(--radius-lg); background: var(--bg-card); padding: 28px 24px;">
+        <div style="font-size: 2.2rem; margin-bottom: 12px; color: rgb(93, 36, 132);">
+          <i class="fa-solid fa-signature"></i>
+        </div>
+        <h3 class="gate-title" style="margin-bottom: 8px; font-size: 1.15rem; color: var(--text-primary);">Personalize PDF</h3>
+        <p class="gate-subtitle" style="font-size: 0.81rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.45;">
+          Enter your name to customize your TNEA Choice List PDF.
+        </p>
+        <div style="margin-bottom: 24px;">
+          <input type="text" id="pdf-user-name-input" placeholder="Your Name" 
+                 style="font-size: 1rem; font-weight: 600; padding: 10px 12px; border-radius: 8px; width: 100%; border: 1.5px solid var(--border); background: var(--bg-primary); color: var(--text-primary); outline: none; box-sizing: border-box; text-align: center; transition: border-color 0.2s;">
+        </div>
+        <div style="display: flex; gap: 8px; justify-content: stretch;">
+          <button id="name-prompt-skip" style="flex: 1; background: transparent; border: 1.5px solid var(--border); color: var(--text-secondary); padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Skip</button>
+          <button id="name-prompt-submit" style="flex: 2; background: rgb(93, 36, 132); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Continue →</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const input = modal.querySelector('#pdf-user-name-input');
+    const submitBtn = modal.querySelector('#name-prompt-submit');
+    const skipBtn = modal.querySelector('#name-prompt-skip');
+
+    setTimeout(() => {
+      if (input) input.focus();
+    }, 100);
+
+    const cleanUp = () => {
+      modal.classList.add('hidden');
+      setTimeout(() => modal.remove(), 250);
+    };
+
+    submitBtn.addEventListener('mouseenter', () => {
+      submitBtn.style.background = 'rgb(75, 29, 107)';
+    });
+    submitBtn.addEventListener('mouseleave', () => {
+      submitBtn.style.background = 'rgb(93, 36, 132)';
+    });
+
+    skipBtn.addEventListener('mouseenter', () => {
+      skipBtn.style.background = 'var(--bg-primary)';
+      skipBtn.style.borderColor = 'rgb(93, 36, 132)';
+      skipBtn.style.color = 'rgb(93, 36, 132)';
+    });
+    skipBtn.addEventListener('mouseleave', () => {
+      skipBtn.style.background = 'transparent';
+      skipBtn.style.borderColor = 'var(--border)';
+      skipBtn.style.color = 'var(--text-secondary)';
+    });
+
+    submitBtn.addEventListener('click', () => {
+      const value = input.value.trim();
+      if (value !== '') {
+        localStorage.setItem('rankra_user_name', value);
+        localStorage.removeItem('rankra_user_name_skipped');
+        resolve(value);
+      } else {
+        localStorage.setItem('rankra_user_name_skipped', 'true');
+        localStorage.removeItem('rankra_user_name');
+        resolve(null);
+      }
+      cleanUp();
+    });
+
+    skipBtn.addEventListener('click', () => {
+      localStorage.setItem('rankra_user_name_skipped', 'true');
+      localStorage.removeItem('rankra_user_name');
+      resolve(null);
+      cleanUp();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        submitBtn.click();
+      } else if (e.key === 'Escape') {
+        skipBtn.click();
+      }
+    });
+  });
+}
+
+
+function initChoiceListTabs() {
+  const container = document.getElementById('choicelist-container');
+  if (!container) return;
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('expand') === 'choicelist') {
+    localStorage.setItem('rankra_choicelist_size', 'maximized');
+  }
+
+  const tabScroll = document.getElementById('bs-tab-scroll');
+  const scrollLeftBtn = document.getElementById('bs-scroll-left');
+  const scrollRightBtn = document.getElementById('bs-scroll-right');
+  const addListBtn = document.getElementById('bs-add-list');
+  const goListBtn = document.getElementById('bs-go-list');
+
+  const LS_KEY = 'rankra_choice_lists';
+  const ACTIVE_ID_KEY = 'rankra_active_choice_list_id';
+
+  // Prevent scroll propagation except inside the tab scroll area or choices list content area
+  container.addEventListener('wheel', (e) => {
+    if (!e.target.closest('#bs-tab-scroll') && !e.target.closest('#bs-content-section')) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  container.addEventListener('touchmove', (e) => {
+    if (!e.target.closest('#bs-tab-scroll') && !e.target.closest('#bs-content-section')) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  const toggleSizeBtn = document.getElementById('bs-toggle-size');
+  if (toggleSizeBtn) {
+    const savedSize = localStorage.getItem('rankra_choicelist_size') || 'minimized';
+    container.classList.remove('minimized', 'maximized');
+    container.classList.add(savedSize);
+
+    toggleSizeBtn.addEventListener('click', () => {
+      if (container.classList.contains('maximized')) {
+        container.classList.remove('maximized');
+        container.classList.add('minimized');
+        localStorage.setItem('rankra_choicelist_size', 'minimized');
+      } else {
+        container.classList.remove('minimized');
+        container.classList.add('maximized');
+        localStorage.setItem('rankra_choicelist_size', 'maximized');
+      }
+    });
+  }
+
+  const exportPdfBtn = document.getElementById('bs-export-pdf');
+  if (exportPdfBtn) {
+    exportPdfBtn.addEventListener('click', () => {
+      const lists = getLists();
+      const activeId = getActiveId();
+      const activeList = lists.find(l => l.id === activeId);
+
+      if (!activeList || !activeList.choices || activeList.choices.length === 0) {
+        alert("Your active choice list is empty. Add colleges and courses to it first!");
+        return;
+      }
+
+      getNameFromInAppModal().then((userName) => {
+        // Load logo image
+        const watermarkImg = new Image();
+        watermarkImg.src = '../../assets/rankralogoHD.png';
+
+        const generatePdf = () => {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF({
+            orientation: 'portrait',
+            unit: 'pt',
+            format: 'a4'
+          });
+
+          // Generate dynamic filename: choicelist_name( if available keep if not skip )_date_time.pdf
+          const now = new Date();
+          const dd = String(now.getDate()).padStart(2, '0');
+          const mm = String(now.getMonth() + 1).padStart(2, '0');
+          const yyyy = now.getFullYear();
+          const dateString = `${dd}-${mm}-${yyyy}`;
+
+          const hh = String(now.getHours()).padStart(2, '0');
+          const min = String(now.getMinutes()).padStart(2, '0');
+          const ss = String(now.getSeconds()).padStart(2, '0');
+          const timeString = `${hh}-${min}-${ss}`;
+
+          let baseName = 'choicelist';
+          if (activeList && activeList.name && !activeList.name.startsWith('choicelist')) {
+            baseName = activeList.name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+          }
+
+          const namePart = userName ? `_${userName.toLowerCase().replace(/[^a-z0-9]/g, '')}` : '';
+          const filename = `${baseName}${namePart}_${dateString}_${timeString}.pdf`;
+
+          // Set title for the document so the browser tab/preview has correct filename
+          doc.setProperties({
+            title: filename
+          });
+
+          const headers = [['Priority', 'College Code', 'College Name', 'Course']];
+          const rows = activeList.choices.map((choice, index) => {
+            const [collegeCode, branchCode] = choice;
+            let collegeName = "Unknown College";
+            let branchName = "Unknown Branch";
+
+            const match = S.data.find(r => String(r.coc) === String(collegeCode) && String(r.brc) === String(branchCode));
+            if (match) {
+              collegeName = match._conClean || collegeName;
+              branchName = match.brn || branchName;
+            } else {
+              const colMatch = allColleges.find(c => String(c.value) === String(collegeCode));
+              if (colMatch) {
+                collegeName = colMatch.name;
+              }
+            }
+
+            const paddedCode = String(collegeCode).padStart(4, '0');
+            const courseText = `${branchCode} — ${branchName}`;
+
+            return [
+              index + 1,
+              paddedCode,
+              collegeName,
+              courseText
+            ];
+          });
+
+          const pageSize = doc.internal.pageSize;
+          const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+          const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+
+          // Calculate aspect ratio dynamically to avoid squeezing
+          const naturalWidth = watermarkImg.naturalWidth || 500;
+          const naturalHeight = watermarkImg.naturalHeight || 120;
+          const aspect = naturalWidth / (naturalHeight || 1);
+
+          // Render Colored Rankra Logo at the top center of the page
+          const topLogoHeight = 65;
+          const topLogoWidth = topLogoHeight * aspect;
+          const topLogoX = (pageWidth - topLogoWidth) / 2;
+          const topLogoY = 30;
+
+          doc.addImage(watermarkImg, 'PNG', topLogoX, topLogoY, topLogoWidth, topLogoHeight);
+
+          let currentY = topLogoY + topLogoHeight + 20;
+
+          // Print community, rank/cutoff and date metadata
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.setTextColor(30, 41, 59);
+
+          // Community line
+          const communityText = `Community: ${S.cutoffComm || 'OC'}`;
+          doc.text(communityText, 40, currentY);
+
+          // Rank / Cutoff line (prioritizing Rank if available)
+          let rankOrCutoffText = '';
+          if (S.targetRank > 0) {
+            rankOrCutoffText = `Rank: ${S.targetRank}`;
+          } else if (S.targetCutoff > 0) {
+            rankOrCutoffText = `Cutoff: ${S.targetCutoff}`;
+          }
+          if (rankOrCutoffText) {
+            const textWidth = doc.getTextWidth(rankOrCutoffText);
+            doc.text(rankOrCutoffText, pageWidth - 40 - textWidth, currentY);
+          }
+
+          currentY += 18;
+
+          // Subtitle line (creation date & highlighted user name)
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          doc.setTextColor(100, 116, 139);
+
+          const dateStr = new Date().toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+          });
+
+          const part1 = `Choice list created in rankra.in on ${dateStr}`;
+          const part2 = userName ? ` by ` : '';
+          doc.text(part1 + part2, 40, currentY);
+
+          if (userName) {
+            const width1 = doc.getTextWidth(part1 + part2);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(13); // Larger name font size!
+            doc.setTextColor(93, 36, 132); // brand purple
+            doc.text(userName, 40 + width1, currentY);
+          }
+
+          currentY += 15; // margin before the table starts
+
+          // Build the table using autotable
+          doc.autoTable({
+            head: headers,
+            body: rows,
+            startY: currentY,
+            theme: 'striped',
+            headStyles: {
+              fillColor: [93, 36, 132], // brand purple
+              textColor: [255, 255, 255],
+              fontSize: 10,
+              fontStyle: 'bold'
+            },
+            bodyStyles: {
+              fontSize: 9,
+              textColor: [51, 65, 85]
+            },
+            columnStyles: {
+              0: { cellWidth: 50, halign: 'center' }, // Priority
+              1: { cellWidth: 70, halign: 'center' }, // College Code
+              2: { cellWidth: 250 },                  // College Name
+              3: { cellWidth: 150 }                   // Course
+            },
+            margin: { top: 90, bottom: 60, left: 40, right: 40 },
+            didDrawPage: function (data) {
+              // Set up transparent graphics state for watermark
+              doc.saveGraphicsState();
+              if (typeof doc.setGState === 'function') {
+                try {
+                  const gState = new doc.GState({ opacity: 0.08 });
+                  doc.setGState(gState);
+                } catch (e) {
+                  console.error("GState error", e);
+                }
+              }
+
+              // Draw watermark diagonally in the center of the page, maintaining aspect ratio
+              let imgWidth = 320;
+              let imgHeight = 320 / aspect;
+              if (imgHeight > 320) {
+                imgHeight = 320;
+                imgWidth = 320 * aspect;
+              }
+
+              const angle = -30;
+              const angleRad = (angle * Math.PI) / 180;
+
+              const cx = pageWidth / 2;
+              const cy = pageHeight / 2;
+
+              const cos = Math.cos(angleRad);
+              const sin = Math.sin(angleRad);
+              
+              const x = cx - (imgWidth / 2 * cos - imgHeight / 2 * sin);
+              const y = cy - (imgWidth / 2 * sin + imgHeight / 2 * cos);
+
+              // Draw rotated image
+              doc.addImage(watermarkImg, 'PNG', x, y, imgWidth, imgHeight, undefined, 'FAST', angle);
+              doc.restoreGraphicsState();
+
+              // Footer
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(9);
+              doc.setTextColor(148, 163, 184);
+              doc.text("Rankra - Precision TNEA Data Insights & Choice List Planner (https://rankra.in)", pageWidth / 2, pageHeight - 30, { align: 'center' });
+            }
+          });
+
+          // Direct download PDF
+          doc.save(filename);
+        };
+
+        if (watermarkImg.complete) {
+          generatePdf();
+        } else {
+          watermarkImg.onload = generatePdf;
+          watermarkImg.onerror = () => {
+            console.error("Watermark/logo image failed to load. Exporting PDF without graphics.");
+            generatePdf();
+          };
+        }
+      });
+    });
+  }
+
+  function getLists() {
+    try {
+      const stored = localStorage.getItem(LS_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveLists(lists) {
+    localStorage.setItem(LS_KEY, JSON.stringify(lists));
+  }
+
+  function getActiveId() {
+    return localStorage.getItem(ACTIVE_ID_KEY);
+  }
+
+  function setActiveId(id) {
+    localStorage.setItem(ACTIVE_ID_KEY, id);
+  }
+
+  function checkOverflow() {
+    if (!tabScroll || !scrollLeftBtn || !scrollRightBtn) return;
+    const hasOverflow = tabScroll.scrollWidth > tabScroll.clientWidth;
+    if (hasOverflow) {
+      scrollLeftBtn.style.display = 'flex';
+      scrollRightBtn.style.display = 'flex';
+    } else {
+      scrollLeftBtn.style.display = 'none';
+      scrollRightBtn.style.display = 'none';
+    }
+  }
+
+  function renderTabs() {
+    let lists = getLists();
+    if (lists.length === 0) {
+      lists = [{ id: String(Date.now()), name: 'choicelist1', choices: [] }];
+      saveLists(lists);
+    }
+
+    let activeId = getActiveId();
+    if (!activeId || !lists.some(l => l.id === activeId)) {
+      activeId = lists[0].id;
+      setActiveId(activeId);
+    }
+
+    tabScroll.innerHTML = '';
+    lists.forEach(list => {
+      const tab = document.createElement('div');
+      tab.className = `bs-tab ${list.id === activeId ? 'active' : ''}`;
+      tab.dataset.id = list.id;
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'bs-tab-name';
+      nameSpan.textContent = list.name;
+
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'bs-tab-close';
+      closeBtn.textContent = '✕';
+      closeBtn.setAttribute('aria-label', `Delete ${list.name}`);
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (confirm(`Are you sure you want to delete "${list.name}"?`)) {
+          let currentLists = getLists();
+          currentLists = currentLists.filter(l => l.id !== list.id);
+          saveLists(currentLists);
+          if (getActiveId() === list.id) {
+            localStorage.removeItem(ACTIVE_ID_KEY);
+          }
+          renderTabs();
+        }
+      });
+
+      tab.appendChild(nameSpan);
+      tab.appendChild(closeBtn);
+
+      tab.addEventListener('click', () => {
+        setActiveId(list.id);
+        renderTabs();
+      });
+
+      tabScroll.appendChild(tab);
+    });
+
+    checkOverflow();
+    renderChoicesContent();
+  }
+
+  // Scroll buttons
+  if (scrollLeftBtn && scrollRightBtn && tabScroll) {
+    scrollLeftBtn.addEventListener('click', () => {
+      tabScroll.scrollBy({ left: -120, behavior: 'smooth' });
+    });
+    scrollRightBtn.addEventListener('click', () => {
+      tabScroll.scrollBy({ left: 120, behavior: 'smooth' });
+    });
+  }
+
+  // Add list
+  if (addListBtn) {
+    addListBtn.addEventListener('click', () => {
+      const lists = getLists();
+      let maxNum = 0;
+      lists.forEach(l => {
+        const match = l.name.match(/^choicelist(\d+)$/);
+        if (match) {
+          const num = parseInt(match[1], 10);
+          if (num > maxNum) maxNum = num;
+        }
+      });
+      const newName = `choicelist${maxNum + 1}`;
+      const newList = {
+        id: String(Date.now()),
+        name: newName,
+        choices: []
+      };
+      lists.push(newList);
+      saveLists(lists);
+      setActiveId(newList.id);
+      renderTabs();
+
+      // Scroll to the end of tabs
+      setTimeout(() => {
+        tabScroll.scrollTo({ left: tabScroll.scrollWidth, behavior: 'smooth' });
+      }, 50);
+    });
+  }
+
+  // Go to list page
+  if (goListBtn) {
+    goListBtn.addEventListener('click', () => {
+      window.location.href = '/tnea/choicelist/';
+    });
+  }
+
+  function renderChoicesContent() {
+    const content = document.getElementById('bs-content-section');
+    if (!content) return;
+
+    const lists = getLists();
+    const activeId = getActiveId();
+    const activeList = lists.find(l => l.id === activeId);
+
+    if (!activeList || !activeList.choices || activeList.choices.length === 0) {
+      content.innerHTML = `
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 24px 0;">
+          No choices added to this list yet. Click "+ Insert Choice" on any college card to start building your list!
+        </div>
+      `;
+      updateCardPriorities();
+      return;
+    }
+
+    content.innerHTML = '';
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.style.fontSize = '0.72rem';
+
+    const renderPlaceholder = (targetIndex) => {
+      const placeholderRow = document.createElement('tr');
+      placeholderRow.innerHTML = `
+        <td colspan="4" style="padding: 10px 8px; text-align: center; background: rgba(93, 36, 132, 0.05); border: 1.5px dashed var(--accent); border-radius: 8px; color: var(--accent); font-weight: 600; font-size: 0.72rem;">
+          Inserting next choice here... 
+          <button id="cancel-insert-btn" style="margin-left: 10px; background: var(--red); color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-size: 0.65rem; font-weight: bold;">Cancel</button>
+        </td>
+      `;
+      placeholderRow.querySelector('#cancel-insert-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.insertChoiceIndex = null;
+        renderChoicesContent();
+      });
+      table.appendChild(placeholderRow);
+    };
+
+    if (window.insertChoiceIndex === 0) {
+      renderPlaceholder(0);
+    }
+
+    activeList.choices.forEach((choice, index) => {
+      const [collegeCode, branchCode] = choice;
+      let collegeName = "Unknown College";
+      let branchName = "Unknown Branch";
+
+      const match = S.data.find(r => String(r.coc) === String(collegeCode) && String(r.brc) === String(branchCode));
+      if (match) {
+        collegeName = match._conClean || collegeName;
+        branchName = match.brn || branchName;
+      } else {
+        const colMatch = allColleges.find(c => String(c.value) === String(collegeCode));
+        if (colMatch) {
+          collegeName = colMatch.name;
+        }
+      }
+
+      const row = document.createElement('tr');
+      row.className = 'choice-row';
+      row.style.position = 'relative';
+      row.style.borderBottom = '1px solid var(--border)';
+
+      const showInsertIndicators = (typeof window.insertChoiceIndex !== 'number');
+      let indicatorsHtml = '';
+      if (showInsertIndicators) {
+        if (index === 0) {
+          indicatorsHtml += `
+            <div class="row-insert-indicator top-indicator" data-insert-index="0">
+              <button class="row-insert-btn" title="Insert choice here">+</button>
+            </div>
+          `;
+        }
+        indicatorsHtml += `
+          <div class="row-insert-indicator bottom-indicator" data-insert-index="${index + 1}">
+            <button class="row-insert-btn" title="Insert choice here">+</button>
+          </div>
+        `;
+      }
+
+      row.innerHTML = `
+        <td style="padding: 6px 4px; font-weight: bold; color: var(--text-muted); width: 20px;">${index + 1}</td>
+        <td style="padding: 6px 4px; color: var(--text-primary); font-weight: 500; line-height: 1.3;" title="${esc(collegeName)}">
+          <span style="font-weight: bold; color: var(--accent);">${String(collegeCode).padStart(4, '0')}</span> — ${esc(collegeName)}
+        </td>
+        <td style="padding: 6px 4px; color: var(--text-secondary); line-height: 1.3;" title="${esc(branchCode)} - ${esc(branchName)}">
+          <span style="font-weight: 700; color: var(--accent);">${esc(branchCode)}</span> — <span style="font-size: 0.66rem;">${esc(branchName)}</span>
+        </td>
+        <td style="padding: 6px 4px; text-align: right; width: 24px; position: relative; z-index: 12;">
+          <button class="remove-choice-btn" data-index="${index}" style="background:none; border:none; color:var(--red); cursor:pointer; font-weight:bold; padding: 4px;">✕</button>
+        </td>
+        ${indicatorsHtml}
+      `;
+
+      row.querySelector('.remove-choice-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        let currentLists = getLists();
+        const activeIdx = currentLists.findIndex(l => l.id === activeId);
+        if (activeIdx !== -1) {
+          currentLists[activeIdx].choices.splice(index, 1);
+          if (typeof window.insertChoiceIndex === 'number') {
+            if (window.insertChoiceIndex === index + 1) {
+              window.insertChoiceIndex = null;
+            } else if (window.insertChoiceIndex > index + 1) {
+              window.insertChoiceIndex--;
+            }
+          }
+          saveLists(currentLists);
+          renderChoicesContent();
+        }
+      });
+
+      if (showInsertIndicators) {
+        row.querySelectorAll('.row-insert-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const targetIdx = parseInt(btn.parentElement.dataset.insertIndex, 10);
+            window.insertChoiceIndex = targetIdx;
+            renderChoicesContent();
+          });
+        });
+      }
+
+      table.appendChild(row);
+
+      if (window.insertChoiceIndex === index + 1) {
+        renderPlaceholder(index + 1);
+      }
+    });
+
+    content.appendChild(table);
+    updateCardPriorities();
+  }
+
+  // Handle adding choice via delegation
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.card-add-choice-btn');
+    if (!btn) return;
+
+    const coc = btn.dataset.coc;
+    const brc = btn.dataset.brc;
+
+    const lists = getLists();
+    const activeId = getActiveId();
+    const activeIdx = lists.findIndex(l => l.id === activeId);
+
+    if (activeIdx === -1) {
+      alert("Please select or create a choice list first!");
+      return;
+    }
+
+    const activeList = lists[activeIdx];
+    const isInserting = (typeof window.insertChoiceIndex === 'number');
+
+    if (!isInserting) {
+      const existsIdx = activeList.choices.findIndex(choice => String(choice[0]) === String(coc) && String(choice[1]) === String(brc));
+      if (existsIdx !== -1) {
+        activeList.choices.splice(existsIdx, 1);
+        saveLists(lists);
+        renderChoicesContent();
+        return;
+      }
+    }
+
+    btn.classList.add('skeleton-box');
+
+    setTimeout(() => {
+      const existsIdx = activeList.choices.findIndex(choice => String(choice[0]) === String(coc) && String(choice[1]) === String(brc));
+      if (isInserting) {
+        let targetIdx = window.insertChoiceIndex;
+        if (existsIdx !== -1) {
+          activeList.choices.splice(existsIdx, 1);
+          if (existsIdx < targetIdx) {
+            targetIdx--;
+          }
+        }
+        if (targetIdx >= 0 && targetIdx <= activeList.choices.length) {
+          activeList.choices.splice(targetIdx, 0, [coc, brc]);
+        } else {
+          activeList.choices.push([coc, brc]);
+        }
+        window.insertChoiceIndex = null;
+      } else {
+        if (existsIdx === -1) {
+          activeList.choices.push([coc, brc]);
+        }
+      }
+      saveLists(lists);
+      btn.classList.remove('skeleton-box');
+
+      if (container.classList.contains('minimized')) {
+        container.classList.remove('minimized');
+        container.classList.add('maximized');
+        localStorage.setItem('rankra_choicelist_size', 'maximized');
+      }
+
+      renderChoicesContent();
+    }, 150);
+  });
+
+  window.refreshChoicesContent = renderChoicesContent;
+
+  renderTabs();
+  window.addEventListener('resize', checkOverflow);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  initChoiceListTabs();
+});
 
 /* ── Scroll Tutorial Hint ── */
 (function initScrollTutorial() {

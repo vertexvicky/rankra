@@ -5,7 +5,7 @@ export async function onRequest(context) {
   const responseData = {
     status: "success",
     environment: "API Testing",
-    message: "Welcome to Rankra API Testing Endpoint",
+    message: "Welcome to Rankra Gemini API Testing Endpoint",
     product: {
       name: "Rankra",
       tagline: "Empowering Students with Precision Admission Insights",
@@ -21,7 +21,7 @@ export async function onRequest(context) {
     },
     testing: {
       isApiTesting: true,
-      mode: "API Testing & Verification",
+      mode: "Gemini API Testing & Verification",
       timestamp: new Date().toISOString()
     }
   };
@@ -32,7 +32,7 @@ export async function onRequest(context) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rankra API Testing & Introduction</title>
+  <title>Rankra Gemini API Testing & Introduction</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -268,7 +268,7 @@ export async function onRequest(context) {
     <div class="card">
       <div class="badges">
         <span class="badge badge-primary">Rankra Platform</span>
-        <span class="badge badge-testing">API Testing</span>
+        <span class="badge badge-testing">Gemini API Testing</span>
       </div>
 
       <h1>Rankra</h1>
@@ -280,12 +280,12 @@ export async function onRequest(context) {
         ${responseData.product.features.map(f => `<li class="feature-item"><span class="feature-icon">&#10003;</span>${f}</li>`).join('')}
       </ul>
 
-      <div class="section-title">API Response Payload (API Testing)</div>
+      <div class="section-title">API Response Payload (Gemini API Testing)</div>
       <pre class="code-preview"><code>${JSON.stringify(responseData, null, 2)}</code></pre>
     </div>
 
     <div class="footer">
-      <p>Rankra API Testing Endpoint &bull; Status: Active</p>
+      <p>Rankra Gemini API Testing Endpoint &bull; Status: Active</p>
     </div>
   </div>
 

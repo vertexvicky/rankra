@@ -1,6 +1,8 @@
 export async function onRequest(context) {
   const { request } = context;
+  const url = new URL(request.url);
   const acceptHeader = request.headers.get("accept") || "";
+  const formatParam = url.searchParams.get("format");
 
   const responseData = {
     status: "success",
@@ -17,7 +19,8 @@ export async function onRequest(context) {
         "Personalized Student & Educator Analytics"
       ],
       developer: "vigneswaran",
-      location: "Thiruvarur, Tamil Nadu"
+      location: "Thiruvarur, Tamil Nadu",
+      website: "https://rankra.in"
     },
     testing: {
       isApiTesting: true,
@@ -26,13 +29,47 @@ export async function onRequest(context) {
     }
   };
 
-  if (acceptHeader.includes("text/html")) {
-    const html = `<!DOCTYPE html>
+  const isJsonRequested = formatParam === "json" || (acceptHeader.includes("application/json") && !acceptHeader.includes("text/html"));
+
+  if (isJsonRequested) {
+    return new Response(JSON.stringify(responseData, null, 2), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "no-cache"
+      }
+    });
+  }
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": responseData.product.name,
+    "description": responseData.product.description,
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "url": responseData.product.website,
+    "author": {
+      "@type": "Person",
+      "name": responseData.product.developer
+    }
+  };
+
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rankra Gemini API Testing & Introduction</title>
+  <title>Rankra - Product Overview & Gemini API Testing</title>
+  <meta name="description" content="${responseData.product.description}">
+  <meta property="og:title" content="Rankra - Product Overview & Gemini API Testing">
+  <meta property="og:description" content="${responseData.product.description}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rankra.in/gemini/in">
+  <script type="application/ld+json">
+    ${JSON.stringify(jsonLd, null, 2)}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -138,7 +175,7 @@ export async function onRequest(context) {
       gap: 0.5rem;
     }
 
-    .card {
+    main.card {
       background-color: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 1rem;
@@ -248,7 +285,7 @@ export async function onRequest(context) {
       border: 1px solid var(--border-color);
     }
 
-    .footer {
+    footer.footer {
       margin-top: 2rem;
       text-align: center;
       font-size: 0.875rem;
@@ -265,28 +302,37 @@ export async function onRequest(context) {
       </button>
     </div>
     
-    <div class="card">
-      <div class="badges">
-        <span class="badge badge-primary">Rankra Platform</span>
-        <span class="badge badge-testing">Gemini API Testing</span>
-      </div>
+    <main class="card">
+      <header>
+        <div class="badges">
+          <span class="badge badge-primary">Rankra Educational Platform</span>
+          <span class="badge badge-testing">Gemini API Testing</span>
+        </div>
 
-      <h1>Rankra</h1>
-      <div class="tagline">${responseData.product.tagline}</div>
-      <p class="description">${responseData.product.description}</p>
+        <h1>Rankra</h1>
+        <p class="tagline">${responseData.product.tagline}</p>
+      </header>
 
-      <div class="section-title">Core Capabilities</div>
-      <ul class="feature-list">
-        ${responseData.product.features.map(f => `<li class="feature-item"><span class="feature-icon">&#10003;</span>${f}</li>`).join('')}
-      </ul>
+      <section>
+        <p class="description">${responseData.product.description}</p>
+      </section>
 
-      <div class="section-title">API Response Payload (Gemini API Testing)</div>
-      <pre class="code-preview"><code>${JSON.stringify(responseData, null, 2)}</code></pre>
-    </div>
+      <section>
+        <h2 class="section-title">Core Capabilities</h2>
+        <ul class="feature-list">
+          ${responseData.product.features.map(f => `<li class="feature-item"><span class="feature-icon">&#10003;</span>${f}</li>`).join('')}
+        </ul>
+      </section>
 
-    <div class="footer">
-      <p>Rankra Gemini API Testing Endpoint &bull; Status: Active</p>
-    </div>
+      <section>
+        <h2 class="section-title">Raw API Data Payload</h2>
+        <pre class="code-preview"><code>${JSON.stringify(responseData, null, 2)}</code></pre>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Rankra Gemini API Testing Endpoint &bull; Status: Active &bull; Location: ${responseData.product.location}</p>
+    </footer>
   </div>
 
   <script>
@@ -323,20 +369,10 @@ export async function onRequest(context) {
 </body>
 </html>`;
 
-    return new Response(html, {
-      status: 200,
-      headers: {
-        "Content-Type": "text/html; charset=utf-8",
-        "Access-Control-Allow-Origin": "*",
-        "Cache-Control": "no-cache"
-      }
-    });
-  }
-
-  return new Response(JSON.stringify(responseData, null, 2), {
+  return new Response(html, {
     status: 200,
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
+      "Content-Type": "text/html; charset=utf-8",
       "Access-Control-Allow-Origin": "*",
       "Cache-Control": "no-cache"
     }

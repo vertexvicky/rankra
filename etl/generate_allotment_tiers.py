@@ -80,34 +80,29 @@ for coc in active_2026_cocs:
             "med_rank": st["med_rank"]
         })
 
-ranked_colleges.sort(key=lambda x: -x["med_cutoff"])
+ranked_colleges.sort(key=lambda x: x["med_rank"])
 
-MAX_CUTOFF_STEP = 2.0
-MAX_CUTOFF_SPAN = 5.0
+MAX_RANK_STEP = 4000.0
+MAX_RANK_SPAN = 12000.0
 
 current_tier = 1
 if ranked_colleges:
-    group_start_cutoff = ranked_colleges[0]["med_cutoff"]
-    prev_cutoff = ranked_colleges[0]["med_cutoff"]
+    group_start_rank = ranked_colleges[0]["med_rank"]
+    prev_rank = ranked_colleges[0]["med_rank"]
     ranked_colleges[0]["tier"] = current_tier
 
     for i in range(1, len(ranked_colleges)):
-        curr_cutoff = ranked_colleges[i]["med_cutoff"]
-        step = prev_cutoff - curr_cutoff
-        span = group_start_cutoff - curr_cutoff
+        curr_rank = ranked_colleges[i]["med_rank"]
+        step = curr_rank - prev_rank
+        span = curr_rank - group_start_rank
 
-        if step <= MAX_CUTOFF_STEP and span <= MAX_CUTOFF_SPAN:
+        if step <= MAX_RANK_STEP and span <= MAX_RANK_SPAN:
             ranked_colleges[i]["tier"] = current_tier
         else:
             current_tier += 1
             ranked_colleges[i]["tier"] = current_tier
-            group_start_cutoff = curr_cutoff
-        prev_cutoff = curr_cutoff
-
-for c in ranked_colleges:
-    c["_sort_key"] = c["med_rank"]
-
-ranked_colleges.sort(key=lambda x: x["med_rank"])
+            group_start_rank = curr_rank
+        prev_rank = curr_rank
 
 for idx, c in enumerate(ranked_colleges, start=1):
     c["overall_rank"] = idx
@@ -135,14 +130,14 @@ with open(output_file_etl, "w", encoding="utf-8") as f:
 with open(output_file_public, "w", encoding="utf-8") as f:
     json.dump(final_structure, f, indent=2)
 
-tier_summary = defaultdict(lambda: {"count": 0, "cutoffs": []})
+tier_summary = defaultdict(lambda: {"count": 0, "ranks": []})
 for c in ranked_colleges:
     tier_summary[c["tier"]]["count"] += 1
-    tier_summary[c["tier"]]["cutoffs"].append(c["med_cutoff"])
+    tier_summary[c["tier"]]["ranks"].append(c["med_rank"])
 
-print(f"Dynamic hybrid tiers generated (step={MAX_CUTOFF_STEP}, span={MAX_CUTOFF_SPAN})")
-print(f"{'Tier':<6} {'Colleges':<10} {'MedCutoff Range'}")
+print(f"Dynamic hybrid tiers generated using ranks (step={MAX_RANK_STEP}, span={MAX_RANK_SPAN})")
+print(f"{'Tier':<6} {'Colleges':<10} {'MedRank Range'}")
 for t in sorted(tier_summary.keys()):
-    cutoffs = tier_summary[t]["cutoffs"]
-    print(f"  {t:<6} {tier_summary[t]['count']:<10} {min(cutoffs):.2f} - {max(cutoffs):.2f}")
+    ranks = tier_summary[t]["ranks"]
+    print(f"  {t:<6} {tier_summary[t]['count']:<10} {min(ranks):.1f} - {max(ranks):.1f}")
 print(f"\nTotal ranked: {len(ranked_colleges)}, Unranked (new): {len(unranked_colleges)}")

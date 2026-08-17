@@ -308,3 +308,419 @@
     justify-content: space-between;
   }
 }
+
+.bottom-sheet-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 38px;
+  background: var(--bg-card);
+  border-top: 1.5px solid var(--border);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  z-index: 9999;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  touch-action: none;
+  box-sizing: border-box;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bottom-sheet-container.minimized {
+  height: 38px;
+}
+
+.bottom-sheet-container.maximized {
+  height: 300px;
+}
+
+.bs-tab-section {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 8px;
+  background: var(--bg-hover);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.bs-tab-scroll {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  flex: 1;
+  height: 100%;
+  scrollbar-width: none;
+  padding: 0 4px;
+}
+
+.bs-tab-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.bs-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--t);
+  height: 26px;
+  box-sizing: border-box;
+}
+
+.bs-tab:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+.bs-tab.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.bs-tab.active .bs-tab-close {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.bs-tab.active .bs-tab-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.bs-tab-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  transition: background var(--t), color var(--t);
+  margin-left: 2px;
+}
+
+.bs-tab-close:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+.bs-scroll-btn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 6px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--t);
+}
+
+.bs-scroll-btn:hover {
+  color: var(--accent);
+}
+
+.bs-tab-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1.5px solid var(--border);
+  height: 20px;
+}
+
+.bs-action-btn {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  transition: background var(--t), color var(--t);
+}
+
+.bs-action-btn:hover {
+  background: var(--bg-card);
+  color: var(--accent);
+}
+
+.bs-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 38px;
+  padding: 0 16px;
+  background: var(--bg-card);
+  border-bottom: 1.5px solid var(--border);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  position: relative;
+}
+
+.bs-heading {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.bs-toggle-btn {
+  z-index: 2;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background var(--t);
+}
+
+.bs-pdf-btn {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #5d2484;
+  border: 1px solid #5d2484;
+  color: #ffffff !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--t);
+  height: 24px;
+}
+
+.bs-pdf-btn:hover {
+  background: #4b1d6b;
+  border-color: #4b1d6b;
+}
+
+.bs-toggle-btn:hover {
+  background: var(--bg-hover);
+}
+
+.bs-toggle-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-secondary);
+}
+
+.bs-toggle-icon path {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+.bottom-sheet-container.minimized .corner-tl {
+  transform: translate(-3px, -3px);
+}
+
+.bottom-sheet-container.minimized .corner-tr {
+  transform: translate(3px, -3px);
+}
+
+.bottom-sheet-container.minimized .corner-bl {
+  transform: translate(-3px, 3px);
+}
+
+.bottom-sheet-container.minimized .corner-br {
+  transform: translate(3px, 3px);
+}
+
+.bottom-sheet-container.maximized .corner-tl {
+  transform: translate(0, 0);
+}
+
+.bottom-sheet-container.maximized .corner-tr {
+  transform: translate(0, 0);
+}
+
+.bottom-sheet-container.maximized .corner-bl {
+  transform: translate(0, 0);
+}
+
+.bottom-sheet-container.maximized .corner-br {
+  transform: translate(0, 0);
+}
+
+.bottom-sheet-container.minimized .bs-content-section,
+.bottom-sheet-container.minimized .bs-tab-section {
+  display: none;
+}
+
+.bs-content-section {
+  padding: 4px 12px;
+  overflow-y: auto;
+  height: calc(100% - 76px);
+  box-sizing: border-box;
+  scrollbar-width: thin;
+}
+
+.bs-content-section::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+}
+
+.bs-content-section::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.bs-content-section::-webkit-scrollbar-thumb {
+  background: var(--border-strong) !important;
+  border-radius: 3px !important;
+}
+
+.card-add-choice-btn {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all var(--t);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.card-add-choice-btn:hover {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.card-add-choice-btn.added {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+}
+
+.card-add-choice-btn.added:hover {
+  background: color-mix(in srgb, var(--red) 85%, black);
+  color: white;
+  border-color: color-mix(in srgb, var(--red) 85%, black);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--red) 30%, transparent);
+}
+
+.card-add-choice-btn.skeleton-box {
+  background: linear-gradient(90deg, var(--bg-hover) 25%, var(--border) 50%, var(--bg-hover) 75%) !important;
+  background-size: 200% 100% !important;
+  animation: shimmer 1.5s infinite linear !important;
+  border-color: transparent !important;
+  color: transparent !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+
+.card-add-choice-btn.insert-mode {
+  background: transparent;
+  color: var(--orange);
+  border-color: var(--orange);
+}
+
+.card-add-choice-btn.insert-mode:hover {
+  background: var(--orange);
+  color: white;
+  border-color: var(--orange);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--orange) 30%, transparent);
+}
+
+.card-priority-badge {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.choice-row {
+  position: relative;
+}
+
+.row-insert-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.row-insert-indicator.bottom-indicator {
+  bottom: -2px;
+}
+
+.row-insert-indicator.top-indicator {
+  top: -2px;
+}
+
+.row-insert-indicator::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0.25;
+  z-index: -1;
+}
+
+.row-insert-btn {
+  pointer-events: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: 1.5px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.row-insert-btn:hover {
+  transform: scale(1.25);
+  background: #4b1d6b;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+}

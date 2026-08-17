@@ -115,6 +115,40 @@
     </div>
   </main>
 
+  <div id="choicelist-container" class="bottom-sheet-container minimized">
+    <div class="bs-header-section">
+      <button class="bs-toggle-btn" id="bs-toggle-size" aria-label="Toggle size">
+        <svg class="bs-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path class="corner-tl" d="M4 9h5V4" />
+          <path class="corner-tr" d="M20 9h-5V4" />
+          <path class="corner-bl" d="M4 15h5v5" />
+          <path class="corner-br" d="M20 15h-5v5" />
+        </svg>
+      </button>
+      <h3 class="bs-heading">Choice List</h3>
+      <button class="bs-pdf-btn" id="bs-export-pdf" title="Export list as PDF">
+        <i class="fa-solid fa-file-pdf"></i> Export as PDF
+      </button>
+    </div>
+    <div class="bs-tab-section">
+      <button class="bs-scroll-btn bs-scroll-left" id="bs-scroll-left" aria-label="Scroll left">&lt;</button>
+      <div class="bs-tab-scroll" id="bs-tab-scroll">
+        <!-- Tabs rendered dynamically -->
+      </div>
+      <button class="bs-scroll-btn bs-scroll-right" id="bs-scroll-right" aria-label="Scroll right">&gt;</button>
+      <div class="bs-tab-actions">
+        <button class="bs-action-btn" id="bs-add-list" title="Add list">+</button>
+        <button class="bs-action-btn" id="bs-go-list" title="Go to choice lists">&gt;</button>
+      </div>
+    </div>
+    <div class="bs-content-section" id="bs-content-section">
+      <!-- Remaining bottom sheet content -->
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script type="module" src="vacancy.js"></script>
 </body>
 </html>

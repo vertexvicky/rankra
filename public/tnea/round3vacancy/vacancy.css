@@ -1,0 +1,310 @@
+.filter-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+}
+
+.filters-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+.filters-container .district-wrap {
+  width: 100%;
+  position: relative;
+}
+
+.filters-container .pill-btn {
+  width: 100%;
+  justify-content: space-between;
+}
+
+#comm-dropdown {
+  left: 0;
+  right: auto;
+  min-width: 180px;
+  max-width: calc(100vw - 24px);
+}
+
+.filter-label-prefix {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-right: 4px;
+}
+
+.filter-btn-val {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stats-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-hover);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.main-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 12px 60px 12px;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 12px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.college-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform var(--t), box-shadow var(--t), border-color var(--t);
+}
+
+.college-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  box-shadow: var(--shadow-md);
+}
+
+.college-card-header {
+  background: color-mix(in srgb, var(--bg-hover) 70%, var(--bg-card));
+  padding: 10px 14px;
+  border-bottom: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.college-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.college-rank-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.college-code-pill {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.college-name-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+
+.college-meta-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.college-district-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+
+.college-total-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--red);
+  background: var(--red-bg);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--red) 30%, transparent);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vacancy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.vacancy-table th {
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.vacancy-table th.active-comm {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-primary));
+}
+
+.vacancy-table th.center,
+.vacancy-table td.center {
+  text-align: center;
+}
+
+.vacancy-table th.right,
+.vacancy-table td.right {
+  text-align: right;
+}
+
+.vacancy-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.vacancy-table tr:last-child td {
+  border-bottom: none;
+}
+
+.vacancy-table tr:hover td {
+  background: var(--bg-hover);
+}
+
+.branch-code-cell {
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.branch-name-cell {
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.seat-cell {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.seat-cell.zero {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.seat-cell.has-seats {
+  color: var(--text-primary);
+}
+
+.seat-cell.active-comm {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.seat-cell.total-col {
+  font-weight: 800;
+  color: var(--red);
+  background: color-mix(in srgb, var(--red) 5%, transparent);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.empty-sub {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .filters-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  
+  .filter-bar {
+    padding: 6px 8px;
+  }
+  
+  .filter-label-prefix {
+    display: none;
+  }
+  
+  .college-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  
+  .college-meta-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

@@ -1,0 +1,3271 @@
+{
+  "metadata": {
+    "community": "BC",
+    "rank": 173946
+  },
+  "totalChoices": 466,
+  "choices": [
+    {
+      "priority": 1,
+      "collegeCode": "0001",
+      "collegeName": "Unknown College",
+      "branchCode": "EC",
+      "branchName": "Unknown Branch"
+    },
+    {
+      "priority": 2,
+      "collegeCode": "0001",
+      "collegeName": "Unknown College",
+      "branchCode": "CM",
+      "branchName": "Unknown Branch"
+    },
+    {
+      "priority": 3,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "CM",
+      "branchName": "COMPUTER SCIENCE AND ENGINEERING (SS)"
+    },
+    {
+      "priority": 4,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 5,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "CG",
+      "branchName": "Computer Science and Engineering (Artificial Intelligence and Machine Learning) (SS)"
+    },
+    {
+      "priority": 6,
+      "collegeCode": "0001",
+      "collegeName": "Unknown College",
+      "branchCode": "EE",
+      "branchName": "Unknown Branch"
+    },
+    {
+      "priority": 7,
+      "collegeCode": "2007",
+      "collegeName": "Coimbatore Institute of Technology (CIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 8,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 9,
+      "collegeCode": "2007",
+      "collegeName": "Coimbatore Institute of Technology (CIT) Coimbatore",
+      "branchCode": "CM",
+      "branchName": "COMPUTER SCIENCE AND ENGINEERING (SS)"
+    },
+    {
+      "priority": 10,
+      "collegeCode": "2007",
+      "collegeName": "Coimbatore Institute of Technology (CIT) Coimbatore",
+      "branchCode": "AT",
+      "branchName": "ARTIFICIAL INTELLIGENCE AND DATA SCIENCE (SS)"
+    },
+    {
+      "priority": 11,
+      "collegeCode": "2377",
+      "collegeName": "PSG Institute of Technology and Applied Research (PSG iTech) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 12,
+      "collegeCode": "2005",
+      "collegeName": "Government College of Technology (GCT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 13,
+      "collegeCode": "2005",
+      "collegeName": "Government College of Technology (GCT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 14,
+      "collegeCode": "2377",
+      "collegeName": "PSG Institute of Technology and Applied Research (PSG iTech) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 15,
+      "collegeCode": "0001",
+      "collegeName": "Unknown College",
+      "branchCode": "ME",
+      "branchName": "Unknown Branch"
+    },
+    {
+      "priority": 16,
+      "collegeCode": "2007",
+      "collegeName": "Coimbatore Institute of Technology (CIT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 17,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 18,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "RA",
+      "branchName": "ROBOTICS AND AUTOMATION (SS)"
+    },
+    {
+      "priority": 19,
+      "collegeCode": "2712",
+      "collegeName": "Kumaraguru College of Technology (KCT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION"
+    },
+    {
+      "priority": 20,
+      "collegeCode": "2005",
+      "collegeName": "Government College of Technology (GCT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 21,
+      "collegeCode": "2712",
+      "collegeName": "Kumaraguru College of Technology (KCT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 22,
+      "collegeCode": "1399",
+      "collegeName": "Chennai Institute of Technology (CIT) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 23,
+      "collegeCode": "1399",
+      "collegeName": "Chennai Institute of Technology (CIT) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 24,
+      "collegeCode": "2712",
+      "collegeName": "Kumaraguru College of Technology (KCT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 25,
+      "collegeCode": "2615",
+      "collegeName": "Government College of Engineering (GCE) Salem",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 26,
+      "collegeCode": "2377",
+      "collegeName": "PSG Institute of Technology and Applied Research (PSG iTech) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 27,
+      "collegeCode": "1399",
+      "collegeName": "Chennai Institute of Technology (CIT) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 28,
+      "collegeCode": "1399",
+      "collegeName": "Chennai Institute of Technology (CIT) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 29,
+      "collegeCode": "1399",
+      "collegeName": "Chennai Institute of Technology (CIT) Chennai",
+      "branchCode": "EA",
+      "branchName": "Electronics and Communication (Advanced Communication Technology)"
+    },
+    {
+      "priority": 30,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "MF",
+      "branchName": "MECHANICAL ENGINEERING (SS)"
+    },
+    {
+      "priority": 31,
+      "collegeCode": "1399",
+      "collegeName": "Chennai Institute of Technology (CIT) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 32,
+      "collegeCode": "1442",
+      "collegeName": "Prince Dr. K Vasudevan College of Engineering and Technology Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 33,
+      "collegeCode": "1414",
+      "collegeName": "Prince Shri Venkateshwara Padmavathy Engineering College (PSVPEC) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 34,
+      "collegeCode": "2712",
+      "collegeName": "Kumaraguru College of Technology (KCT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 35,
+      "collegeCode": "2007",
+      "collegeName": "Coimbatore Institute of Technology (CIT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 36,
+      "collegeCode": "2739",
+      "collegeName": "Sri Eshwar College of Engineering (SECE) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 37,
+      "collegeCode": "2615",
+      "collegeName": "Government College of Engineering (GCE) Salem",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 38,
+      "collegeCode": "2739",
+      "collegeName": "Sri Eshwar College of Engineering (SECE) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 39,
+      "collegeCode": "2739",
+      "collegeName": "Sri Eshwar College of Engineering (SECE) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 40,
+      "collegeCode": "2764",
+      "collegeName": "K.P.R. Institute of Engineering and Technology (KPRIET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 41,
+      "collegeCode": "2739",
+      "collegeName": "Sri Eshwar College of Engineering (SECE) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 42,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 43,
+      "collegeCode": "2710",
+      "collegeName": "Karpagam College of Engineering (KCE) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 44,
+      "collegeCode": "2739",
+      "collegeName": "Sri Eshwar College of Engineering (SECE) Coimbatore",
+      "branchCode": "CO",
+      "branchName": "COMPUTER AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 45,
+      "collegeCode": "2025",
+      "collegeName": "Anna University Regional Campus - Coimbatore (AURCC) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 46,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 47,
+      "collegeCode": "2005",
+      "collegeName": "Government College of Technology (GCT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 48,
+      "collegeCode": "2718",
+      "collegeName": "Sri Krishna College of Engineering and Technology (SKCET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 49,
+      "collegeCode": "2377",
+      "collegeName": "PSG Institute of Technology and Applied Research (PSG iTech) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 50,
+      "collegeCode": "2710",
+      "collegeName": "Karpagam College of Engineering (KCE) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 51,
+      "collegeCode": "2007",
+      "collegeName": "Coimbatore Institute of Technology (CIT) Coimbatore",
+      "branchCode": "MF",
+      "branchName": "MECHANICAL ENGINEERING (SS)"
+    },
+    {
+      "priority": 52,
+      "collegeCode": "1399",
+      "collegeName": "Chennai Institute of Technology (CIT) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 53,
+      "collegeCode": "2764",
+      "collegeName": "K.P.R. Institute of Engineering and Technology (KPRIET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 54,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 55,
+      "collegeCode": "2764",
+      "collegeName": "K.P.R. Institute of Engineering and Technology (KPRIET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 56,
+      "collegeCode": "2764",
+      "collegeName": "K.P.R. Institute of Engineering and Technology (KPRIET) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 57,
+      "collegeCode": "2025",
+      "collegeName": "Anna University Regional Campus - Coimbatore (AURCC) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 58,
+      "collegeCode": "2710",
+      "collegeName": "Karpagam College of Engineering (KCE) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION"
+    },
+    {
+      "priority": 59,
+      "collegeCode": "1450",
+      "collegeName": "Loyola ICAM College of Engineering and Technology (LICET) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 60,
+      "collegeCode": "2710",
+      "collegeName": "Karpagam College of Engineering (KCE) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 61,
+      "collegeCode": "1219",
+      "collegeName": "Sri Venkateswara College of Engineering (SVCE) Kancheepuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 62,
+      "collegeCode": "2764",
+      "collegeName": "K.P.R. Institute of Engineering and Technology (KPRIET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 63,
+      "collegeCode": "1432",
+      "collegeName": "Rajalakshmi Institute of Technology (RIT) Kancheepuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 64,
+      "collegeCode": "2739",
+      "collegeName": "Sri Eshwar College of Engineering (SECE) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 65,
+      "collegeCode": "2718",
+      "collegeName": "Sri Krishna College of Engineering and Technology (SKCET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 66,
+      "collegeCode": "2718",
+      "collegeName": "Sri Krishna College of Engineering and Technology (SKCET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 67,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 68,
+      "collegeCode": "1432",
+      "collegeName": "Rajalakshmi Institute of Technology (RIT) Kancheepuram",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 69,
+      "collegeCode": "2718",
+      "collegeName": "Sri Krishna College of Engineering and Technology (SKCET) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 70,
+      "collegeCode": "1219",
+      "collegeName": "Sri Venkateswara College of Engineering (SVCE) Kancheepuram",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 71,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 72,
+      "collegeCode": "1450",
+      "collegeName": "Loyola ICAM College of Engineering and Technology (LICET) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 73,
+      "collegeCode": "1219",
+      "collegeName": "Sri Venkateswara College of Engineering (SVCE) Kancheepuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 74,
+      "collegeCode": "1450",
+      "collegeName": "Loyola ICAM College of Engineering and Technology (LICET) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 75,
+      "collegeCode": "2702",
+      "collegeName": "Bannari Amman Institute of Technology (BIT) Erode",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 76,
+      "collegeCode": "1432",
+      "collegeName": "Rajalakshmi Institute of Technology (RIT) Kancheepuram",
+      "branchCode": "CO",
+      "branchName": "COMPUTER AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 77,
+      "collegeCode": "2735",
+      "collegeName": "Karpagam Institute of Technology (KIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and"
+    },
+    {
+      "priority": 78,
+      "collegeCode": "2712",
+      "collegeName": "Kumaraguru College of Technology (KCT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 79,
+      "collegeCode": "1216",
+      "collegeName": "Saveetha Engineering College (SEC) Kancheepuram",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 80,
+      "collegeCode": "2702",
+      "collegeName": "Bannari Amman Institute of Technology (BIT) Erode",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 81,
+      "collegeCode": "1216",
+      "collegeName": "Saveetha Engineering College (SEC) Kancheepuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 82,
+      "collegeCode": "1113",
+      "collegeName": "R.M.K. Engineering College (RMK) Thiruvallur",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 83,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 84,
+      "collegeCode": "2718",
+      "collegeName": "Sri Krishna College of Engineering and Technology (SKCET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 85,
+      "collegeCode": "2702",
+      "collegeName": "Bannari Amman Institute of Technology (BIT) Erode",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 86,
+      "collegeCode": "2719",
+      "collegeName": "Sri Ramakrishna Engineering College (SREC) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 87,
+      "collegeCode": "1216",
+      "collegeName": "Saveetha Engineering College (SEC) Kancheepuram",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 88,
+      "collegeCode": "3011",
+      "collegeName": "University College of Engineering Tiruchirappalli (BIT) Tiruchirappalli",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 89,
+      "collegeCode": "2006",
+      "collegeName": "PSG College of Technology (PSGCT) Coimbatore",
+      "branchCode": "AS",
+      "branchName": "AUTOMOBILE ENGINEERING (SS)"
+    },
+    {
+      "priority": 90,
+      "collegeCode": "1113",
+      "collegeName": "R.M.K. Engineering College (RMK) Thiruvallur",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 91,
+      "collegeCode": "2735",
+      "collegeName": "Karpagam Institute of Technology (KIT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 92,
+      "collegeCode": "2711",
+      "collegeName": "Kongu Engineering College (KEC) Erode",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 93,
+      "collegeCode": "2702",
+      "collegeName": "Bannari Amman Institute of Technology (BIT) Erode",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 94,
+      "collegeCode": "2719",
+      "collegeName": "Sri Ramakrishna Engineering College (SREC) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 95,
+      "collegeCode": "1216",
+      "collegeName": "Saveetha Engineering College (SEC) Kancheepuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 96,
+      "collegeCode": "2719",
+      "collegeName": "Sri Ramakrishna Engineering College (SREC) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 97,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "RM",
+      "branchName": "ROBOTICS AND"
+    },
+    {
+      "priority": 98,
+      "collegeCode": "2739",
+      "collegeName": "Sri Eshwar College of Engineering (SECE) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 99,
+      "collegeCode": "1113",
+      "collegeName": "R.M.K. Engineering College (RMK) Thiruvallur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 100,
+      "collegeCode": "2711",
+      "collegeName": "Kongu Engineering College (KEC) Erode",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 101,
+      "collegeCode": "1216",
+      "collegeName": "Saveetha Engineering College (SEC) Kancheepuram",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 102,
+      "collegeCode": "1219",
+      "collegeName": "Sri Venkateswara College of Engineering (SVCE) Kancheepuram",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 103,
+      "collegeCode": "2735",
+      "collegeName": "Karpagam Institute of Technology (KIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 104,
+      "collegeCode": "2711",
+      "collegeName": "Kongu Engineering College (KEC) Erode",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 105,
+      "collegeCode": "2711",
+      "collegeName": "Kongu Engineering College (KEC) Erode",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 106,
+      "collegeCode": "2706",
+      "collegeName": "Dr. Mahalingam College of Engineering and Technology (MCET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 107,
+      "collegeCode": "1450",
+      "collegeName": "Loyola ICAM College of Engineering and Technology (LICET) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 108,
+      "collegeCode": "1304",
+      "collegeName": "Easwari Engineering College (EEC) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 109,
+      "collegeCode": "1304",
+      "collegeName": "Easwari Engineering College (EEC) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 110,
+      "collegeCode": "2615",
+      "collegeName": "Government College of Engineering (GCE) Salem",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 111,
+      "collegeCode": "1304",
+      "collegeName": "Easwari Engineering College (EEC) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 112,
+      "collegeCode": "1304",
+      "collegeName": "Easwari Engineering College (EEC) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 113,
+      "collegeCode": "3011",
+      "collegeName": "University College of Engineering Tiruchirappalli (BIT) Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 114,
+      "collegeCode": "2702",
+      "collegeName": "Bannari Amman Institute of Technology (BIT) Erode",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 115,
+      "collegeCode": "2706",
+      "collegeName": "Dr. Mahalingam College of Engineering and Technology (MCET) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 116,
+      "collegeCode": "2706",
+      "collegeName": "Dr. Mahalingam College of Engineering and Technology (MCET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 117,
+      "collegeCode": "2706",
+      "collegeName": "Dr. Mahalingam College of Engineering and Technology (MCET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 118,
+      "collegeCode": "2710",
+      "collegeName": "Karpagam College of Engineering (KCE) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 119,
+      "collegeCode": "1422",
+      "collegeName": "SRM Valliammai Engineering College (VEC) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 120,
+      "collegeCode": "1113",
+      "collegeName": "R.M.K. Engineering College (RMK) Thiruvallur",
+      "branchCode": "EA",
+      "branchName": "Electronics and Communication (Advanced Communication Technology)"
+    },
+    {
+      "priority": 121,
+      "collegeCode": "1317",
+      "collegeName": "St. Joseph's College of Engineering Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 122,
+      "collegeCode": "2736",
+      "collegeName": "Dr. N.G.P. Institute of Technology (NGPIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 123,
+      "collegeCode": "2719",
+      "collegeName": "Sri Ramakrishna Engineering College (SREC) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 124,
+      "collegeCode": "2711",
+      "collegeName": "Kongu Engineering College (KEC) Erode",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 125,
+      "collegeCode": "2736",
+      "collegeName": "Dr. N.G.P. Institute of Technology (NGPIT) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 126,
+      "collegeCode": "2764",
+      "collegeName": "K.P.R. Institute of Engineering and Technology (KPRIET) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 127,
+      "collegeCode": "2736",
+      "collegeName": "Dr. N.G.P. Institute of Technology (NGPIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 128,
+      "collegeCode": "2025",
+      "collegeName": "Anna University Regional Campus - Coimbatore (AURCC) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 129,
+      "collegeCode": "3011",
+      "collegeName": "University College of Engineering Tiruchirappalli (BIT) Tiruchirappalli",
+      "branchCode": "CF",
+      "branchName": "COMPUTER SCIENCE AND ENGINEERING (DATA SCIENCE)"
+    },
+    {
+      "priority": 130,
+      "collegeCode": "2736",
+      "collegeName": "Dr. N.G.P. Institute of Technology (NGPIT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 131,
+      "collegeCode": "1419",
+      "collegeName": "Sri Sai Ram Engineering College (SEC) Kanchipuram",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 132,
+      "collegeCode": "1419",
+      "collegeName": "Sri Sai Ram Engineering College (SEC) Kanchipuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 133,
+      "collegeCode": "2750",
+      "collegeName": "Kalaignar Karunanidhi Institute of Technology (KIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 134,
+      "collegeCode": "1317",
+      "collegeName": "St. Joseph's College of Engineering Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 135,
+      "collegeCode": "1419",
+      "collegeName": "Sri Sai Ram Engineering College (SEC) Kanchipuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 136,
+      "collegeCode": "1317",
+      "collegeName": "St. Joseph's College of Engineering Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 137,
+      "collegeCode": "2751",
+      "collegeName": "KGISL Institute of Technology (KITE) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 138,
+      "collegeCode": "2750",
+      "collegeName": "Kalaignar Karunanidhi Institute of Technology (KIT) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 139,
+      "collegeCode": "1419",
+      "collegeName": "Sri Sai Ram Engineering College (SEC) Kanchipuram",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 140,
+      "collegeCode": "5910",
+      "collegeName": "P.S.N.A. College of Engineering and Technology (PSNA) Dindigul",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 141,
+      "collegeCode": "1211",
+      "collegeName": "Rajalakshmi Engineering College (REC) Kanchipuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 142,
+      "collegeCode": "1216",
+      "collegeName": "Saveetha Engineering College (SEC) Kancheepuram",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 143,
+      "collegeCode": "1112",
+      "collegeName": "R.M.D. Engineering College (RMD) Thiruvallur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 144,
+      "collegeCode": "2751",
+      "collegeName": "KGISL Institute of Technology (KITE) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 145,
+      "collegeCode": "1304",
+      "collegeName": "Easwari Engineering College (EEC) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 146,
+      "collegeCode": "1113",
+      "collegeName": "R.M.K. Engineering College (RMK) Thiruvallur",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 147,
+      "collegeCode": "2750",
+      "collegeName": "Kalaignar Karunanidhi Institute of Technology (KIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 148,
+      "collegeCode": "5910",
+      "collegeName": "P.S.N.A. College of Engineering and Technology (PSNA) Dindigul",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 149,
+      "collegeCode": "2706",
+      "collegeName": "Dr. Mahalingam College of Engineering and Technology (MCET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 150,
+      "collegeCode": "2719",
+      "collegeName": "Sri Ramakrishna Engineering College (SREC) Coimbatore",
+      "branchCode": "RM",
+      "branchName": "ROBOTICS AND AUTOMATION"
+    },
+    {
+      "priority": 151,
+      "collegeCode": "5910",
+      "collegeName": "P.S.N.A. College of Engineering and Technology (PSNA) Dindigul",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 152,
+      "collegeCode": "1422",
+      "collegeName": "SRM Valliammai Engineering College (VEC) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 153,
+      "collegeCode": "1112",
+      "collegeName": "R.M.D. Engineering College (RMD) Thiruvallur",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 154,
+      "collegeCode": "1304",
+      "collegeName": "Easwari Engineering College (EEC) Chennai",
+      "branchCode": "RM",
+      "branchName": "ROBOTICS AND AUTOMATION"
+    },
+    {
+      "priority": 155,
+      "collegeCode": "2751",
+      "collegeName": "KGISL Institute of Technology (KITE) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 156,
+      "collegeCode": "1317",
+      "collegeName": "St. Joseph's College of Engineering Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and"
+    },
+    {
+      "priority": 157,
+      "collegeCode": "2618",
+      "collegeName": "Sona College of Technology (SCT) Salem",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 158,
+      "collegeCode": "1419",
+      "collegeName": "Sri Sai Ram Engineering College (SEC) Kanchipuram",
+      "branchCode": "CO",
+      "branchName": "COMPUTER AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 159,
+      "collegeCode": "1112",
+      "collegeName": "R.M.D. Engineering College (RMD) Thiruvallur",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 160,
+      "collegeCode": "2751",
+      "collegeName": "KGISL Institute of Technology (KITE) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 161,
+      "collegeCode": "5910",
+      "collegeName": "P.S.N.A. College of Engineering and Technology (PSNA) Dindigul",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 162,
+      "collegeCode": "2618",
+      "collegeName": "Sona College of Technology (SCT) Salem",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 163,
+      "collegeCode": "1414",
+      "collegeName": "Prince Shri Venkateshwara Padmavathy Engineering College (PSVPEC) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 164,
+      "collegeCode": "2718",
+      "collegeName": "Sri Krishna College of Engineering and Technology (SKCET) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 165,
+      "collegeCode": "2618",
+      "collegeName": "Sona College of Technology (SCT) Salem",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 166,
+      "collegeCode": "2735",
+      "collegeName": "Karpagam Institute of Technology (KIT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 167,
+      "collegeCode": "1422",
+      "collegeName": "SRM Valliammai Engineering College (VEC) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 168,
+      "collegeCode": "1432",
+      "collegeName": "Rajalakshmi Institute of Technology (RIT) Kancheepuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 169,
+      "collegeCode": "1219",
+      "collegeName": "Sri Venkateswara College of Engineering (SVCE) Kancheepuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 170,
+      "collegeCode": "2736",
+      "collegeName": "Dr. N.G.P. Institute of Technology (NGPIT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 171,
+      "collegeCode": "1149",
+      "collegeName": "St. Joseph's Institute of Technology Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 172,
+      "collegeCode": "1450",
+      "collegeName": "Loyola ICAM College of Engineering and Technology (LICET) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 173,
+      "collegeCode": "2618",
+      "collegeName": "Sona College of Technology (SCT) Salem",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 174,
+      "collegeCode": "1149",
+      "collegeName": "St. Joseph's Institute of Technology Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 175,
+      "collegeCode": "2702",
+      "collegeName": "Bannari Amman Institute of Technology (BIT) Erode",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL"
+    },
+    {
+      "priority": 176,
+      "collegeCode": "2710",
+      "collegeName": "Karpagam College of Engineering (KCE) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 177,
+      "collegeCode": "1149",
+      "collegeName": "St. Joseph's Institute of Technology Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 178,
+      "collegeCode": "2329",
+      "collegeName": "Rathinam Technical Campus (RTC) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 179,
+      "collegeCode": "2025",
+      "collegeName": "Anna University Regional Campus - Coimbatore (AURCC) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 180,
+      "collegeCode": "1128",
+      "collegeName": "R.M.K. College of Engineering and Technology (RMKCET) Thiruvallur",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 181,
+      "collegeCode": "1128",
+      "collegeName": "R.M.K. College of Engineering and Technology (RMKCET) Thiruvallur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 182,
+      "collegeCode": "3011",
+      "collegeName": "University College of Engineering Tiruchirappalli (BIT) Tiruchirappalli",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 183,
+      "collegeCode": "3819",
+      "collegeName": "Saranathan College of Engineering Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 184,
+      "collegeCode": "1149",
+      "collegeName": "St. Joseph's Institute of Technology Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 185,
+      "collegeCode": "1128",
+      "collegeName": "R.M.K. College of Engineering and Technology (RMKCET) Thiruvallur",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 186,
+      "collegeCode": "2725",
+      "collegeName": "Sri Ramakrishna Institute of Technology (SRIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 187,
+      "collegeCode": "1317",
+      "collegeName": "St. Joseph's College of Engineering Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 188,
+      "collegeCode": "2711",
+      "collegeName": "Kongu Engineering College (KEC) Erode",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 189,
+      "collegeCode": "1210",
+      "collegeName": "Panimalar Engineering College (PEC) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 190,
+      "collegeCode": "2750",
+      "collegeName": "Kalaignar Karunanidhi Institute of Technology (KIT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 191,
+      "collegeCode": "3819",
+      "collegeName": "Saranathan College of Engineering Tiruchirappalli",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 192,
+      "collegeCode": "1120",
+      "collegeName": "Velammal Engineering College (VEC) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 193,
+      "collegeCode": "1419",
+      "collegeName": "Sri Sai Ram Engineering College (SEC) Kanchipuram",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 194,
+      "collegeCode": "5910",
+      "collegeName": "P.S.N.A. College of Engineering and Technology (PSNA) Dindigul",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 195,
+      "collegeCode": "1309",
+      "collegeName": "Meenakshi Sundararajan Engineering College (MSEC) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 196,
+      "collegeCode": "2725",
+      "collegeName": "Sri Ramakrishna Institute of Technology (SRIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 197,
+      "collegeCode": "2725",
+      "collegeName": "Sri Ramakrishna Institute of Technology (SRIT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 198,
+      "collegeCode": "2329",
+      "collegeName": "Rathinam Technical Campus (RTC) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 199,
+      "collegeCode": "2725",
+      "collegeName": "Sri Ramakrishna Institute of Technology (SRIT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 200,
+      "collegeCode": "2708",
+      "collegeName": "Hindusthan College of Engineering and Technology (HICET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 201,
+      "collegeCode": "1149",
+      "collegeName": "St. Joseph's Institute of Technology Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 202,
+      "collegeCode": "2719",
+      "collegeName": "Sri Ramakrishna Engineering College (SREC) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 203,
+      "collegeCode": "1120",
+      "collegeName": "Velammal Engineering College (VEC) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 204,
+      "collegeCode": "1120",
+      "collegeName": "Velammal Engineering College (VEC) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 205,
+      "collegeCode": "1216",
+      "collegeName": "Saveetha Engineering College (SEC) Kancheepuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 206,
+      "collegeCode": "3819",
+      "collegeName": "Saranathan College of Engineering Tiruchirappalli",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 207,
+      "collegeCode": "2751",
+      "collegeName": "KGISL Institute of Technology (KITE) Coimbatore",
+      "branchCode": "RM",
+      "branchName": "ROBOTICS AND AUTOMATION"
+    },
+    {
+      "priority": 208,
+      "collegeCode": "1210",
+      "collegeName": "Panimalar Engineering College (PEC) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 209,
+      "collegeCode": "1026",
+      "collegeName": "University College of Engineering Kancheepuram (UCEK) Kancheepuram",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 210,
+      "collegeCode": "1309",
+      "collegeName": "Meenakshi Sundararajan Engineering College (MSEC) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 211,
+      "collegeCode": "1309",
+      "collegeName": "Meenakshi Sundararajan Engineering College (MSEC) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 212,
+      "collegeCode": "1422",
+      "collegeName": "SRM Valliammai Engineering College (VEC) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 213,
+      "collegeCode": "1113",
+      "collegeName": "R.M.K. Engineering College (RMK) Thiruvallur",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 214,
+      "collegeCode": "1210",
+      "collegeName": "Panimalar Engineering College (PEC) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 215,
+      "collegeCode": "2726",
+      "collegeName": "S.N.S. College of Technology (SNSCT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and"
+    },
+    {
+      "priority": 216,
+      "collegeCode": "2726",
+      "collegeName": "S.N.S. College of Technology (SNSCT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 217,
+      "collegeCode": "2329",
+      "collegeName": "Rathinam Technical Campus (RTC) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 218,
+      "collegeCode": "2708",
+      "collegeName": "Hindusthan College of Engineering and Technology (HICET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 219,
+      "collegeCode": "2329",
+      "collegeName": "Rathinam Technical Campus (RTC) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 220,
+      "collegeCode": "2708",
+      "collegeName": "Hindusthan College of Engineering and Technology (HICET) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 221,
+      "collegeCode": "2618",
+      "collegeName": "Sona College of Technology (SCT) Salem",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 222,
+      "collegeCode": "2735",
+      "collegeName": "Karpagam Institute of Technology (KIT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 223,
+      "collegeCode": "1026",
+      "collegeName": "University College of Engineering Kancheepuram (UCEK) Kancheepuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 224,
+      "collegeCode": "1120",
+      "collegeName": "Velammal Engineering College (VEC) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 225,
+      "collegeCode": "2726",
+      "collegeName": "S.N.S. College of Technology (SNSCT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 226,
+      "collegeCode": "1414",
+      "collegeName": "Prince Shri Venkateshwara Padmavathy Engineering College (PSVPEC) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 227,
+      "collegeCode": "2708",
+      "collegeName": "Hindusthan College of Engineering and Technology (HICET) Coimbatore",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 228,
+      "collegeCode": "2740",
+      "collegeName": "Hindustan Institute of Technology (HIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 229,
+      "collegeCode": "2726",
+      "collegeName": "S.N.S. College of Technology (SNSCT) Coimbatore",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 230,
+      "collegeCode": "1013",
+      "collegeName": "University College of Engineering Villupuram (UCEV) Villupuram",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 231,
+      "collegeCode": "1118",
+      "collegeName": "Vel Tech Multi Tech Dr. Rangarajan Dr. Sakunthala Engineering College Thiruvallur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 232,
+      "collegeCode": "2329",
+      "collegeName": "Rathinam Technical Campus (RTC) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 233,
+      "collegeCode": "1311",
+      "collegeName": "K.C.G. College of Technology (KCG) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 234,
+      "collegeCode": "1311",
+      "collegeName": "K.C.G. College of Technology (KCG) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 235,
+      "collegeCode": "1118",
+      "collegeName": "Vel Tech Multi Tech Dr. Rangarajan Dr. Sakunthala Engineering College Thiruvallur",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 236,
+      "collegeCode": "1304",
+      "collegeName": "Easwari Engineering College (EEC) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 237,
+      "collegeCode": "2704",
+      "collegeName": "Coimbatore Institute of Engineering and Technology (CIET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 238,
+      "collegeCode": "2622",
+      "collegeName": "V.S.B. Engineering College (VSBEC) Karur",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 239,
+      "collegeCode": "1210",
+      "collegeName": "Panimalar Engineering College (PEC) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 240,
+      "collegeCode": "3830",
+      "collegeName": "K. Ramakrishnan College of Engineering (KRCE) Tiruchirappalli",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 241,
+      "collegeCode": "1118",
+      "collegeName": "Vel Tech Multi Tech Dr. Rangarajan Dr. Sakunthala Engineering College Thiruvallur",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 242,
+      "collegeCode": "1419",
+      "collegeName": "Sri Sai Ram Engineering College (SEC) Kanchipuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 243,
+      "collegeCode": "1311",
+      "collegeName": "K.C.G. College of Technology (KCG) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 244,
+      "collegeCode": "1317",
+      "collegeName": "St. Joseph's College of Engineering Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 245,
+      "collegeCode": "1442",
+      "collegeName": "Prince Dr. K Vasudevan College of Engineering and Technology Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 246,
+      "collegeCode": "1013",
+      "collegeName": "University College of Engineering Villupuram (UCEV) Villupuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 247,
+      "collegeCode": "2727",
+      "collegeName": "Sri Shakthi Institute of Engineering and Technology (SSIET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 248,
+      "collegeCode": "3830",
+      "collegeName": "K. Ramakrishnan College of Engineering (KRCE) Tiruchirappalli",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 249,
+      "collegeCode": "1311",
+      "collegeName": "K.C.G. College of Technology (KCG) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 250,
+      "collegeCode": "3021",
+      "collegeName": "University College of Engineering Pattukkottai (UCEP) Thanjavur",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 251,
+      "collegeCode": "2608",
+      "collegeName": "M. Kumarasamy College of Engineering (MKCE) Karur",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 252,
+      "collegeCode": "2729",
+      "collegeName": "Nehru Institute of Engineering and Technology (NIET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 253,
+      "collegeCode": "1120",
+      "collegeName": "Velammal Engineering College (VEC) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 254,
+      "collegeCode": "3830",
+      "collegeName": "K. Ramakrishnan College of Engineering (KRCE) Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 255,
+      "collegeCode": "2704",
+      "collegeName": "Coimbatore Institute of Engineering and Technology (CIET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 256,
+      "collegeCode": "2740",
+      "collegeName": "Hindustan Institute of Technology (HIT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 257,
+      "collegeCode": "2607",
+      "collegeName": "K.S. Rangasamy College of Technology (KSRCT) Namakkal",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 258,
+      "collegeCode": "1140",
+      "collegeName": "Jeppiaar Institute of Technology (JIT) Kanchipuram",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 259,
+      "collegeCode": "2727",
+      "collegeName": "Sri Shakthi Institute of Engineering and Technology (SSIET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 260,
+      "collegeCode": "2726",
+      "collegeName": "S.N.S. College of Technology (SNSCT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 261,
+      "collegeCode": "1422",
+      "collegeName": "SRM Valliammai Engineering College (VEC) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 262,
+      "collegeCode": "2729",
+      "collegeName": "Nehru Institute of Engineering and Technology (NIET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 263,
+      "collegeCode": "1122",
+      "collegeName": "Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala Engineering College Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 264,
+      "collegeCode": "2729",
+      "collegeName": "Nehru Institute of Engineering and Technology (NIET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 265,
+      "collegeCode": "1424",
+      "collegeName": "Dhaanish Ahmed College of Engineering (DACE) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 266,
+      "collegeCode": "2708",
+      "collegeName": "Hindusthan College of Engineering and Technology (HICET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 267,
+      "collegeCode": "2727",
+      "collegeName": "Sri Shakthi Institute of Engineering and Technology (SSIET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 268,
+      "collegeCode": "2740",
+      "collegeName": "Hindustan Institute of Technology (HIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 269,
+      "collegeCode": "2653",
+      "collegeName": "Knowledge Institute of Technology (KIOT) Salem",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 270,
+      "collegeCode": "2727",
+      "collegeName": "Sri Shakthi Institute of Engineering and Technology (SSIET) Coimbatore",
+      "branchCode": "AL",
+      "branchName": "Artificial Intelligence and Machine Learning"
+    },
+    {
+      "priority": 271,
+      "collegeCode": "2622",
+      "collegeName": "V.S.B. Engineering College (VSBEC) Karur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 272,
+      "collegeCode": "1014",
+      "collegeName": "University College of Engineering Tindivanam (UCET) Villupuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 273,
+      "collegeCode": "1307",
+      "collegeName": "Jerusalem College of Engineering (JCE) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 274,
+      "collegeCode": "1122",
+      "collegeName": "Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala",
+      "branchCode": "IT",
+      "branchName": "INFORMATION"
+    },
+    {
+      "priority": 275,
+      "collegeCode": "3819",
+      "collegeName": "Saranathan College of Engineering Tiruchirappalli",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 276,
+      "collegeCode": "1122",
+      "collegeName": "Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala Engineering College Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 277,
+      "collegeCode": "1140",
+      "collegeName": "Jeppiaar Institute of Technology (JIT) Kanchipuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 278,
+      "collegeCode": "1013",
+      "collegeName": "University College of Engineering Villupuram (UCEV) Villupuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 279,
+      "collegeCode": "2653",
+      "collegeName": "Knowledge Institute of Technology (KIOT) Salem",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 280,
+      "collegeCode": "2727",
+      "collegeName": "Sri Shakthi Institute of Engineering and Technology (SSIET) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 281,
+      "collegeCode": "2704",
+      "collegeName": "Coimbatore Institute of Engineering and Technology (CIET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 282,
+      "collegeCode": "2608",
+      "collegeName": "M. Kumarasamy College of Engineering (MKCE) Karur",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 283,
+      "collegeCode": "2751",
+      "collegeName": "KGISL Institute of Technology (KITE) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 284,
+      "collegeCode": "1311",
+      "collegeName": "K.C.G. College of Technology (KCG) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 285,
+      "collegeCode": "1210",
+      "collegeName": "Panimalar Engineering College (PEC) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 286,
+      "collegeCode": "1140",
+      "collegeName": "Jeppiaar Institute of Technology (JIT) Kanchipuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 287,
+      "collegeCode": "3701",
+      "collegeName": "K. Ramakrishnan College of Technology (KRCT) Tiruchirappalli",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 288,
+      "collegeCode": "1413",
+      "collegeName": "Sri Venkateswaraa College of Technology (SVCT) Kancheepuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 289,
+      "collegeCode": "2704",
+      "collegeName": "Coimbatore Institute of Engineering and Technology (CIET) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 290,
+      "collegeCode": "3795",
+      "collegeName": "SRM TRP Engineering College Tiruchirappalli",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 291,
+      "collegeCode": "2608",
+      "collegeName": "M. Kumarasamy College of Engineering (MKCE) Karur",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 292,
+      "collegeCode": "2723",
+      "collegeName": "Velalar College of Engineering and Technology (VCET) Erode",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 293,
+      "collegeCode": "3701",
+      "collegeName": "K. Ramakrishnan College of Technology (KRCT) Tiruchirappalli",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 294,
+      "collegeCode": "3795",
+      "collegeName": "SRM TRP Engineering College Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 295,
+      "collegeCode": "2608",
+      "collegeName": "M. Kumarasamy College of Engineering (MKCE) Karur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 296,
+      "collegeCode": "2653",
+      "collegeName": "Knowledge Institute of Technology (KIOT) Salem",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 297,
+      "collegeCode": "3795",
+      "collegeName": "SRM TRP Engineering College Tiruchirappalli",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 298,
+      "collegeCode": "2723",
+      "collegeName": "Velalar College of Engineering and Technology (VCET) Erode",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 299,
+      "collegeCode": "1026",
+      "collegeName": "University College of Engineering Kancheepuram (UCEK) Kancheepuram",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 300,
+      "collegeCode": "3011",
+      "collegeName": "University College of Engineering Tiruchirappalli (BIT) Tiruchirappalli",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 301,
+      "collegeCode": "5910",
+      "collegeName": "P.S.N.A. College of Engineering and Technology (PSNA) Dindigul",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 302,
+      "collegeCode": "2607",
+      "collegeName": "K.S. Rangasamy College of Technology (KSRCT) Namakkal",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 303,
+      "collegeCode": "2622",
+      "collegeName": "V.S.B. Engineering College (VSBEC) Karur",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 304,
+      "collegeCode": "2723",
+      "collegeName": "Velalar College of Engineering and Technology (VCET) Erode",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 305,
+      "collegeCode": "2613",
+      "collegeName": "K.S.R. College of Engineering (KSRCE) Namakkal",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 306,
+      "collegeCode": "3701",
+      "collegeName": "K. Ramakrishnan College of Technology (KRCT) Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 307,
+      "collegeCode": "2743",
+      "collegeName": "Dhanalakshmi Srinivasan College of Engineering (DSCE) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 308,
+      "collegeCode": "2755",
+      "collegeName": "Nehru Institute of Technology (NIT) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 309,
+      "collegeCode": "2622",
+      "collegeName": "V.S.B. Engineering College (VSBEC) Karur",
+      "branchCode": "CO",
+      "branchName": "COMPUTER AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 310,
+      "collegeCode": "1014",
+      "collegeName": "University College of Engineering Tindivanam (UCET) Villupuram",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 311,
+      "collegeCode": "2743",
+      "collegeName": "Dhanalakshmi Srinivasan College of Engineering (DSCE) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 312,
+      "collegeCode": "2750",
+      "collegeName": "Kalaignar Karunanidhi Institute of Technology (KIT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 313,
+      "collegeCode": "2727",
+      "collegeName": "Sri Shakthi Institute of Engineering and Technology (SSIET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 314,
+      "collegeCode": "2613",
+      "collegeName": "K.S.R. College of Engineering (KSRCE) Namakkal",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 315,
+      "collegeCode": "1309",
+      "collegeName": "Meenakshi Sundararajan Engineering College (MSEC) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 316,
+      "collegeCode": "2607",
+      "collegeName": "K.S. Rangasamy College of Technology (KSRCT) Namakkal",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 317,
+      "collegeCode": "1114",
+      "collegeName": "S.A. Engineering College (SAEC) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 318,
+      "collegeCode": "1114",
+      "collegeName": "S.A. Engineering College (SAEC) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 319,
+      "collegeCode": "1413",
+      "collegeName": "Sri Venkateswaraa College of Technology (SVCT) Kancheepuram",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 320,
+      "collegeCode": "2704",
+      "collegeName": "Coimbatore Institute of Engineering and Technology (CIET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 321,
+      "collegeCode": "1413",
+      "collegeName": "Sri Venkateswaraa College of Technology (SVCT) Kancheepuram",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 322,
+      "collegeCode": "2743",
+      "collegeName": "Dhanalakshmi Srinivasan College of Engineering (DSCE) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 323,
+      "collegeCode": "2725",
+      "collegeName": "Sri Ramakrishna Institute of Technology (SRIT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 324,
+      "collegeCode": "2755",
+      "collegeName": "Nehru Institute of Technology (NIT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 325,
+      "collegeCode": "2357",
+      "collegeName": "V.S.B. College of Engineering Technical Campus (VSBCETC) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 326,
+      "collegeCode": "1114",
+      "collegeName": "S.A. Engineering College (SAEC) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 327,
+      "collegeCode": "2744",
+      "collegeName": "Adithya Institute of Technology (AIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 328,
+      "collegeCode": "1414",
+      "collegeName": "Prince Shri Venkateshwara Padmavathy Engineering College (PSVPEC) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 329,
+      "collegeCode": "1114",
+      "collegeName": "S.A. Engineering College (SAEC) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 330,
+      "collegeCode": "2622",
+      "collegeName": "V.S.B. Engineering College (VSBEC) Karur",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 331,
+      "collegeCode": "2613",
+      "collegeName": "K.S.R. College of Engineering (KSRCE) Namakkal",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 332,
+      "collegeCode": "1307",
+      "collegeName": "Jerusalem College of Engineering (JCE) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 333,
+      "collegeCode": "1126",
+      "collegeName": "J.N.N Institute of Engineering (JNNIE) Thiruvallur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 334,
+      "collegeCode": "2618",
+      "collegeName": "Sona College of Technology (SCT) Salem",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 335,
+      "collegeCode": "1307",
+      "collegeName": "Jerusalem College of Engineering (JCE) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 336,
+      "collegeCode": "1311",
+      "collegeName": "K.C.G. College of Technology (KCG) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 337,
+      "collegeCode": "5022",
+      "collegeName": "University College of Engineering Dindigul (UCED) Dindigul",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 338,
+      "collegeCode": "2731",
+      "collegeName": "R.V.S. College of Engineering and Technology (RVSCET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 339,
+      "collegeCode": "2729",
+      "collegeName": "Nehru Institute of Engineering and Technology (NIET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 340,
+      "collegeCode": "1120",
+      "collegeName": "Velammal Engineering College (VEC) Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 341,
+      "collegeCode": "3830",
+      "collegeName": "K. Ramakrishnan College of Engineering (KRCE) Tiruchirappalli",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 342,
+      "collegeCode": "2755",
+      "collegeName": "Nehru Institute of Technology (NIT) Coimbatore",
+      "branchCode": "CO",
+      "branchName": "COMPUTER AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 343,
+      "collegeCode": "1225",
+      "collegeName": "Loyola Institute of Technology (LIT) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 344,
+      "collegeCode": "2744",
+      "collegeName": "Adithya Institute of Technology (AIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 345,
+      "collegeCode": "2349",
+      "collegeName": "Dhaanish Ahmed Institute of Technology (DAIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 346,
+      "collegeCode": "1307",
+      "collegeName": "Jerusalem College of Engineering (JCE) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 347,
+      "collegeCode": "2653",
+      "collegeName": "Knowledge Institute of Technology (KIOT) Salem",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 348,
+      "collegeCode": "1424",
+      "collegeName": "Dhaanish Ahmed College of Engineering (DACE) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 349,
+      "collegeCode": "3826",
+      "collegeName": "Kongunadu College of Engineering and Technology (KNCET) Tiruchirappalli",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 350,
+      "collegeCode": "2613",
+      "collegeName": "K.S.R. College of Engineering (KSRCE) Namakkal",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 351,
+      "collegeCode": "3826",
+      "collegeName": "Kongunadu College of Engineering and Technology",
+      "branchCode": "IT",
+      "branchName": "INFORMATION"
+    },
+    {
+      "priority": 352,
+      "collegeCode": "2744",
+      "collegeName": "Adithya Institute of Technology (AIT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 353,
+      "collegeCode": "3701",
+      "collegeName": "K. Ramakrishnan College of Technology (KRCT) Tiruchirappalli",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 354,
+      "collegeCode": "2723",
+      "collegeName": "Velalar College of Engineering and Technology (VCET) Erode",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 355,
+      "collegeCode": "1225",
+      "collegeName": "Loyola Institute of Technology (LIT) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 356,
+      "collegeCode": "5530",
+      "collegeName": "SSM Institute of Engineering and Technology Dindigul",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 357,
+      "collegeCode": "2349",
+      "collegeName": "Dhaanish Ahmed Institute of Technology (DAIT) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 358,
+      "collegeCode": "5530",
+      "collegeName": "SSM Institute of Engineering and Technology Dindigul",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 359,
+      "collegeCode": "3819",
+      "collegeName": "Saranathan College of Engineering Tiruchirappalli",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 360,
+      "collegeCode": "2357",
+      "collegeName": "V.S.B. College of Engineering Technical Campus (VSBCETC) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 361,
+      "collegeCode": "2731",
+      "collegeName": "R.V.S. College of Engineering and Technology (RVSCET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 362,
+      "collegeCode": "2620",
+      "collegeName": "Vivekanandha College of Engineering for Women (VCEW) Namakkal",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 363,
+      "collegeCode": "2349",
+      "collegeName": "Dhaanish Ahmed Institute of Technology (DAIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 364,
+      "collegeCode": "3021",
+      "collegeName": "University College of Engineering Pattukkottai (UCEP) Thanjavur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 365,
+      "collegeCode": "2349",
+      "collegeName": "Dhaanish Ahmed Institute of Technology (DAIT) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 366,
+      "collegeCode": "1225",
+      "collegeName": "Loyola Institute of Technology (LIT) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 367,
+      "collegeCode": "2727",
+      "collegeName": "Sri Shakthi Institute of Engineering and Technology (SSIET) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 368,
+      "collegeCode": "2731",
+      "collegeName": "R.V.S. College of Engineering and Technology (RVSCET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 369,
+      "collegeCode": "5530",
+      "collegeName": "SSM Institute of Engineering and Technology Dindigul",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 370,
+      "collegeCode": "2357",
+      "collegeName": "V.S.B. College of Engineering Technical Campus (VSBCETC) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 371,
+      "collegeCode": "3801",
+      "collegeName": "A.V.C. College of Engineering (AVCCE) Mayiladuthurai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 372,
+      "collegeCode": "3841",
+      "collegeName": "CARE College of Engineering Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 373,
+      "collegeCode": "2762",
+      "collegeName": "Jansons Institute of Technology (JIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 374,
+      "collegeCode": "1126",
+      "collegeName": "J.N.N Institute of Engineering (JNNIE) Thiruvallur",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 375,
+      "collegeCode": "1110",
+      "collegeName": "Prathyusha Engineering College (PEC) Tiruvallur",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 376,
+      "collegeCode": "3826",
+      "collegeName": "Kongunadu College of Engineering and Technology (KNCET) Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 377,
+      "collegeCode": "1225",
+      "collegeName": "Loyola Institute of Technology (LIT) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 378,
+      "collegeCode": "1424",
+      "collegeName": "Dhaanish Ahmed College of Engineering (DACE) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 379,
+      "collegeCode": "1026",
+      "collegeName": "University College of Engineering Kancheepuram (UCEK) Kancheepuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 380,
+      "collegeCode": "2743",
+      "collegeName": "Dhanalakshmi Srinivasan College of Engineering (DSCE) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 381,
+      "collegeCode": "1413",
+      "collegeName": "Sri Venkateswaraa College of Technology (SVCT) Kancheepuram",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 382,
+      "collegeCode": "2769",
+      "collegeName": "J.C.T. College of Engineering and Technology (JCTCET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 383,
+      "collegeCode": "2715",
+      "collegeName": "Nandha Engineering College (NEC) Erode",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 384,
+      "collegeCode": "3841",
+      "collegeName": "CARE College of Engineering Tiruchirappalli",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 385,
+      "collegeCode": "3795",
+      "collegeName": "SRM TRP Engineering College Tiruchirappalli",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 386,
+      "collegeCode": "3830",
+      "collegeName": "K. Ramakrishnan College of Engineering (KRCE) Tiruchirappalli",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 387,
+      "collegeCode": "2741",
+      "collegeName": "P.A. College of Engineering and Technology (PACET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 388,
+      "collegeCode": "2769",
+      "collegeName": "J.C.T. College of Engineering and Technology (JCTCET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 389,
+      "collegeCode": "1126",
+      "collegeName": "J.N.N Institute of Engineering (JNNIE) Thiruvallur",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 390,
+      "collegeCode": "3908",
+      "collegeName": "Mount Zion College of Engineering and Technology Pudukkottai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 391,
+      "collegeCode": "1110",
+      "collegeName": "Prathyusha Engineering College (PEC) Tiruvallur",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 392,
+      "collegeCode": "1110",
+      "collegeName": "Prathyusha Engineering College (PEC) Tiruvallur",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 393,
+      "collegeCode": "1413",
+      "collegeName": "Sri Venkateswaraa College of Technology (SVCT) Kancheepuram",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 394,
+      "collegeCode": "1424",
+      "collegeName": "Dhaanish Ahmed College of Engineering (DACE) Chennai",
+      "branchCode": "RM",
+      "branchName": "ROBOTICS AND AUTOMATION"
+    },
+    {
+      "priority": 395,
+      "collegeCode": "2741",
+      "collegeName": "P.A. College of Engineering and Technology (PACET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 396,
+      "collegeCode": "3807",
+      "collegeName": "J.J. College of Engineering and Technology (JJCET) Tiruchirappalli",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 397,
+      "collegeCode": "2741",
+      "collegeName": "P.A. College of Engineering and Technology (PACET) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 398,
+      "collegeCode": "2776",
+      "collegeName": "R.V.S. Technical Campus (RVSTCC) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 399,
+      "collegeCode": "3807",
+      "collegeName": "J.J. College of Engineering and Technology (JJCET) Tiruchirappalli",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 400,
+      "collegeCode": "2607",
+      "collegeName": "K.S. Rangasamy College of Technology (KSRCT) Namakkal",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 401,
+      "collegeCode": "2726",
+      "collegeName": "S.N.S. College of Technology (SNSCT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 402,
+      "collegeCode": "1110",
+      "collegeName": "Prathyusha Engineering College (PEC) Tiruvallur",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 403,
+      "collegeCode": "2745",
+      "collegeName": "Kathir College of Engineering (KCE) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 404,
+      "collegeCode": "3826",
+      "collegeName": "Kongunadu College of Engineering and Technology (KNCET) Tiruchirappalli",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 405,
+      "collegeCode": "3801",
+      "collegeName": "A.V.C. College of Engineering (AVCCE) Mayiladuthurai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 406,
+      "collegeCode": "3807",
+      "collegeName": "J.J. College of Engineering and Technology (JJCET) Tiruchirappalli",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 407,
+      "collegeCode": "2357",
+      "collegeName": "V.S.B. College of Engineering Technical Campus (VSBCETC) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 408,
+      "collegeCode": "1122",
+      "collegeName": "Vel Tech High Tech Dr. Rangarajan Dr. Sakunthala Engineering College Chennai",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 409,
+      "collegeCode": "2763",
+      "collegeName": "Akshaya College of Engineering and Technology (ACET) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 410,
+      "collegeCode": "2715",
+      "collegeName": "Nandha Engineering College (NEC) Erode",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION"
+    },
+    {
+      "priority": 411,
+      "collegeCode": "2673",
+      "collegeName": "Sree Sakthi Engineering College (SSEC) Coimbatore",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 412,
+      "collegeCode": "2715",
+      "collegeName": "Nandha Engineering College (NEC) Erode",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 413,
+      "collegeCode": "5530",
+      "collegeName": "SSM Institute of Engineering and Technology Dindigul",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 414,
+      "collegeCode": "2622",
+      "collegeName": "V.S.B. Engineering College (VSBEC) Karur",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 415,
+      "collegeCode": "5022",
+      "collegeName": "University College of Engineering Dindigul (UCED) Dindigul",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 416,
+      "collegeCode": "1118",
+      "collegeName": "Vel Tech Multi Tech Dr. Rangarajan Dr. Sakunthala Engineering College Thiruvallur",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 417,
+      "collegeCode": "3807",
+      "collegeName": "J.J. College of Engineering and Technology (JJCET) Tiruchirappalli",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 418,
+      "collegeCode": "2608",
+      "collegeName": "M. Kumarasamy College of Engineering (MKCE) Karur",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 419,
+      "collegeCode": "2763",
+      "collegeName": "Akshaya College of Engineering and Technology (ACET) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 420,
+      "collegeCode": "1218",
+      "collegeName": "Sri Muthukumaran Institute of Technology (SMIT) Chennai",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 421,
+      "collegeCode": "2745",
+      "collegeName": "Kathir College of Engineering (KCE) Coimbatore",
+      "branchCode": "CO",
+      "branchName": "COMPUTER AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 422,
+      "collegeCode": "2715",
+      "collegeName": "Nandha Engineering College (NEC) Erode",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 423,
+      "collegeCode": "1413",
+      "collegeName": "Sri Venkateswaraa College of Technology (SVCT) Kancheepuram",
+      "branchCode": "EA",
+      "branchName": "Electronics and Communication (Advanced Communication Technology)"
+    },
+    {
+      "priority": 424,
+      "collegeCode": "2729",
+      "collegeName": "Nehru Institute of Engineering and Technology (NIET) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 425,
+      "collegeCode": "2776",
+      "collegeName": "R.V.S. Technical Campus (RVSTCC) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 426,
+      "collegeCode": "2745",
+      "collegeName": "Kathir College of Engineering (KCE) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 427,
+      "collegeCode": "1218",
+      "collegeName": "Sri Muthukumaran Institute of Technology (SMIT) Chennai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 428,
+      "collegeCode": "2753",
+      "collegeName": "P.P.G. Institute of Technology (PPGIT) Coimbatore",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 429,
+      "collegeCode": "3701",
+      "collegeName": "K. Ramakrishnan College of Technology (KRCT)",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL"
+    },
+    {
+      "priority": 430,
+      "collegeCode": "1140",
+      "collegeName": "Jeppiaar Institute of Technology (JIT) Kanchipuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 431,
+      "collegeCode": "2744",
+      "collegeName": "Adithya Institute of Technology (AIT) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 432,
+      "collegeCode": "3801",
+      "collegeName": "A.V.C. College of Engineering (AVCCE) Mayiladuthurai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 433,
+      "collegeCode": "1110",
+      "collegeName": "Prathyusha Engineering College (PEC) Tiruvallur",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 434,
+      "collegeCode": "2769",
+      "collegeName": "J.C.T. College of Engineering and Technology (JCTCET) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 435,
+      "collegeCode": "2762",
+      "collegeName": "Jansons Institute of Technology (JIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 436,
+      "collegeCode": "2673",
+      "collegeName": "Sree Sakthi Engineering College (SSEC) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 437,
+      "collegeCode": "2707",
+      "collegeName": "Erode Sengunthar Engineering College (ESEC) Erode",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 438,
+      "collegeCode": "2752",
+      "collegeName": "Nandha College of Technology (NCT) Erode",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 439,
+      "collegeCode": "2613",
+      "collegeName": "K.S.R. College of Engineering (KSRCE) Namakkal",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 440,
+      "collegeCode": "1114",
+      "collegeName": "S.A. Engineering College (SAEC) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 441,
+      "collegeCode": "2752",
+      "collegeName": "Nandha College of Technology (NCT) Erode",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 442,
+      "collegeCode": "2673",
+      "collegeName": "Sree Sakthi Engineering College (SSEC) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 443,
+      "collegeCode": "2745",
+      "collegeName": "Kathir College of Engineering (KCE) Coimbatore",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 444,
+      "collegeCode": "1225",
+      "collegeName": "Loyola Institute of Technology (LIT) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 445,
+      "collegeCode": "2653",
+      "collegeName": "Knowledge Institute of Technology (KIOT) Salem",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 446,
+      "collegeCode": "2349",
+      "collegeName": "Dhaanish Ahmed Institute of Technology (DAIT) Coimbatore",
+      "branchCode": "RM",
+      "branchName": "ROBOTICS AND AUTOMATION"
+    },
+    {
+      "priority": 447,
+      "collegeCode": "1405",
+      "collegeName": "Dhanalakshmi College of Engineering (DCE) Chennai",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 448,
+      "collegeCode": "2761",
+      "collegeName": "United Institute of Technology (UIT) Coimbatore",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 449,
+      "collegeCode": "5022",
+      "collegeName": "University College of Engineering Dindigul (UCED) Dindigul",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 450,
+      "collegeCode": "2769",
+      "collegeName": "J.C.T. College of Engineering and Technology (JCTCET) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 451,
+      "collegeCode": "1013",
+      "collegeName": "University College of Engineering Villupuram (UCEV) Villupuram",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 452,
+      "collegeCode": "2761",
+      "collegeName": "United Institute of Technology (UIT) Coimbatore",
+      "branchCode": "SC",
+      "branchName": "Computer Science and Engineering (Cyber Security)"
+    },
+    {
+      "priority": 453,
+      "collegeCode": "2707",
+      "collegeName": "Erode Sengunthar Engineering College (ESEC) Erode",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 454,
+      "collegeCode": "2715",
+      "collegeName": "Nandha Engineering College (NEC) Erode",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 455,
+      "collegeCode": "1405",
+      "collegeName": "Dhanalakshmi College of Engineering (DCE) Chennai",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 456,
+      "collegeCode": "1307",
+      "collegeName": "Jerusalem College of Engineering (JCE) Chennai",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 457,
+      "collegeCode": "2611",
+      "collegeName": "Paavai Engineering College (PEC) Namakkal",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    },
+    {
+      "priority": 458,
+      "collegeCode": "2617",
+      "collegeName": "Sengunthar Engineering College (SEC) Namakkal",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 459,
+      "collegeCode": "2740",
+      "collegeName": "Hindustan Institute of Technology (HIT) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 460,
+      "collegeCode": "2752",
+      "collegeName": "Nandha College of Technology (NCT) Erode",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 461,
+      "collegeCode": "2723",
+      "collegeName": "Velalar College of Engineering and Technology (VCET) Erode",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 462,
+      "collegeCode": "2708",
+      "collegeName": "Hindusthan College of Engineering and Technology (HICET) Coimbatore",
+      "branchCode": "ME",
+      "branchName": "MECHANICAL ENGINEERING"
+    },
+    {
+      "priority": 463,
+      "collegeCode": "2611",
+      "collegeName": "Paavai Engineering College (PEC) Namakkal",
+      "branchCode": "EC",
+      "branchName": "ELECTRONICS AND COMMUNICATION ENGINEERING"
+    },
+    {
+      "priority": 464,
+      "collegeCode": "3021",
+      "collegeName": "University College of Engineering Pattukkottai (UCEP) Thanjavur",
+      "branchCode": "EE",
+      "branchName": "ELECTRICAL AND ELECTRONICS ENGINEERING"
+    },
+    {
+      "priority": 465,
+      "collegeCode": "2617",
+      "collegeName": "Sengunthar Engineering College (SEC) Namakkal",
+      "branchCode": "IT",
+      "branchName": "INFORMATION TECHNOLOGY"
+    },
+    {
+      "priority": 466,
+      "collegeCode": "3905",
+      "collegeName": "Kings College of Engineering Pudukkottai",
+      "branchCode": "AD",
+      "branchName": "Artificial Intelligence and Data Science"
+    }
+  ]
+}

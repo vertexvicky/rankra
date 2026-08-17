@@ -1,0 +1,12 @@
+================================================================================
+COLLEGE TYPE ANALYSIS REPORT FOR etl/predicted_choices_2026.json
+================================================================================
+Colleges where OTHER branches HAVE type (Can borrow within COC): 0 colleges (0 choice records)
+Colleges with NO type in ANY branch: 0 colleges (0 choice records)
+================================================================================
+
+SECTION 1: COLLEGES THAT DO NOT HAVE 'type' IN ANY BRANCH (25 COLLEGES)
+--------------------------------------------------------------------------------
+
+SECTION 2: COLLEGES WHERE SOME BRANCHES HAVE TYPE (CAN BORROW FROM SAME COC)
+--------------------------------------------------------------------------------

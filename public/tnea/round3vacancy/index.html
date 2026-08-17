@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (let registration of registrations) { registration.unregister(); }
+      });
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TNEA 2026 Round 3 Vacancy Position | Rankra</title>
+  <meta name="description"
+    content="Explore TNEA 2026 Round 3 seat vacancy position across all engineering colleges in Tamil Nadu. Filter by community, course, and district." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="icon" type="image/jpeg" href="../../assets/rankra_favicon30.jpg" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../shared/css/tokens.css" />
+  <link rel="stylesheet" href="../../shared/css/reset.css" />
+  <link rel="stylesheet" href="../../shared/css/animations.css" />
+  <link rel="stylesheet" href="../../shared/css/components.css" />
+  <link rel="stylesheet" href="../../shared/css/layout.css" />
+  <link rel="stylesheet" href="vacancy.css" />
+</head>
+
+<body class="light">
+  <header class="site-header" role="banner"></header>
+
+  <div class="filter-bar" id="filter-bar" role="search" aria-label="Vacancy Filters">
+    <div class="frow prominent-row" style="width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; box-sizing: border-box;">
+      <div class="filters-container" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%;">
+        
+        <!-- Dropdown 1: Community Dropdown -->
+        <div class="district-wrap" id="comm-wrap">
+          <button class="pill-btn" id="comm-btn" aria-haspopup="true" aria-expanded="false">
+            <span class="filter-label-prefix">Community:</span>
+            <span id="comm-btn-text" class="filter-btn-val">OC</span>
+            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M1 1l4 4 4-4" />
+            </svg>
+          </button>
+          <div class="sort-dropdown" id="comm-dropdown" hidden>
+            <div class="sort-option comm-option active" data-value="OC">OC</div>
+            <div class="sort-option comm-option" data-value="BC">BC</div>
+            <div class="sort-option comm-option" data-value="BCM">BCM</div>
+            <div class="sort-option comm-option" data-value="MBC">MBC</div>
+            <div class="sort-option comm-option" data-value="SC">SC</div>
+            <div class="sort-option comm-option" data-value="SCA">SCA</div>
+            <div class="sort-option comm-option" data-value="ST">ST</div>
+          </div>
+        </div>
+
+        <!-- Dropdown 2: Course Sheet -->
+        <div class="district-wrap" id="course-wrap">
+          <button class="pill-btn" id="course-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="course-label">Course (all)</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Dropdown 3: District Sheet -->
+        <div class="district-wrap" id="district-wrap">
+          <button class="pill-btn" id="district-btn" aria-haspopup="listbox" aria-expanded="false">
+            <span id="district-label">District (all)</span>
+            <svg class="chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <button class="icon-btn hamburger-btn" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+    </div>
+
+    <!-- Search Row for College and Live Stats -->
+    <div class="frow college-search-row" style="position: relative; padding: 4px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; box-sizing: border-box;">
+      <div style="position: relative; flex-grow: 1; display: flex; align-items: center;">
+        <input type="text" id="college-search-input" placeholder="Search college by code or name..."
+          style="width: 100%; height: 32px; padding: 6px 28px 6px 12px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text-primary); font-family: inherit; font-size: 0.875rem; outline: none; box-shadow: var(--shadow-sm); box-sizing: border-box;" />
+        <button id="college-search-clear" class="hidden"
+          style="position: absolute; right: 8px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; padding: 4px; line-height: 1; display: flex; align-items: center; justify-content: center;"
+          type="button" aria-label="Clear search">✕</button>
+      </div>
+
+      <div class="stats-badge" id="stats-summary">
+        <span id="college-count">0</span> Colleges &bull; <span id="total-seats-count">0</span> Seats
+      </div>
+    </div>
+  </div>
+
+  <main class="main-content" id="main-content">
+    <div id="loading-state" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading Round 3 Vacancy Position...</p>
+    </div>
+
+    <div class="results-list" id="results-body"></div>
+
+    <div class="empty-state hidden" id="empty-state">
+      <i class="fa-solid fa-folder-open" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 12px;"></i>
+      <p class="empty-title">No vacant seats found</p>
+      <p class="empty-sub">Try changing your community, course, or district filter</p>
+      <button class="btn-ghost" id="empty-reset" style="margin-top: 12px;">Reset all filters</button>
+    </div>
+  </main>
+
+  <script type="module" src="vacancy.js"></script>
+</body>
+</html>

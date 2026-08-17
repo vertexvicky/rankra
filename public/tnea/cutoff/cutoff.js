@@ -1365,6 +1365,22 @@ function render() {
 
   if ($('chance-summary')) $('chance-summary').hidden = true;
 
+  const chanceCounts = {
+    'Very High Chance': 0,
+    'High Chance': 0,
+    'Medium Chance': 0,
+    'Low Chance': 0,
+    'No Chance': 0
+  };
+  S.filtered.forEach(r => {
+    const txt = getChance(r).text;
+    if (chanceCounts[txt] !== undefined) {
+      chanceCounts[txt]++;
+    }
+  });
+  console.log('Chance Counts:', chanceCounts);
+  console.log(`Very High: ${chanceCounts['Very High Chance']}, High: ${chanceCounts['High Chance']}, Medium: ${chanceCounts['Medium Chance']}, Low: ${chanceCounts['Low Chance']}, No Chance: ${chanceCounts['No Chance']}`);
+
   if ($('results-count')) {
     const total = S.filtered.length;
     $('results-count').innerHTML = total > 0

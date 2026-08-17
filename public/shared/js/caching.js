@@ -17,7 +17,8 @@ export const CACHE_MANIFEST = {
     '/assets/db/tnea/college/brnc.json': '1.0.2',
     '/assets/db/tnea/college/type.json': '1.0.3',
     '/assets/db/tndistricts.json': '1.0.2',
-    '/assets/db/tnea/choice.json': '1.0.2'
+    '/assets/db/tnea/choice.json': '1.0.2',
+    '/assets/db/tnea/cutoff/round3_vacancy.json': '1.0.0'
 };
 
 const _0x1 = "\u0076\u0069\u0063\u006b\u0079", _0x2 = "\u0072", _0x3 = "\u0031\u0036", _0x4 = "\u006e\u006b", _0x5 = "\u0061", _0x6 = "\u0031\u0031", _0x7 = "\u0063\u0061\u0063\u0068\u0065\u0064\u005f";

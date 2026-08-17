@@ -159,6 +159,7 @@ export class SiteHeader {
           <div class="hmenu-section">
             <a href="/" class="hmenu-item ${isActive('/') ? 'active' : ''}"><i class="fa-solid fa-house"></i> Home</a>
             <a href="/tnea/cutoff/" class="hmenu-item ${isActive('/tnea/cutoff/') ? 'active' : ''}"><i class="fa-solid fa-certificate"></i> TNEA Cutoffs</a>
+            <a href="/tnea/round3vacancy/" class="hmenu-item ${isActive('/tnea/round3vacancy/') ? 'active' : ''}"><i class="fa-solid fa-chair"></i> Round 3 Vacancy</a>
             <a href="/tnea/college/" class="hmenu-item ${isActive('/tnea/college/') ? 'active' : ''}"><i class="fa-solid fa-building-columns"></i> Colleges</a>
             <a href="/course/" class="hmenu-item ${isActive('/course/') ? 'active' : ''}"><i class="fa-solid fa-graduation-cap"></i> Courses</a>
           </div>

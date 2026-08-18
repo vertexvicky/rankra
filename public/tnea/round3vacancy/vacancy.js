@@ -10,6 +10,7 @@ const S = {
   districts: [],
   cocs: {},
   brnc: {},
+  collegeGroupRanks: {},
   community: 'OC',
   selectedCourses: new Set(),
   courseMode: 'include',
@@ -89,12 +90,28 @@ async function init() {
     const paths = [
       '/assets/db/tnea/cutoff/round3_vacancy.json',
       '/assets/db/tnea/college/cocs.json',
-      '/assets/db/tnea/college/brnc.json'
+      '/assets/db/tnea/college/brnc.json',
+      '/assets/db/tnea/college/college group.json'
     ];
     const dataMap = await requestJSON(paths);
     const data = dataMap[paths[0]];
     S.cocs = dataMap[paths[1]] || {};
     S.brnc = dataMap[paths[2]] || {};
+    const collegeGroup = dataMap[paths[3]] || {};
+    S.collegeGroupRanks = {};
+    for (const [tier, list] of Object.entries(collegeGroup)) {
+      if (Array.isArray(list)) {
+        for (const item of list) {
+          if (Array.isArray(item) && item.length >= 2) {
+            const coc = String(item[0]);
+            const rank = item[1];
+            if (rank != null) {
+              S.collegeGroupRanks[coc] = rank;
+            }
+          }
+        }
+      }
+    }
     
     if (data) {
       S.colleges = data.colleges || {};
@@ -294,8 +311,13 @@ function setupCollegeSearch() {
 }
 
 function getSortRank(college) {
-  if (S.community !== 'ALL' && college.comm_ranks && college.comm_ranks[S.community] != null) {
-    return college.comm_ranks[S.community];
+  const rawCode = String(parseInt(college.coc, 10) || college.coc);
+  const paddedCode = String(college.coc).padStart(4, '0');
+  if (S.collegeGroupRanks[rawCode] != null) {
+    return S.collegeGroupRanks[rawCode];
+  }
+  if (S.collegeGroupRanks[paddedCode] != null) {
+    return S.collegeGroupRanks[paddedCode];
   }
   return college.rank != null ? college.rank : 999999;
 }
